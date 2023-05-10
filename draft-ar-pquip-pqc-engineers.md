@@ -162,9 +162,9 @@ Examples of such class of algorithms are Falcon and Dilithium.
 
 ## Multivariate-Based Public-Key Cryptography
 
-The Multivariate Quadratic problem is an NP-hard problem that can be expressed as finding the common "zero" vector that solves a set of polynomials in finite fields. In other words, the underlying problem can be expressed as finding the vector (z1, ..., zn) in Fn2 that solves a set of given equations:
+The Multivariate Quadratic problem is an NP-hard problem that can be expressed as finding the common "zero" vector that solves a set of polynomials in finite fields. In other words, the underlying problem can be expressed as finding the vector $(z_1, ..., z_n)$ in Fn2 that solves a set of given equations:
 
-$$f1(x1, ..., xn) = 0, ...., fm(x1, ..., xn) = 0$$
+$$f_{1}(x_{1}, ..., x_{n}) = 0, ...., f_{m}(x_{1}, ..., x_{n}) = 0$$
 
 Signatures use easily invertible non-linear polynomials (P) that need to be masked by using a combination of affine linear transformations (S and T). Indeed, given P:Fn -> Fm, S: Fn -> Fn, T: Fm -> Fm, the affine transformations are build in such a way to make the public key G = S * P * T hard to invert. Knowing its individual components (i.e., the private key) allows to easily compute the inverse G^(-1) which is used to produce signatures, i.e. G^(-1) = T^(-1) * P^(-1) * S^(-1). To verify signatures, use the public key over the signature vector, i.e. G(s) = m.
 
