@@ -68,6 +68,7 @@ It does not cover such topics as when classical algorithms might become vulnerab
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
+The definitions section would be too exhaustive and what readers are already expected to be aware of. Nevertheless, the basics of lattices, learning with errors (Ring/Module), coding theory (Goppa/LDPC/MDPC), basics of quantum computing (qubit,superposition theory, toffoli gates, CNOT gates), multivariate cryptography (elliptic curves, diffie hellman), hashes are some of the definitions that might help get a quick understanding of the document. Please note: This document does not go into the deep mathematics of the NIST finalists or other Post quantum algorithms but rather provides an overview to Engineers on the current threat landscape and the relevant algorithms designed to help prevent those threats.
 
 # Contributing to This Document
 
