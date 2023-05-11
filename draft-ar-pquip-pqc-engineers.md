@@ -1,7 +1,7 @@
 ---
 title: "Post-Quantum Cryptography for Engineers"
 abbrev: "PQC for Engineers"
-category: std
+category: info
 
 docname: draft-ar-pquip-pqc-engineers
 submissiontype: IETF
@@ -46,6 +46,41 @@ normative:
 
 informative:
 
+  Grover-search:
+     title: "C. Zalka, “Grover’s quantum searching algorithm is optimal,” Physical Review A, vol. 60, pp. 2746-2751, 1999."
+     target: 
+     date: false
+  Threat-Report:
+     title: "Quantum Threat Timeline Report 2020"
+     target: https://globalriskinstitute.org/publications/quantum-threat-timeline-report-2020/
+     date: false
+  IBM:
+     title: "IBM Unveils 400 Qubit-Plus Quantum Processor and Next-Generation IBM Quantum System Two"
+     target: https://newsroom.ibm.com/2022-11-09-IBM-Unveils-400-Qubit-Plus-Quantum-Processor-and-Next-Generation-IBM-Quantum-System-Two
+     date: false     
+  Google:
+     title: "Quantum Supremacy Using a Programmable Superconducting Processor"
+     target: https://ai.googleblog.com/2019/10/quantum-supremacy-using-programmable.html
+     date: false  
+  QC-DNS:
+     title: "Quantum Computing and the DNS"
+     target: https://www.icann.org/octo-031-en.pdf
+     date: false 
+  NIST:
+     title: "Post-Quantum Cryptography Standardization"
+     target: https://csrc.nist.gov/projects/post-quantum-cryptography/post-quantum-cryptography-standardization
+     date: false 
+  Cloudflare:
+     title: "NIST’s pleasant post-quantum surprise"
+     target: https://blog.cloudflare.com/nist-post-quantum-surprise/
+     date: false  
+  IBMRoadmap:
+     title: "The IBM Quantum Development Roadmap"
+     target: https://www.ibm.com/quantum/roadmap
+     date: false 
+     
+
+
 
 --- abstract
 
@@ -55,15 +90,13 @@ The presence of a quantum computer would render state-of-the-art, public-key cry
 
 # Introduction
 
-Quantum computing is no longer perceived as a conjecture of computational sciences and theoretical physics. Considerable research efforts and enormous corporate and government funding for the development of practical quantum computing systems are being invested currently. For instance, Google’s announcement on achieving quantum supremacy [Google](https://ai.googleblog.com/2019/10/quantum-supremacy-using-programmable.html) and IBM’s latest 433-qubit processor Osprey [IBM](https://newsroom.ibm.com/2022-11-09-IBM-Unveils-400-Qubit-Plus-Quantum-Processor-and-Next-Generation-IBM-Quantum-System-Two) signify, among other outcomes, the accelerating efforts towards large-scale quantum computers. The existence of a fault tolerant quantum computer would mark a cornerstone in mankind’s technological evolution, as it would mean that computational problems which are considered currently intractable for conventional computers would be tractable for quantum ones.
-
-Professor Peter Shor and computer scientist Lov Grover (Bell Labs affiliates at the time) developed two algorithms that were first seen to have significant impact on the way we think of security under the presence of a quantum computer. Taking a closer look at “Grover’s algorithm”, it impacts the security of symmetric cryptographic algorithms in such a way that, theoretically, we would need to double the key sizes we use today to remain quantum-safe. This is especially true for 128-bit algorithms, which means that AES-128-bit encryption would need to be replaced by AES-256-bit encryption. However, as we will explain in the "Symmetric Cryptography" section, this is to some extent a misconception. On the other hand, “Shor’s algorithm” efficiently solves the integer factorization problem and also the equivalent discrete logarithm problem, which offer the foundations of the public-key cryptography we use today. This implies that many of today’s public-key cryptography algorithms including Rivest–Shamir–Adleman (RSA), Diffie-Hellman and Elliptic Curve Cryptography (ECC) as well as the accompanying digital signatures schemes and protocols would need to be replaced by algorithms and protocols that can offer cryptanalytic resistance against quantum computers. Much to everyone’s relief, modern cryptography does offer the tools to design such quantum-safe cryptosystems
+Quantum computing is no longer perceived as a conjecture of computational sciences and theoretical physics. Considerable research efforts and enormous corporate and government funding for the development of practical quantum computing systems are being invested currently. For instance, Google’s announcement on achieving quantum supremacy {{Google}} and IBM’s latest 433-qubit processor Osprey {{IBM}} signify, among other outcomes, the accelerating efforts towards large-scale quantum computers. The existence of a fault tolerant quantum computer would mark a cornerstone in mankind’s technological evolution, as it would mean that computational problems which are considered currently intractable for conventional computers would be tractable for quantum ones.
 
 This document is meant to give general guidance on the structure and use of post-quantum cryptographic (PQC) algorithms for engineers who are using PQC algorithms in their software.
-Topics include which PQC algorithms to use, how PQC key exchange mechanisms (KEMs) differ from classical KEMs, expected size and processing time differences between PQC algorithms and classical algorithms, as well as guidelines on the evolving threat landscape of Symmetric Cryptography from quantum computers.
+Topics include which PQC algorithms to use, how PQC key exchange mechanisms (KEMs) differ from classical KEMs, expected size and processing time differences between PQC algorithms and classical algorithms, as well as guidelines on the evolving threat landscape of symmetric cryptography from quantum computers.
 
 The reader of this document is expected to understand coding and data structures using established cryptographic libraries. They are also expected to understand the basics of classical cryptography. It is also crucial for the reader to understand that when we mention "PQC" in the document, it usually means Asymmetric Cryptography in general and not any algorithms from the Symmetric side like stream, block ciphers, etc.
-It does not cover such topics as when classical algorithms might become vulnerable (for that, see documents such as [Quantum Computing and the DNS](https://www.icann.org/octo-031-en.pdf) and others).
+It does not cover such topics as when classical algorithms might become vulnerable (for that, see documents such as [QCDNS] and others).
 
 # Conventions and Definitions
 
@@ -75,7 +108,7 @@ Please note: This document does not go into the deep mathematics of the NIST fin
 # Contributing to This Document
 
 The guide was inspired by a thread in September 2022 on the <mailto:pqc@ietf.org> mailing list.
-The document is being collaborated on through a [GitHub repository] (https://github.com/paulehoffman/post-quantum-for-engineers).
+The document is being collaborated on through a [GitHub repository](https://github.com/paulehoffman/post-quantum-for-engineers).
 
 The editors actively encourage contributions to this document.
 Please consider writing a section on a topic that you think is missing.
@@ -108,11 +141,11 @@ When considering the security risks associated with the ability of a quantum com
 
 ## Symmetric cryptography
 
-Grover’s algorithm theoretically requires to double the key sizes of the algorithms we deploy today to achieve quantum resistance. This is because Grover’s algorithm reduces the amount of operations to break 128-bit symmetric cryptography to $2^{64}$ quantum operations, which might sound computationally feasible. However, $2^{64}$ operations performed in parallel are feasible for modern classical computers, but $2^{64}$ quantum operations performed serially in a quantum computer are not. Grover's algorithm is highly non-parallelisable and even if we deploy $2^c$ computational units in parallel to brute-force a key using Grover's algorithm, it will complete in time proportional to $2^{(128−c)/2}$, or, put simply, using 256 quantum computers will only reduce runtime by 1/16, 1024 quantum computers will only reduce runtime by 1/32 and so forth ​[nist](https://csrc.nist.gov/projects/post-quantum-cryptography/post-quantum-cryptography-standardization)​, ​[cloudflare](https://blog.cloudflare.com/nist-post-quantum-surprise/)​.  
+Grover’s algorithm theoretically requires to double the key sizes of the algorithms we deploy today to achieve quantum resistance. This is because Grover’s algorithm reduces the amount of operations to break 128-bit symmetric cryptography to 2^{64} quantum operations, which might sound computationally feasible. However, 2^{64} operations performed in parallel are feasible for modern classical computers, but 2^{64} quantum operations performed serially in a quantum computer are not. Grover's algorithm is highly non-parallelisable and even if we deploy 2^c computational units in parallel to brute-force a key using Grover's algorithm, it will complete in time proportional to 2^{(128−c)/2}, or, put simply, using 256 quantum computers will only reduce runtime by 1/16, 1024 quantum computers will only reduce runtime by 1/32 and so forth ​(see {{NIST}} and {{Cloudflare}}​).  
 
-How can we be sure then that an improved algorithm won’t outperform Grover's algorithm at some point in time? Christof Zalka has shown that Grover's algorithm (and in particular its non-parallel nature) achieves the best possible complexity for unstructured search ​[C. Zalka, “Grover’s quantum searching algorithm is optimal,” Physical Review A, vol. 60, pp. 2746-2751, 1999.]​.  
+How can we be sure then that an improved algorithm won’t outperform Grover's algorithm at some point in time? Christof Zalka has shown that Grover's algorithm (and in particular its non-parallel nature) achieves the best possible complexity for unstructured search {{Grover-search}}.   
 
-Finally, in their evaluation criteria for PQC, NIST is considering a security level equivalent to that of AES-128, meaning that NIST has confidence in standardizing parameters for PQC that offer similar levels of security as AES-128 does ​[nist](https://csrc.nist.gov/projects/post-quantum-cryptography/post-quantum-cryptography-standardization)​. As a result, 128-bit algorithms should be considered quantum-safe for many years to come. 
+Finally, in their evaluation criteria for PQC, NIST is considering a security level equivalent to that of AES-128, meaning that NIST has confidence in standardizing parameters for PQC that offer similar levels of security as AES-128 does {{NIST}}​. As a result, 128-bit algorithms should be considered quantum-safe for many years to come. 
 
 
 ## Asymmetric cryptography
@@ -141,10 +174,9 @@ An malicious actor with adequate resources may be lauching a pervasive monitorin
 ~~~~~
 {: #Mosca title="Mosca model"}
 
-These challenges are illustrated nicely by the so called Mosca model in {{Mosca}} ​[ThreatReport]​(https://globalriskinstitute.org/
-publications/quantum-threat-timeline-report-2020/). In the figure, $x$ denotes the time that our systems and data need to remain secure, $y$ the number of years to migrate to a PQC infrastructure and $z$ the time until a practical quantum computer that can break current cryptography is available. The model assumes that encrypted data can be intercepted and stored before the migration is completed in $y$ years. This data remains vulnerable for the complete $x$ years of their lifetime, thus the sum $(x+y)$ gives us an estimate of the full timeframe that data remain insecure ​[13]​. The model essentially asks the question of how are we preparing our IT systems during those $y$ years (or in other words how can we minimize those $y$ years), so as to minimize the transition phase to a PQC infrastructure and hence minimize the risks of data being exposed in the future. 
+These challenges are illustrated nicely by the so called Mosca model discussed in ​{{Threat-Report}}. In the {{Mosca}}, "x" denotes the time that our systems and data need to remain secure, "y" the number of years to migrate to a PQC infrastructure and "z" the time until a practical quantum computer that can break current cryptography is available. The model assumes that encrypted data can be intercepted and stored before the migration is completed in "y" years. This data remains vulnerable for the complete "x" years of their lifetime, thus the sum "x+y" gives us an estimate of the full timeframe that data remain insecure​. The model essentially asks the question of how are we preparing our IT systems during those "y" years (or in other words how can we minimize those "y" years), so as to minimize the transition phase to a PQC infrastructure and hence minimize the risks of data being exposed in the future. 
 
-Finally, other factors that could accelerate the introduction of a large-enough quantum computer should not be under-estimated, like for example faster-than-expected advances in quantum computing and more efficient versions of Shor’s algorithm requiring less qubits. As an example, IBM, one of the leading actors in the development of a large-scale quantum computer, has recently published a roadmap committing to new quantum processors supporting more than 1000 qubits by 2025 and networked systems with 10k-100k qubits beyond 2026 [IBMRoadmap](https://www.ibm.com/quantum/roadmap). Innovation often comes in waves, so it is to the industry’s benefit to remain vigilant and prepare as early as possible. 
+Finally, other factors that could accelerate the introduction of a large-enough quantum computer should not be under-estimated, like for example faster-than-expected advances in quantum computing and more efficient versions of Shor’s algorithm requiring less qubits. As an example, IBM, one of the leading actors in the development of a large-scale quantum computer, has recently published a roadmap committing to new quantum processors supporting more than 1000 qubits by 2025 and networked systems with 10k-100k qubits beyond 2026 {{IBMRoadmap}}. Innovation often comes in waves, so it is to the industry’s benefit to remain vigilant and prepare as early as possible. 
 
 # Post-quantum cryptography categories 
 
@@ -162,9 +194,9 @@ Examples of such class of algorithms are Falcon and Dilithium.
 
 ## Multivariate-Based Public-Key Cryptography
 
-The Multivariate Quadratic problem is an NP-hard problem that can be expressed as finding the common "zero" vector that solves a set of polynomials in finite fields. In other words, the underlying problem can be expressed as finding the vector $(z_1, ..., z_n)$ in Fn2 that solves a set of given equations:
+The Multivariate Quadratic problem is an NP-hard problem that can be expressed as finding the common "zero" vector that solves a set of polynomials in finite fields. In other words, the underlying problem can be expressed as finding the vector (z_1, ..., z_n) in Fn2 that solves a set of given equations:
 
-$$f_{1}(x_{1}, ..., x_{n}) = 0, ...., f_{m}(x_{1}, ..., x_{n}) = 0$$
+f_{1}(x_{1}, ..., x_{n}) = 0, ...., f_{m}(x_{1}, ..., x_{n}) = 0
 
 Signatures use easily invertible non-linear polynomials (P) that need to be masked by using a combination of affine linear transformations (S and T). Indeed, given P:Fn -> Fm, S: Fn -> Fn, T: Fm -> Fm, the affine transformations are build in such a way to make the public key G = S * P * T hard to invert. Knowing its individual components (i.e., the private key) allows to easily compute the inverse G^(-1) which is used to produce signatures, i.e. G^(-1) = T^(-1) * P^(-1) * S^(-1). To verify signatures, use the public key over the signature vector, i.e. G(s) = m.
 
