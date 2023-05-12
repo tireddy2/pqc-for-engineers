@@ -274,9 +274,25 @@ To note:
 
 (...and the security weaknesses of each)
 
-# PQ/T Hybrid Confidentiality 
-# PQ/T Hybrid Authentication 
-# PQ/T Hybrid Interoperability
+# Post-Quantum and Traditional Hybrid Schemes
+
+The migration to PQC is unique in the history of modern digital cryptography in that neither the traditional algorithms nor
+the post-quantum algorithms are fully trusted to protect data for the required data lifetimes.  The traditional algorithms, such as RSA and elliptic curve, will fall to quantum cryptalanysis, while the post-quantum algorithms face uncertainty about the underlying
+mathematics, compliance issues, unknown vulnerabilities, hardware and software implementations that have not had sufficient maturing time to rule out classical cryptanalytic attacks and implementation bugs.
+
+During the transition from traditional to post-quantum algorithms, there may be a desire or a requirement for protocols that use both algorithm types. {{?I-D.ietf-pquip-pqt-hybrid-terminology}} defines terminology for the Post-Quantum and Traditional Hybrid Schemes.
+
+## PQ/T Hybrid Confidentiality 
+
+The PQ/T Hybrid Confidentiality scheme is required to protect from a "Harvest Now, Decrypt Later" attack, which refers to an attacker collecting encrypted data now and waiting for quantum computers to become powerful enough to break the encryption later. For example, in {{?I-D.ietf-tls-hybrid-design}}, the client uses the TLS supported groups extension to advertise support for a PQ/T hybrid scheme and the server can select this group if it supports the scheme. The hybrid-aware client and server establish a hybrid secret by concatenating the two shared secrets and it used as the shared secret 
+in the existing TLS 1.3 key schedule.
+
+## PQ/T Hybrid Authentication 
+
+The PQ/T Hybrid Authentication scheme is required where an on-path attacker can use network devices with quantum processors to break
+the traditional authentication protocols. In this scheme, authentication is achieved by a PQ/T hybrid scheme or a PQ/T hybrid protocol as long as at least one component algorithm that aims to provide this property remains secure. For example, a PQ/T hybrid certificate could be used to facilitate a PQ/T hybrid authentication protocol.  However, a PQ/T hybrid authentication protocol does not need to use a PQ/T hybrid certificate {{?I-D.ounsworth-pq-composite-keys}}; separate certificates could be used for individual component algorithms {{?I-D.ietf-lamps-cert-binding-for-multi-auth}}.
+
+The frequency and duration of system upgrades and the time when quantum computers will become widely available needs to be weighed in to determine when to support the PQ/T Hybrid Authentication scheme.
 
 # Security Considerations
 
