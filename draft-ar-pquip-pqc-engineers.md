@@ -96,7 +96,7 @@ This document is meant to give general guidance on the structure and use of post
 Topics include which PQC algorithms to use, how PQC key exchange mechanisms (KEMs) differ from classical KEMs, expected size and processing time differences between PQC algorithms and classical algorithms, as well as guidelines on the evolving threat landscape of symmetric cryptography from quantum computers.
 
 The reader of this document is expected to understand coding and data structures using established cryptographic libraries. They are also expected to understand the basics of classical cryptography. It is also crucial for the reader to understand that when we mention "PQC" in the document, it usually means Asymmetric Cryptography in general and not any algorithms from the Symmetric side like stream, block ciphers, etc.
-It does not cover such topics as when classical algorithms might become vulnerable (for that, see documents such as [QCDNS] and others).
+It does not cover such topics as when classical algorithms might become vulnerable (for that, see documents such as [QC-DNS] and others).
 
 # Conventions and Definitions
 
@@ -272,7 +272,7 @@ To note:
 
 ## Hash-then-Sign Versus Sign-then-Hash
 
-(...and the security weaknesses of each)
+Within the hash-then-sign paradigm, the message is hashed before signing it.  Hashing the message before signing it provides an additional layer of security by ensuring that only a fixed-size digest of the message is signed, rather than the entire message itself. By pre-hashing, the onus of resistance to existential forgeries becomes heavily reliant on the collision-resistance of the hash function in use.  As well as this security goal, the hash-then-sign paradigm also has the ability to improve performance by reducing the size of signed messages.  As a corollary, hashing remains mandatory even for short messages and assigns a further computational requirement onto the verifier.  This makes the performance of hash-then-sign schemes more consistent, but not necessarily more efficient. Using a hash function to produce a fixed-size digest of a message ensures that the signature is compatible with a wide range of systems and protocols, regardless of the specific message size or format.
 
 # Post-Quantum and Traditional Hybrid Schemes
 
