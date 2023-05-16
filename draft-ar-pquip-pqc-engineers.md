@@ -77,7 +77,10 @@ informative:
   IBMRoadmap:
      title: "The IBM Quantum Development Roadmap"
      target: https://www.ibm.com/quantum/roadmap
-     date: false 
+     date: false
+  QSVT/QSP:
+     title: "Zheng, Yangru, Juntao Gao, and Baocang Wang. “New Quantum Search Model on Symmetric Ciphers and Its Applications.” Cryptology ePrint Archive (2023)"
+     date: false
      
 
 
@@ -143,7 +146,9 @@ When considering the security risks associated with the ability of a quantum com
 
 Grover’s algorithm theoretically requires to double the key sizes of the algorithms we deploy today to achieve quantum resistance. This is because Grover’s algorithm reduces the amount of operations to break 128-bit symmetric cryptography to 2^{64} quantum operations, which might sound computationally feasible. However, 2^{64} operations performed in parallel are feasible for modern classical computers, but 2^{64} quantum operations performed serially in a quantum computer are not. Grover's algorithm is highly non-parallelisable and even if we deploy 2^c computational units in parallel to brute-force a key using Grover's algorithm, it will complete in time proportional to 2^{(128−c)/2}, or, put simply, using 256 quantum computers will only reduce runtime by 1/16, 1024 quantum computers will only reduce runtime by 1/32 and so forth ​(see {{NIST}} and {{Cloudflare}}​).  
 
-How can we be sure then that an improved algorithm won’t outperform Grover's algorithm at some point in time? Christof Zalka has shown that Grover's algorithm (and in particular its non-parallel nature) achieves the best possible complexity for unstructured search {{Grover-search}}.   
+How can we be sure then that an improved algorithm won’t outperform Grover's algorithm at some point in time? Christof Zalka has shown that Grover's algorithm (and in particular its non-parallel nature) achieves the best possible complexity for unstructured search {{Grover-search}}.
+
+Attacks based on Quantum Signal Processing (QSP)/Quantum Singular Value Transformation (QSVT) suggest {{QSVT/QSP}} that doubling the key-size does not offer security advantages. For example, if a fault tolerant QC can break 128-bit in "x" years, then it may break 256-bit in "x+(negligible*x)" years (QSVT, QSP attack) rather than "2x" years (Grover’s attack) which was believed until now.​ QSVT/QSP attacks are not based on brute-force search unlike Grover's algorithm and they do not need to know the size of the fixed keyspace (again unlike Grover) for attacking the algorithm.​
 
 Finally, in their evaluation criteria for PQC, NIST is considering a security level equivalent to that of AES-128, meaning that NIST has confidence in standardizing parameters for PQC that offer similar levels of security as AES-128 does {{NIST}}​. As a result, 128-bit algorithms should be considered quantum-safe for many years to come. 
 
@@ -310,4 +315,4 @@ A quantum-world is deﬁnitely not as intimidating as one might expect from a se
 # Acknowledgements
 {:numbered="false"}
 
-It leverages text from https://github.com/paulehoffman/post-quantum-for-engineers/blob/main/pqc-for-engineers.md. 
+It leverages text from https://github.com/paulehoffman/post-quantum-for-engineers/blob/main/pqc-for-engineers.md.
