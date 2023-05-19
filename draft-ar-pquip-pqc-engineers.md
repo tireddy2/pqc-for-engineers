@@ -123,9 +123,9 @@ Opening issues that suggest new material is fine too, but relying on others to w
 
 # Classical Cryptographic Primitives that Could Be Replaced by PQC
 
-(KEMs)
+* KEMs: They are one of the mechanisms that can replaced by PQC as this is based on public key cryptography and is therefore vulnerable to the Shor's algorithm. One, can easily find the prime factors of the large public key which can used to derive the private key.
 
-(Signatures)
+* Signatures: Signatures, similar to KEMs also depend on public-private key pair and hence a break in public key cryptography will also affect classical digital signatures, hence the importance of developing post quantum digital signatures.
 
 # Popular PQC Algorithms
 
@@ -242,7 +242,7 @@ The candidates still advancing for standardization are:
 
 ## What is a KEM
 
-KEM stands for Key Encapsulation Mechanism and as the name suggests it is used to protect symmetric keys that encrypt your data and shared secret symmetric key is encapsulated and share via asymmetric cryptography. This is done to provide faster encryption/decryption speeds. As we know, public key systems have a tendency to cause larger encryption/decryption time frame than symmetric keys. Hence, in this best of both worlds scenario, we use the symmetric key to encrypt the message first, following which the public key of the sender is used to encrypt the symmetric key. The receiver then first decrypts the ciphertext using their private keys to gain the symmetric key, finally that symmetric key is leveraged to generate the plaintext.
+KEM stands for Key Encapsulation Mechanism (stated above) and as the name suggests it is used to protect symmetric keys that encrypt user data ideally by encapsulating the shared secret symmetric key and transmitting it via asymmetric cryptography. This is done to provide faster encryption/decryption speeds. As we know, public key systems tend to be generate high costs when encrypting longer messages than symmetric key systems. Hence, in this best of both worlds scenario, we use the symmetric key to encrypt the message first, following which the public key of the sender is used to encrypt the symmetric key. The receiver then first decrypts the ciphertext using their private keys to gain the symmetric key, finally that symmetric key is leveraged to generate the plaintext.
 
 ## What security properties do they provide
 
