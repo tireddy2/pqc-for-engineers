@@ -78,9 +78,6 @@ informative:
      title: "The IBM Quantum Development Roadmap"
      target: https://www.ibm.com/quantum/roadmap
      date: false
-  QSVT/QSP:
-     title: "Zheng, Yangru, Juntao Gao, and Baocang Wang. “New Quantum Search Model on Symmetric Ciphers and Its Applications.” Cryptology ePrint Archive (2023)"
-     date: false
      
 
 
