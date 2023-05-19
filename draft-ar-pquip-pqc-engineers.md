@@ -148,8 +148,6 @@ Grover’s algorithm theoretically requires to double the key sizes of the algor
 
 How can we be sure then that an improved algorithm won’t outperform Grover's algorithm at some point in time? Christof Zalka has shown that Grover's algorithm (and in particular its non-parallel nature) achieves the best possible complexity for unstructured search {{Grover-search}}.
 
-Attacks based on Quantum Signal Processing (QSP)/Quantum Singular Value Transformation (QSVT) suggest {{QSVT/QSP}} that doubling the key-size does not offer security advantages. For example, if a fault tolerant QC can break 128-bit in "x" years, then it may break 256-bit in "x+(negligible*x)" years (QSVT, QSP attack) rather than "2x" years (Grover’s attack) which was believed until now.​ QSVT/QSP attacks are not based on brute-force search unlike Grover's algorithm and they do not need to know the size of the fixed keyspace (again unlike Grover) for attacking the algorithm.​
-
 Finally, in their evaluation criteria for PQC, NIST is considering a security level equivalent to that of AES-128, meaning that NIST has confidence in standardizing parameters for PQC that offer similar levels of security as AES-128 does {{NIST}}​. As a result, 128-bit algorithms should be considered quantum-safe for many years to come. 
 
 
