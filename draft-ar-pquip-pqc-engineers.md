@@ -78,6 +78,10 @@ informative:
      title: "The IBM Quantum Development Roadmap"
      target: https://www.ibm.com/quantum/roadmap
      date: false
+  Falcon:
+     title: "Fast Fourier lattice-based compact signatures over NTRU"
+     target: https://falcon-sign.info/
+     date: false
      
 
 
@@ -266,9 +270,36 @@ To note:
 
 (For example if full-strength Kyber1024 just won’t fit. Under what circumstances can you go down to level1 lattice strength (or less)?)
 
-## Details of FALCON and Dilithium Relevant to Coding
+## Details of FALCON and Dilithium 
 
-(A layman’s explanation of the gaussian-vs-uniform sampling difference between FALCON and Dilithium. Why access to a robust floating point stack matters. What type of devices you should / should not implement FALCON on.)
+Falcon [Falcon] is based on the GPV hash-and-sign lattice-based
+signature framework introduced by Gentry, Peikert and Vaikuntanathan,
+which is a framework that requires a class of lattices and a
+trapdoor sampler technique. 
+
+The main design principle of Falcon is compactness, i.e. it was
+designed in a way that achieves minimal total memory bandwidth
+requirement (the sum of the signature size plus the public key size).
+This is possible due to the compactness of NTRU lattices.  Falcon
+also offers very efficient signing and verification procedures.  The
+main potential downsides of Falcon refer to the non-triviality of its
+algorithms and the need for floating point arithmetic support.
+
+Access to a robust floating-point stack in Falcon is essential 
+for accurate, efficient, and secure execution of the 
+mathematical computations involved in the scheme. It helps 
+maintain precision, supports error correction techniques, 
+and contributes to the overall reliability and performance 
+of Falcon's cryptographic operations.
+
+The performance characteristics of Dilithium and Falcon may 
+differ based on the specific implementation and hardware platform. 
+Generally, Dilithium is known for its relatively fast signature 
+generation, while Falcon can provide more efficient 
+signature verification. The choice may depend on whether 
+the application requires more frequent signature generation 
+or signature verification.
+
 
 ## Hash-then-Sign Versus Sign-then-Hash
 
