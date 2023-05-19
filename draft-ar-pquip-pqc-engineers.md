@@ -230,16 +230,19 @@ The candidates still advancing for standardization are:
 * [Classic McEliece](https://classic.mceliece.org/)
 * [BIKE](https://bikesuite.org/)
 * [HQC](http://pqc-hqc.org/)
-* [SIKE](https://sike.org/): Supersingular Isogeny Key Encapsulation (SIKE) is a specific realization of the SIDH (Supersingular Isogeny Diffie-Hellman) protocol. Recently, a [mathematical attack](https://eprint.iacr.org/2022/975.pdf) based on the "glue-and-split" theorem from 1997 from Ernst Kani was found against the underlying chosen starting curve and torsion information. In practical terms, this attack allows for the efficient recovery of the private key. NIST has to yet comment if the scheme will be still considered and there is still debate around if the scheme can be changed so that the attack can be prevented.
+* [SIKE](https://sike.org/) (Broken): Supersingular Isogeny Key Encapsulation (SIKE) is a specific realization of the SIDH (Supersingular Isogeny Diffie-Hellman) protocol. Recently, a [mathematical attack](https://eprint.iacr.org/2022/975.pdf) based on the "glue-and-split" theorem from 1997 from Ernst Kani was found against the underlying chosen starting curve and torsion information. In practical terms, this attack allows for the efficient recovery of the private key. NIST has to yet comment if the scheme will be still considered and there is still debate around if the scheme can be changed so that the attack can be prevented.
 
 # Algorithms not-to-be standardized by NIST that have some support
 
 * [NTRU](https://ntru.org/)
 * [NTRU-Prime](https://ntruprime.cr.yp.to/)
 
+
 # KEMs
 
 ## What is a KEM
+
+KEM stands for Key Encapsulation Mechanism and as the name suggests it is used to protect symmetric keys that encrypt your data and shared secret symmetric key is encapsulated and share via asymmetric cryptography. This is done to provide faster encryption/decryption speeds. As we know, public key systems have a tendency to cause larger encryption/decryption time frame than symmetric keys. Hence, in this best of both worlds scenario, we use the symmetric key to encrypt the message first, following which the public key of the sender is used to encrypt the symmetric key. The receiver then first decrypts the ciphertext using their private keys to gain the symmetric key, finally that symmetric key is leveraged to generate the plaintext.
 
 ## What security properties do they provide
 
