@@ -246,8 +246,8 @@ KEM stands for Key Encapsulation Mechanism (stated above) and as the name sugges
 
 ## What security properties do they provide
 
-* IND-CPA
-* IND-CCA
+* IND-CPA : Bike provides IND-CPA security generally but can also be used to provide IND-CCA security.
+* IND-CCA : Kyber, Classic McEliece, Saber provide IND-CCA2 security.
 
 ## Where can a KEM be used
 
@@ -263,6 +263,8 @@ To note:
 
 ## What security properties do they provide
 
+* EUF-CMA : Dilithium provides EUF-CMA security.
+
 ## Where can different types of PQC signatures be used
 
 (HBS vs Lattice signatures: when each is appropriate.)
@@ -272,6 +274,15 @@ To note:
 ## Recommendations for Security / Performance Tradeoffs
 
 (For example if full-strength Kyber1024 just won’t fit. Under what circumstances can you go down to level1 lattice strength (or less)?)
+The table below denotes the 5 security levels provided by NIST required for PQC algoritms. Users can leverage the required algorithm based on the security level based on their use case. The security is defined as a function of resources required to break AES and SHA3 algorithms, i.e., optimal key recovery for AES and optimal collision attacks for SHA3.
+
+| Security Level |            AES/SHA3 hardness       | PQC Algorithm |
+| -------------- | ---------------------------------- | ------------- |
+|       1        | Find optimal key in AES-128        |   Kyber512    |
+|       2        | Find optimal collision in SHA3-256 |   Dilithium2  |
+|       3        | Find optimal key in AES-192        |   Kyber768    |
+|       4        | Find optimal collision in SHA3-384 |       N/A     |
+|       5        | Find optimal key in AES-256        |   Kyber1024   |
 
 ## Details of FALCON and Dilithium 
 
