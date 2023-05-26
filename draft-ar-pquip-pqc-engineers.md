@@ -123,6 +123,9 @@ Opening issues that suggest new material is fine too, but relying on others to w
 
 # Classical Cryptographic Primitives that Could Be Replaced by PQC
 
+Any asymmetric cryptographic algorithm based on integer factorisation, finite field discrete logarithms or elliptic curve discrete logarithms will be vulnerable to attacks using Shor's Algorithm on a sufficiently large general-purpose quantum computer, known as a Cryptographically Relevant Quantum Computer (CRQC).
+This document focusses on the two mechanisms that has been the basis of the NIST PQC standardisation competition from 2016:
+
 * KEMs: They are one of the mechanisms that can replaced by PQC as this is based on public key cryptography and is therefore vulnerable to the Shor's algorithm. One, can easily find the prime factors of the large public key which can used to derive the private key.
 
 * Signatures: Signatures, similar to KEMs also depend on public-private key pair and hence a break in public key cryptography will also affect classical digital signatures, hence the importance of developing post quantum digital signatures.
