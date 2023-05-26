@@ -211,7 +211,11 @@ f_{1}(x_{1}, ..., x_{n}) = 0, ...., f_{m}(x_{1}, ..., x_{n}) = 0
 
 Signatures use easily invertible non-linear polynomials (P) that need to be masked by using a combination of affine linear transformations (S and T). Indeed, given P:Fn -> Fm, S: Fn -> Fn, T: Fm -> Fm, the affine transformations are build in such a way to make the public key G = S * P * T hard to invert. Knowing its individual components (i.e., the private key) allows to easily compute the inverse G^(-1) which is used to produce signatures, i.e. G^(-1) = T^(-1) * P^(-1) * S^(-1). To verify signatures, use the public key over the signature vector, i.e. G(s) = m.
 
+Examples of this class of algorithms include Rainbow (which was [broken](https://eprint.iacr.org/2022/214.pdf) in a weekend on a laptop)
+
 ## Code-Based Public-Key Cryptography
+
+This area of crypotography stemmed in the 1970s and 80s based on the seminal work of McEliece and Niederreiter which focuses on the study of cryptosystems based on error-correcting codes.
 
 ## Hash-Based Public-Key Cryptography
 
@@ -269,6 +273,8 @@ To note:
 # PQC Signatures
 
 ## What is a Post-quantum Signature
+
+Any digital signature scheme that provides a construction defining security under post quantum setting falls under this category of PQ signatures. PQ signatures are much larger in sizes as compared to pre quantum DSA because of extra level of security being provided under PQ setting.
 
 ## What security properties do they provide
 
