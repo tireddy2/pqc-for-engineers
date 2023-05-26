@@ -243,11 +243,12 @@ The candidates still advancing for standardization are:
 ## What is a KEM
 
 KEM stands for Key Encapsulation Mechanism (stated above) and as the name suggests it is used to protect symmetric keys that encrypt user data ideally by encapsulating the shared secret symmetric key and transmitting it via asymmetric cryptography. This is done to provide faster encryption/decryption speeds. Prior art dictates that public key systems tend to be generate high costs when encrypting longer messages than symmetric key systems. Hence, in this best of both worlds scenario, one uses the symmetric key to encrypt the message first, following which the public key of the sender is used to encrypt the symmetric key. The receiver then first decrypts the ciphertext using their private keys to gain the symmetric key, finally that symmetric key is leveraged to generate the plaintext.
+Additonally, HPKE (Hybrid public key encryption) deals with a variant of KEM which is essentially a PKE of arbitrary sized plaintexts for a recipient public key. It works with a combination of KEMs, KDFs and AEAD schemes (Authenticated Encryption with Additional Data). In addition to authenticating PSKs and KEMs seperately, HPKE also provides a mode wherein it authenticates the posession of a PSK as well as a KEM private key.
 
 ## What security properties do they provide
 
 * IND-CPA : Bike provides IND-CPA security generally but can also be used to provide IND-CCA security.
-* IND-CCA : Kyber, Classic McEliece, Saber provide IND-CCA2 security.
+* IND-CCA : Kyber, Classic McEliece, Saber all provide IND-CCA2 security.
 
 ## Where can a KEM be used
 
@@ -263,7 +264,7 @@ To note:
 
 ## What security properties do they provide
 
-* EUF-CMA : Dilithium provides EUF-CMA security.
+* EUF-CMA : Dilithium, Falcon all provide EUF-CMA security.
 
 ## Where can different types of PQC signatures be used
 
@@ -276,13 +277,13 @@ To note:
 (For example if full-strength Kyber1024 just won’t fit. Under what circumstances can you go down to level1 lattice strength (or less)?)
 The table below denotes the 5 security levels provided by NIST required for PQC algoritms. Users can leverage the required algorithm based on the security level based on their use case. The security is defined as a function of resources required to break AES and SHA3 algorithms, i.e., optimal key recovery for AES and optimal collision attacks for SHA3.
 
-| Security Level |            AES/SHA3 hardness       | PQC Algorithm |
-| -------------- | ---------------------------------- | ------------- |
-|       1        | Find optimal key in AES-128        |   Kyber512    |
-|       2        | Find optimal collision in SHA3-256 |   Dilithium2  |
-|       3        | Find optimal key in AES-192        |   Kyber768    |
-|       4        | Find optimal collision in SHA3-384 |       N/A     |
-|       5        | Find optimal key in AES-256        |   Kyber1024   |
+| Security Level |            AES/SHA3 hardness       |                   PQC Algorithm                     |
+| -------------- | ---------------------------------- | --------------------------------------------------- |
+|       1        | Find optimal key in AES-128        |          Kyber512, Falcon512, Sphincs+SHA128        |
+|       2        | Find optimal collision in SHA3-256 |                       Dilithium2                    |
+|       3        | Find optimal key in AES-192        |         Kyber768, Dilithium3, Sphincs+SHA192        |
+|       4        | Find optimal collision in SHA3-384 |                   Falcon1024 (Atleast level 4)      |
+|       5        | Find optimal key in AES-256        |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA256 |
 
 ## Details of FALCON and Dilithium 
 
