@@ -82,6 +82,10 @@ informative:
      title: "Fast Fourier lattice-based compact signatures over NTRU"
      target: https://falcon-sign.info/
      date: false
+  Dilithium:
+     title: "Cryptographic Suite for Algebraic Lattices (CRYSTALS) - Dilithium"
+     target: https://pq-crystals.org/dilithium/index.shtml
+     date: false
      
 
 
@@ -107,7 +111,7 @@ It does not cover such topics as when classical algorithms might become vulnerab
 {::boilerplate bcp14-tagged}
 The definitions section would be too exhaustive and what readers are already expected to be aware of as the suggested algorithms cover more or less the entire dimension of classical cryptography's mathematics. Nevertheless, the basics of lattices (hardness of SIVP, SIS), learning with errors (Ring/Module), coding theory (Goppa/LDPC/MDPC), basics of quantum computing (qubit,superposition theory, toffoli, CNOT, Hadamard gates, Grover's search attack, Shor's algorithm), multivariate cryptography (elliptic curves, diffie hellman), hashes are some of the definitions that might help get a quick understanding of the document.
 
-Please note: This document does not go into the deep mathematics of the NIST finalists or other Post quantum algorithms but rather provides an overview to Engineers on the current threat landscape and the relevant algorithms designed to help prevent those threats.
+Please note: This document does not go into the deep mathematics of the NIST finalists or other PQC algorithms but rather provides an overview to Engineers on the current threat landscape and the relevant algorithms designed to help prevent those threats. 
 
 # Contributing to This Document
 
@@ -124,7 +128,7 @@ Opening issues that suggest new material is fine too, but relying on others to w
 # Classical Cryptographic Primitives that Could Be Replaced by PQC
 
 Any asymmetric cryptographic algorithm based on integer factorisation, finite field discrete logarithms or elliptic curve discrete logarithms will be vulnerable to attacks using Shor's Algorithm on a sufficiently large general-purpose quantum computer, known as a Cryptographically Relevant Quantum Computer (CRQC).
-This document focusses on the two mechanisms that has been the basis of the NIST PQC standardisation competition from 2016:
+This document focusses on the two mechanisms that has been the basis of the NIST PQC standardisation competition since 2016:
 
 * KEMs: They are one of the mechanisms that can replaced by PQC as this is based on public key cryptography and is therefore vulnerable to the Shor's algorithm. One, can easily find the prime factors of the large public key which can used to derive the private key.
 
@@ -197,7 +201,7 @@ The possibility to implement public-key schemes on lattices is tied to the chara
 
 Lattice-based schemes usually have good performances and average size public keys and signatures making them good candidates for general-purpose use such as replacing the use of RSA in PKIX certificates.
 
-Examples of such class of algorithms are Falcon and Dilithium.
+Examples of such class of algorithms include Kyber, Falcon and Dilithium.
 
 ## Multivariate-Based Public-Key Cryptography
 
@@ -246,6 +250,7 @@ The candidates still advancing for standardization are:
 ## What is a KEM
 
 KEM stands for Key Encapsulation Mechanism (stated above) and as the name suggests it is used to protect symmetric keys that encrypt user data ideally by encapsulating the shared secret symmetric key and transmitting it via asymmetric cryptography. This is done to provide faster encryption/decryption speeds. Prior art dictates that public key systems tend to be generate high costs when encrypting longer messages than symmetric key systems. Hence, in this best of both worlds scenario, one uses the symmetric key to encrypt the message first, following which the public key of the sender is used to encrypt the symmetric key. The receiver then first decrypts the ciphertext using their private keys to gain the symmetric key, finally that symmetric key is leveraged to generate the plaintext.
+
 Additonally, HPKE (Hybrid public key encryption) deals with a variant of KEM which is essentially a PKE of arbitrary sized plaintexts for a recipient public key. It works with a combination of KEMs, KDFs and AEAD schemes (Authenticated Encryption with Additional Data). In addition to authenticating PSKs and KEMs seperately, HPKE also provides a mode wherein it authenticates the posession of a PSK as well as a KEM private key.
 
 ## What security properties do they provide
@@ -289,6 +294,8 @@ The table below denotes the 5 security levels provided by NIST required for PQC 
 |       5        | Find optimal key in AES-256        |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA256 |
 
 ## Details of FALCON and Dilithium 
+
+Dilithium [Dilithium] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem(MLWE)). The design of the algorithm is based on Fiat Shamir with Abort method that leverages rejection sampling to render lattice based FS schemes compact and secure. Dilithium avoids using discrete Gaussian sampling which makes the algorithm be easily implemented in constant time and significantly improves on running time of NTT (Number theoretic transform) in the construction.
 
 Falcon [Falcon] is based on the GPV hash-and-sign lattice-based
 signature framework introduced by Gentry, Peikert and Vaikuntanathan,
