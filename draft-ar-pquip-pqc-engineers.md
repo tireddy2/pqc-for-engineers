@@ -211,15 +211,26 @@ f_{1}(x_{1}, ..., x_{n}) = 0, ...., f_{m}(x_{1}, ..., x_{n}) = 0
 
 Signatures use easily invertible non-linear polynomials (P) that need to be masked by using a combination of affine linear transformations (S and T). Indeed, given P:Fn -> Fm, S: Fn -> Fn, T: Fm -> Fm, the affine transformations are build in such a way to make the public key G = S * P * T hard to invert. Knowing its individual components (i.e., the private key) allows to easily compute the inverse G^(-1) which is used to produce signatures, i.e. G^(-1) = T^(-1) * P^(-1) * S^(-1). To verify signatures, use the public key over the signature vector, i.e. G(s) = m.
 
-Examples of this class of algorithms include Rainbow (which was [broken](https://eprint.iacr.org/2022/214.pdf) in a weekend on a laptop)
+Examples of this class of algorithms include Rainbow which was [broken](https://eprint.iacr.org/2022/214.pdf) in a weekend on a laptop
 
 ## Code-Based Public-Key Cryptography
 
-This area of crypotography stemmed in the 1970s and 80s based on the seminal work of McEliece and Niederreiter which focuses on the study of cryptosystems based on error-correcting codes.
+This area of crypotography stemmed in the 1970s and 80s based on the seminal work of McEliece and Niederreiter which focuses on the study of cryptosystems based on error-correcting codes. Some popular error correcting codes include the Goppa codes (used in McEliece cryptosystems), encoding and decoding syndrome codes used in Hamming Quasi-Cyclic (HQC) or Quasi-cyclic Moderate density parity check (QC-MDPC) codes.
+
+Examples include all the NIST Round 4 (unbroken) finalists: Classic McEliece, HQC, BIKE.
 
 ## Hash-Based Public-Key Cryptography
 
+Hash based PKC has been around since the 70s developed by Lamport and Merkle which creates a digital signature algorithm and its security is mathematically based on the security of the selected cryptographic hash function. Many variants of hash based signatures have been developed since the 70s including the recent XMSS, LMS or BPQS schemes. Unlike digital signature techniques, most hash-based signature schemes are stateful, which means that signing necessitates the update of the secret key.
+
+SPHINCS on the other hand leverages the HORS (Hash to Obtain Random Subset) technique and remains the only hash based signature scheme that is stateless.
+
+SPHINCS+ is an advancement on SPHINCS which reduces the signature sizes in SPHINCS and makes it more compact. SPHINCS+ was recently standardised by NIST.
+
 ## Isogeny-Based Public-Key Cryptography
+
+Schemes in cryptography based on the supersingular isogeny graph walks falls under this category of cryptosystems. The supersingular isogeny Diffie Hellman (SIDH) algorithm was the basis for the SIKE algorithm which was until recently one of the finalists in Round 4 NIST standardisarion process. Prior to the breaking of SIKE, SIDH was considered to have one of the smallest key sizes in a Post Quantum PKE as well as provide perfect forward secrecy.
+
 
 ## Announced to be standardized NIST algorithms
 
