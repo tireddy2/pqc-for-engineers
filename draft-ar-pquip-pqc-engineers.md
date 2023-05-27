@@ -148,7 +148,7 @@ NIST announced as well that they will be [opening a fourth round](https://csrc.n
 
 Post-quantum cryptography or quantum-safe cryptography refers to cryptographic algorithms that are secure against cryptographic attacks from both a quantum and a classic computers.
 
-When considering the security risks associated with the ability of a quantum computer to attack classic cryptography it is important to distinguish between the impact on symmetric algorithms and public-key ones. Professor Peter Shor and computer scientist Lov Grover developed two algorithms that were about to change the way the world thinks of security under the presence of a quantum computer. 
+When considering the security risks associated with the ability of a quantum computer to attack classic cryptography it is important to distinguish between the impact on symmetric algorithms and public-key ones. Professor Peter Shor and computer scientist Lov Grover developed two algorithms that changed the way the world thinks of security under the presence of a quantum computer. 
 
 ## Symmetric cryptography
 
@@ -266,7 +266,7 @@ The candidates still advancing for standardization are:
 
 KEM stands for Key Encapsulation Mechanism (stated above) and as the name suggests it is used to protect symmetric keys that encrypt user data ideally by encapsulating the shared secret symmetric key and transmitting it via asymmetric cryptography. This is done to provide faster encryption/decryption speeds. Prior art dictates that public key systems tend to be generate high costs when encrypting longer messages than symmetric key systems. Hence, in this best of both worlds scenario, one uses the symmetric key to encrypt the message first, following which the public key of the sender is used to encrypt the symmetric key. The receiver then first decrypts the ciphertext using their private keys to gain the symmetric key, finally that symmetric key is leveraged to generate the plaintext.
 
-Additonally, HPKE (Hybrid public key encryption) deals with a variant of KEM which is essentially a PKE of arbitrary sized plaintexts for a recipient public key. It works with a combination of KEMs, KDFs and AEAD schemes (Authenticated Encryption with Additional Data). In addition to authenticating PSKs and KEMs seperately, HPKE also provides a mode wherein it authenticates the posession of a PSK as well as a KEM private key.
+Additonally, HPKE (Hybrid public key encryption) {{?RFC9180}} deals with a variant of KEM which is essentially a PKE of arbitrary sized plaintexts for a recipient public key. It works with a combination of KEMs, KDFs and AEAD schemes (Authenticated Encryption with Additional Data). In addition to authenticating PSKs and KEMs seperately, HPKE also provides a mode wherein it authenticates the posession of a PSK as well as a KEM private key.
 
 ## What security properties do they provide
 
