@@ -320,6 +320,11 @@ The following table discusses the impact of performance on different security le
 |       4        |           Falcon1024       |       1793                  |          2305                |            1,330                     |
 |       5        |            Kyber1024       |       1568                  |          3168                |            1588                      |
 
+## Comparing PQC KEMs/Signatures vs Classical KEMs(KEXs)/Signatures
+
+In this section, we prepare two tables for comparison of different KEMs and Signatures respectively in the classical and Post Quantum scenario. These tables will focus on the secret key sizes, public key sizes and ciphertext/signature sizes for the PQC algorithms and their classical counterparts of similar security levels.
+
+
 ## Details of FALCON and Dilithium 
 
 Dilithium [Dilithium] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem(MLWE)). The design of the algorithm is based on Fiat Shamir with Abort method that leverages rejection sampling to render lattice based FS schemes compact and secure. Dilithium avoids using discrete Gaussian sampling which makes the algorithm be easily implemented in constant time and significantly improves on running time of NTT (Number theoretic transform) in the construction. Dilithium offers both deterministic and randomized signing. 
