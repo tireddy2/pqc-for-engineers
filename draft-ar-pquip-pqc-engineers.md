@@ -310,6 +310,16 @@ The table below denotes the 5 security levels provided by NIST required for PQC 
 |       4        | Find optimal collision in SHA3-384 |                   Falcon1024 (Atleast level 4)      |
 |       5        | Find optimal key in AES-256        |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA256 |
 
+The following table discusses the impact of performance on different security levels in terms of secret key sizes, public key sizes and ciphertext/signature sizes.
+
+| Security Level |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  | Ciphertext/Signature size (in bytes) |
+| -------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
+|       1        |            Kyber512        |       800                   |          1632                |             768                      |
+|       2        |           Dilithium2       |       1312                  |          2528                |            2420                      |
+|       3        |            Kyber768        |       1184                  |          2400                |            1088                      |
+|       4        |           Falcon1024       |       1793                  |          2305                |            1,330                     |
+|       5        |            Kyber1024       |       1568                  |          3168                |            1588                      |
+
 ## Details of FALCON and Dilithium 
 
 Dilithium [Dilithium] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem(MLWE)). The design of the algorithm is based on Fiat Shamir with Abort method that leverages rejection sampling to render lattice based FS schemes compact and secure. Dilithium avoids using discrete Gaussian sampling which makes the algorithm be easily implemented in constant time and significantly improves on running time of NTT (Number theoretic transform) in the construction. Dilithium offers both deterministic and randomized signing. 
