@@ -307,7 +307,7 @@ The table below denotes the 5 security levels provided by NIST required for PQC 
 |       1        | Find optimal key in AES-128        |          Kyber512, Falcon512, Sphincs+SHA128        |
 |       2        | Find optimal collision in SHA3-256 |                       Dilithium2                    |
 |       3        | Find optimal key in AES-192        |         Kyber768, Dilithium3, Sphincs+SHA192        |
-|       4        | Find optimal collision in SHA3-384 |                   Falcon1024 (Atleast level 4)      |
+|       4        | Find optimal collision in SHA3-384 |                   No algorithm tested at this level |
 |       5        | Find optimal key in AES-256        |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA256 |
 
 The following table discusses the impact of performance on different security levels in terms of secret key sizes, public key sizes and ciphertext/signature sizes.
@@ -317,13 +317,35 @@ The following table discusses the impact of performance on different security le
 |       1        |            Kyber512        |       800                   |          1632                |             768                      |
 |       2        |           Dilithium2       |       1312                  |          2528                |            2420                      |
 |       3        |            Kyber768        |       1184                  |          2400                |            1088                      |
-|       4        |           Falcon1024       |       1793                  |          2305                |            1,330                     |
+|       5        |           Falcon1024       |       1793                  |          2305                |            1330                      |
 |       5        |            Kyber1024       |       1568                  |          3168                |            1588                      |
 
 ## Comparing PQC KEMs/Signatures vs Classical KEMs (KEXs)/Signatures
 
 In this section, we prepare two tables for comparison of different KEMs and Signatures respectively in the classical and Post Quantum scenario. These tables will focus on the secret key sizes, public key sizes and ciphertext/signature sizes for the PQC algorithms and their classical counterparts of similar security levels.
 
+The first table compares classical vs PQC KEMs in terms of security, public, private key sizes and ciphertext sizes.
+
+| PQ Security Level |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  |         Ciphertext size (in bytes)   |
+| ----------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
+|          1        |            Kyber512        |       800                   |          1632                |            768                       |
+|          0        |        P256_HKDF_SHA256    |       65                    |          32                  |            65                        |
+|          3        |            Kyber768        |       1184                  |          2400                |            1088                      |
+|          0        |        P521_HKDF_SHA512    |       133                   |          66                  |            133                       |
+|          5        |            Kyber1024       |       1568                  |          3168                |            1588                      |
+|          0        |       X25519_HKDF_SHA256   |       32                    |          32                  |            32                        |
+
+The next table compares classical vs PQC Signature schemes in terms of security, public, private key sizes and signature sizes.
+
+| PQ Security Level |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  |         Signature size (in bytes)    |
+| ----------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
+|          2        |            Dilithium2      |       1312                  |          2528                |            768                       |
+|          0        |              RSA2048       |       256                   |          256                 |            256                       |
+|          3        |            Dilithium3      |       1952                  |          4000                |            3293                      |
+|          0        |               P256         |       64                    |          32                  |            64                        |
+|          5        |            Falcon1024      |       1793                  |          2305                |            1330                      |
+
+As one can cleary observe from the above tables that leveraging a PQC KEM/Signature significantly increases the key sizes and the ciphertext/signature sizes as well as compared to classical KEM/Signatures. But, the PQC algorithms do provide the additional security level in case there is attack from a CRQC whereas schemes based on prime factorisation or discrete logarithm problems (classical only) only would provide no level of security at all against such attacks.
 
 ## Details of FALCON and Dilithium 
 
