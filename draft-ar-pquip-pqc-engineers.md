@@ -320,7 +320,7 @@ The following table discusses the impact of performance on different security le
 |       4        |           Falcon1024       |       1793                  |          2305                |            1,330                     |
 |       5        |            Kyber1024       |       1568                  |          3168                |            1588                      |
 
-## Comparing PQC KEMs/Signatures vs Classical KEMs(KEXs)/Signatures
+## Comparing PQC KEMs/Signatures vs Classical KEMs (KEXs)/Signatures
 
 In this section, we prepare two tables for comparison of different KEMs and Signatures respectively in the classical and Post Quantum scenario. These tables will focus on the secret key sizes, public key sizes and ciphertext/signature sizes for the PQC algorithms and their classical counterparts of similar security levels.
 
