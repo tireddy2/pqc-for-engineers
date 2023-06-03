@@ -116,7 +116,7 @@ Please note: This document does not go into the deep mathematics of the NIST fin
 # Contributing to This Document
 
 The guide was inspired by a thread in September 2022 on the <mailto:pqc@ietf.org> mailing list.
-The document is being collaborated on through a [GitHub repository](https://github.com/paulehoffman/post-quantum-for-engineers).
+The document is being collaborated on through a [GitHub repository](https://github.com/tireddy2/pqc-for-engineers).
 
 The editors actively encourage contributions to this document.
 Please consider writing a section on a topic that you think is missing.
@@ -264,9 +264,9 @@ The candidates still advancing for standardization are:
 
 ## What is a KEM
 
-KEM stands for Key Encapsulation Mechanism (stated above) and as the name suggests it is used to protect symmetric keys that encrypt user data ideally by encapsulating the shared secret symmetric key and transmitting it via asymmetric cryptography. This is done to provide faster encryption/decryption speeds. Prior art dictates that public key systems tend to be generate high costs when encrypting longer messages than symmetric key systems. Hence, in this best of both worlds scenario, one uses the symmetric key to encrypt the message first, following which the public key of the sender is used to encrypt the symmetric key. The receiver then first decrypts the ciphertext using their private keys to gain the symmetric key, finally that symmetric key is leveraged to generate the plaintext.
+Key Encapsulation Mechanism (KEM) is a cryptographic technique used for securely exchanging symmetric keys between two parties over an insecure channel. It is commonly used in hybrid encryption schemes, where a combination of asymmetric (public-key) and symmetric encryption is employed. This is done to provide faster encryption/decryption speeds. Prior art dictates that public key systems tend to be generate high costs when encrypting longer messages than symmetric key systems. Hence, in this best of both worlds scenario, one uses the symmetric key to encrypt the message first, following which the public key of the receiver is used to encrypt the symmetric key. The receiver then first decrypts the ciphertext using the private key to gain the symmetric key, finally that symmetric key is leveraged to generate the plaintext.
 
-Additonally, HPKE (Hybrid public key encryption) {{?RFC9180}} deals with a variant of KEM which is essentially a PKE of arbitrary sized plaintexts for a recipient public key. It works with a combination of KEMs, KDFs and AEAD schemes (Authenticated Encryption with Additional Data). In addition to authenticating PSKs and KEMs seperately, HPKE also provides a mode wherein it authenticates the posession of a PSK as well as a KEM private key.
+Additonally, HPKE (Hybrid public key encryption) {{?RFC9180}} deals with a variant of KEM which is essentially a PKE of arbitrary sized plaintexts for a recipient public key. It works with a combination of KEMs, KDFs and AEAD schemes (Authenticated Encryption with Additional Data). It includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones  that authenticate possession of a key encapsulation mechanism (KEM) private key. 
 
 ## What security properties do they provide
 
