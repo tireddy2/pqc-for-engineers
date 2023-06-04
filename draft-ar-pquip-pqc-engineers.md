@@ -103,7 +103,7 @@ Quantum computing is no longer perceived as a conjecture of computational scienc
 This document is meant to give general guidance on the structure and use of post-quantum cryptographic (PQC) algorithms for engineers who are using PQC algorithms in their software.
 Topics include which PQC algorithms to use, how PQC key exchange mechanisms (KEMs) differ from classical KEMs, expected size and processing time differences between PQC algorithms and classical algorithms, as well as guidelines on the evolving threat landscape of symmetric cryptography from quantum computers.
 
-The reader of this document is expected to understand coding and data structures using established cryptographic libraries. They are also expected to understand the basics of classical cryptography. It is also crucial for the reader to understand that when the word "PQC" is mentioned in the document, it usually means Asymmetric Cryptography in general and not any algorithms from the Symmetric side based on stream, block ciphers, etc.
+It is crucial for the reader to understand that when the word "PQC" is mentioned in the document, it usually means Asymmetric Cryptography in general and not any algorithms from the Symmetric side based on stream, block ciphers, etc.
 It does not cover such topics as when classical algorithms might become vulnerable (for that, see documents such as [QC-DNS] and others).
 
 # Conventions and Definitions
@@ -266,7 +266,7 @@ The candidates still advancing for standardization are:
 
 Key Encapsulation Mechanism (KEM) is a cryptographic technique used for securely exchanging symmetric keys between two parties over an insecure channel. It is commonly used in hybrid encryption schemes, where a combination of asymmetric (public-key) and symmetric encryption is employed. This is done to provide faster encryption/decryption speeds. Prior art dictates that public key systems tend to be generate high costs when encrypting longer messages than symmetric key systems. Hence, in this best of both worlds scenario, one uses the symmetric key to encrypt the message first, following which the public key of the receiver is used to encrypt the symmetric key. The receiver then first decrypts the ciphertext using the private key to gain the symmetric key, finally that symmetric key is leveraged to generate the plaintext.
 
-Additonally, HPKE (Hybrid public key encryption) {{?RFC9180}} deals with a variant of KEM which is essentially a PKE of arbitrary sized plaintexts for a recipient public key. It works with a combination of KEMs, KDFs and AEAD schemes (Authenticated Encryption with Additional Data). It includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones  that authenticate possession of a key encapsulation mechanism (KEM) private key. 
+Additonally, HPKE (Hybrid public key encryption) {{?RFC9180}} deals with a variant of KEM which is essentially a PKE of arbitrary sized plaintexts for a recipient public key. It works with a combination of KEMs, KDFs and AEAD schemes (Authenticated Encryption with Additional Data). It includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones that authenticate possession of a key encapsulation mechanism (KEM) private key. 
 
 ## What security properties do they provide
 
