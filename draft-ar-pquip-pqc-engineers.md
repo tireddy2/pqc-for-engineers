@@ -347,7 +347,7 @@ The next table compares classical vs PQC Signature schemes in terms of security,
 
 As one can cleary observe from the above tables that leveraging a PQC KEM/Signature significantly increases the key sizes and the ciphertext/signature sizes as well as compared to classical KEM/Signatures. But, the PQC algorithms do provide the additional security level in case there is attack from a CRQC whereas schemes based on prime factorisation or discrete logarithm problems (classical only) only would provide no level of security at all against such attacks.
 
-## Details of FALCON and Dilithium 
+## Details of FALCON, Dilithium and SPHINCS+
 
 Dilithium [Dilithium] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem(MLWE)). The design of the algorithm is based on Fiat Shamir with Abort method that leverages rejection sampling to render lattice based FS schemes compact and secure. Dilithium avoids using discrete Gaussian sampling which makes the algorithm be easily implemented in constant time and significantly improves on running time of NTT (Number theoretic transform) in the construction. Dilithium offers both deterministic and randomized signing. 
 The security properties of Dilithium are discussed in Section 9 of {{?I-D.ietf-lamps-dilithium-certificates}}. 
@@ -379,6 +379,19 @@ generation, while Falcon can provide more efficient
 signature verification. The choice may depend on whether 
 the application requires more frequent signature generation 
 or signature verification.
+
+Sphincs+ utilizes the concept of stateless hash-based signatures, 
+where each signature is unique and unrelated to any previous signature. 
+This property eliminates the need for maintaining state information during 
+the signing process. Other hash-based signature algorithms are stateful, 
+including HSS/LMS {{!RFC8554}} and XMSS {{!RFC8391}}. SPHINCS+ offers 
+three security levels.  The parameters for each of the security levels 
+were chosen to provide 128 bits of security, 192 bits of security, 
+and 256 bits of security.  Sphincs+ offers larger key sizes, slower 
+signature generation, and slower verification compared to 
+Dilithium and Falcon. However, Sphincs+ is designed to be resistant to both 
+classical and quantum attacks, making it a reliable choice for 
+long-term security.
 
 
 ## Hash-then-Sign Versus Sign-then-Hash
