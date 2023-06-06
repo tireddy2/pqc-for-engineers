@@ -219,7 +219,7 @@ This area of crypotography stemmed in the 1970s and 80s based on the seminal wor
 
 Examples include all the NIST Round 4 (unbroken) finalists: Classic McEliece, HQC, BIKE.
 
-## Hash-Based Public-Key Cryptography
+## Hash-Based Public-Key Cryptography {#hash-based}
 
 Hash based PKC has been around since the 70s developed by Lamport and Merkle which creates a digital signature algorithm and its security is mathematically based on the security of the selected cryptographic hash function. Many variants of hash based signatures have been developed since the 70s including the recent XMSS, LMS or BPQS schemes. Unlike digital signature techniques, most hash-based signature schemes are stateful, which means that signing necessitates the update of the secret key.
 
@@ -297,56 +297,6 @@ Any digital signature scheme that provides a construction defining security unde
 
 (Guidance for managing state of XMSS / LMS. Tree-splitting at keygen time, synchronous state management, any other tricks that are worth documenting. Including when it’s just too complicated to even attempt, like a 30 year signing key where you don’t know at keygen time how many backup copies you’ll need over its lifetime and flips to backup may happen without warning.)
 
-## Recommendations for Security / Performance Tradeoffs
-
-(For example if full-strength Kyber1024 just won’t fit. Under what circumstances can you go down to level1 lattice strength (or less)?)
-The table below denotes the 5 security levels provided by NIST required for PQC algoritms. Users can leverage the required algorithm based on the security level based on their use case. The security is defined as a function of resources required to break AES and SHA3 algorithms, i.e., optimal key recovery for AES and optimal collision attacks for SHA3.
-
-| Security Level |            AES/SHA3 hardness       |                   PQC Algorithm                     |
-| -------------- | ---------------------------------- | --------------------------------------------------- |
-|       1        | Find optimal key in AES-128        |          Kyber512, Falcon512, Sphincs+SHA128        |
-|       2        | Find optimal collision in SHA3-256 |                       Dilithium2                    |
-|       3        | Find optimal key in AES-192        |         Kyber768, Dilithium3, Sphincs+SHA192        |
-|       4        | Find optimal collision in SHA3-384 |                   No algorithm tested at this level |
-|       5        | Find optimal key in AES-256        |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA256 |
-
-The following table discusses the impact of performance on different security levels in terms of secret key sizes, public key sizes and ciphertext/signature sizes.
-
-| Security Level |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  | Ciphertext/Signature size (in bytes) |
-| -------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
-|       1        |            Kyber512        |       800                   |          1632                |             768                      |
-|       2        |           Dilithium2       |       1312                  |          2528                |            2420                      |
-|       3        |            Kyber768        |       1184                  |          2400                |            1088                      |
-|       5        |           Falcon1024       |       1793                  |          2305                |            1330                      |
-|       5        |            Kyber1024       |       1568                  |          3168                |            1588                      |
-
-## Comparing PQC KEMs/Signatures vs Classical KEMs (KEXs)/Signatures
-
-In this section, we prepare two tables for comparison of different KEMs and Signatures respectively in the classical and Post Quantum scenario. These tables will focus on the secret key sizes, public key sizes and ciphertext/signature sizes for the PQC algorithms and their classical counterparts of similar security levels.
-
-The first table compares classical vs PQC KEMs in terms of security, public, private key sizes and ciphertext sizes.
-
-| PQ Security Level |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  |         Ciphertext size (in bytes)   |
-| ----------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
-|          1        |            Kyber512        |       800                   |          1632                |            768                       |
-|          0        |        P256_HKDF_SHA256    |       65                    |          32                  |            65                        |
-|          3        |            Kyber768        |       1184                  |          2400                |            1088                      |
-|          0        |        P521_HKDF_SHA512    |       133                   |          66                  |            133                       |
-|          5        |            Kyber1024       |       1568                  |          3168                |            1588                      |
-|          0        |       X25519_HKDF_SHA256   |       32                    |          32                  |            32                        |
-
-The next table compares classical vs PQC Signature schemes in terms of security, public, private key sizes and signature sizes.
-
-| PQ Security Level |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  |         Signature size (in bytes)    |
-| ----------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
-|          2        |            Dilithium2      |       1312                  |          2528                |            768                       |
-|          0        |              RSA2048       |       256                   |          256                 |            256                       |
-|          3        |            Dilithium3      |       1952                  |          4000                |            3293                      |
-|          0        |               P256         |       64                    |          32                  |            64                        |
-|          5        |            Falcon1024      |       1793                  |          2305                |            1330                      |
-
-As one can cleary observe from the above tables that leveraging a PQC KEM/Signature significantly increases the key sizes and the ciphertext/signature sizes as well as compared to classical KEM/Signatures. But, the PQC algorithms do provide the additional security level in case there is attack from a CRQC whereas schemes based on prime factorisation or discrete logarithm problems (classical only) only would provide no level of security at all against such attacks.
-
 ## Details of FALCON, Dilithium and SPHINCS+
 
 Dilithium [Dilithium] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem(MLWE)). The design of the algorithm is based on Fiat Shamir with Abort method that leverages rejection sampling to render lattice based FS schemes compact and secure. Dilithium avoids using discrete Gaussian sampling which makes the algorithm be easily implemented in constant time and significantly improves on running time of NTT (Number theoretic transform) in the construction. Dilithium offers both deterministic and randomized signing. 
@@ -381,7 +331,7 @@ the application requires more frequent signature generation
 or signature verification.
 
 Sphincs+ utilizes the concept of stateless hash-based signatures, 
-where each signature is unique and unrelated to any previous signature (as mentioned in the subsection "Hash Based Public-Key Cryptography"). 
+where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). 
 This property eliminates the need for maintaining state information during 
 the signing process. Other hash-based signature algorithms are stateful, 
 including HSS/LMS {{!RFC8554}} and XMSS {{!RFC8391}}. SPHINCS+ offers 
@@ -399,6 +349,56 @@ long-term security.
 Within the hash-then-sign paradigm, the message is hashed before signing it.  Hashing the message before signing it provides an additional layer of security by ensuring that only a fixed-size digest of the message is signed, rather than the entire message itself. By pre-hashing, the onus of resistance to existential forgeries becomes heavily reliant on the collision-resistance of the hash function in use.  As well as this security goal, the hash-then-sign paradigm also has the ability to improve performance by reducing the size of signed messages.  As a corollary, hashing remains mandatory even for short messages and assigns a further computational requirement onto the verifier.  This makes the performance of hash-then-sign schemes more consistent, but not necessarily more efficient. Using a hash function to produce a fixed-size digest of a message ensures that the signature is compatible with a wide range of systems and protocols, regardless of the specific message size or format.
 
 In the case of Dilithium, it internally incorporates the necessary hash operations as part of its signing algorithm. Dilithium directly takes the original message, applies a hash function internally, and then uses the resulting hash value for the signature generation process. Therefore, the hash-then-sign paradigm is not needed to Dilithium, as it already incorporates hashing within its signing mechanism.
+
+# Recommendations for Security / Performance Tradeoffs
+
+(For example if full-strength Kyber1024 just won’t fit. Under what circumstances can you go down to level1 lattice strength (or less)?)
+The table below denotes the 5 security levels provided by NIST required for PQC algoritms. Users can leverage the required algorithm based on the security level based on their use case. The security is defined as a function of resources required to break AES and SHA3 algorithms, i.e., optimal key recovery for AES and optimal collision attacks for SHA3.
+
+| Security Level |            AES/SHA3 hardness       |                   PQC Algorithm                     |
+| -------------- | ---------------------------------- | --------------------------------------------------- |
+|       1        | Find optimal key in AES-128        |          Kyber512, Falcon512, Sphincs+SHA128        |
+|       2        | Find optimal collision in SHA3-256 |                       Dilithium2                    |
+|       3        | Find optimal key in AES-192        |         Kyber768, Dilithium3, Sphincs+SHA192        |
+|       4        | Find optimal collision in SHA3-384 |                   No algorithm tested at this level |
+|       5        | Find optimal key in AES-256        |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA256 |
+
+The following table discusses the impact of performance on different security levels in terms of secret key sizes, public key sizes and ciphertext/signature sizes.
+
+| Security Level |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  | Ciphertext/Signature size (in bytes) |
+| -------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
+|       1        |            Kyber512        |       800                   |          1632                |             768                      |
+|       2        |           Dilithium2       |       1312                  |          2528                |            2420                      |
+|       3        |            Kyber768        |       1184                  |          2400                |            1088                      |
+|       5        |           Falcon1024       |       1793                  |          2305                |            1330                      |
+|       5        |            Kyber1024       |       1568                  |          3168                |            1588                      |
+
+# Comparing PQC KEMs/Signatures vs Classical KEMs (KEXs)/Signatures
+
+In this section, we prepare two tables for comparison of different KEMs and Signatures respectively in the classical and Post Quantum scenario. These tables will focus on the secret key sizes, public key sizes and ciphertext/signature sizes for the PQC algorithms and their classical counterparts of similar security levels.
+
+The first table compares classical vs PQC KEMs in terms of security, public, private key sizes and ciphertext sizes.
+
+| PQ Security Level |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  |         Ciphertext size (in bytes)   |
+| ----------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
+|          1        |            Kyber512        |       800                   |          1632                |            768                       |
+|          0        |        P256_HKDF_SHA256    |       65                    |          32                  |            65                        |
+|          3        |            Kyber768        |       1184                  |          2400                |            1088                      |
+|          0        |        P521_HKDF_SHA512    |       133                   |          66                  |            133                       |
+|          5        |            Kyber1024       |       1568                  |          3168                |            1588                      |
+|          0        |       X25519_HKDF_SHA256   |       32                    |          32                  |            32                        |
+
+The next table compares classical vs PQC Signature schemes in terms of security, public, private key sizes and signature sizes.
+
+| PQ Security Level |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  |         Signature size (in bytes)    |
+| ----------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
+|          2        |            Dilithium2      |       1312                  |          2528                |            768                       |
+|          0        |              RSA2048       |       256                   |          256                 |            256                       |
+|          3        |            Dilithium3      |       1952                  |          4000                |            3293                      |
+|          0        |               P256         |       64                    |          32                  |            64                        |
+|          5        |            Falcon1024      |       1793                  |          2305                |            1330                      |
+
+As one can cleary observe from the above tables that leveraging a PQC KEM/Signature significantly increases the key sizes and the ciphertext/signature sizes as well as compared to classical KEM/Signatures. But, the PQC algorithms do provide the additional security level in case there is attack from a CRQC whereas schemes based on prime factorisation or discrete logarithm problems (classical only) only would provide no level of security at all against such attacks.
 
 # Post-Quantum and Traditional Hybrid Schemes
 
