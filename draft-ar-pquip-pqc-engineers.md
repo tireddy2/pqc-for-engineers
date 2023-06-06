@@ -381,7 +381,7 @@ the application requires more frequent signature generation
 or signature verification.
 
 Sphincs+ utilizes the concept of stateless hash-based signatures, 
-where each signature is unique and unrelated to any previous signature. 
+where each signature is unique and unrelated to any previous signature (as mentioned in the subsection "Hash Based Public-Key Cryptography"). 
 This property eliminates the need for maintaining state information during 
 the signing process. Other hash-based signature algorithms are stateful, 
 including HSS/LMS {{!RFC8554}} and XMSS {{!RFC8391}}. SPHINCS+ offers 
