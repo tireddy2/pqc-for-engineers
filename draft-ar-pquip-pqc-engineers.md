@@ -268,7 +268,7 @@ Key Encapsulation Mechanism (KEM) is a cryptographic technique used for securely
 
 Additonally, HPKE (Hybrid public key encryption) {{?RFC9180}} deals with a variant of KEM which is essentially a PKE of arbitrary sized plaintexts for a recipient public key. It works with a combination of KEMs, KDFs and AEAD schemes (Authenticated Encryption with Additional Data). HPKE includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones that authenticate possession of a key encapsulation mechanism (KEM) private key.
 
-It is, however, essential to note that KEMs are an interactive mechanism because the receiver's actions are dependant on the sender's public key and unlike Diffie-Hellman (DH) which provides non-interactive key exchange (NIKE) property. Kyber, which is a KEM does not support the static-ephemeral key exchange that allows HPKE based on DH based KEMs its (optional) authenticated modes as discussed in Section 1.2 of {{?I-D.westerbaan-cfrg-hpke-xyber768d00-02}}.
+It is, however, essential to note that PQ KEMs are interactive in nature because the receiver's actions are dependant on the sender's public key and unlike Diffie-Hellman (DH) which provides non-interactive key exchange (NIKE) property. Kyber, which is a KEM does not support the static-ephemeral key exchange that allows HPKE based on DH based KEMs its (optional) authenticated modes as discussed in Section 1.2 of {{?I-D.westerbaan-cfrg-hpke-xyber768d00-02}}.
 
 ## What security properties do they provide
 
