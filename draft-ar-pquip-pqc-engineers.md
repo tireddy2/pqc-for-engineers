@@ -182,7 +182,7 @@ Finally, in their evaluation criteria for PQC, NIST is considering a security le
 For structured data such as public-key and signatures, instead, quantum computers can fully solve the underlying hard problems used in classic cryptography (see Shor's Algorithm). Because an increase of the size of the keypair would not provide a secure solution in this case, a complete replacement of the algorithm is needed. Therefore, post-quantum public-key cryptography must rely on problems that are different from the ones used in classic public-key cryptography (i.e., the integer factorization problem, the finite-field discrete logarithm problem, and the elliptic-curve discrete logarithm problem). 
 
 
-# Store/Harvest now – Decrypt later
+# Timeline for transition
 
 An malicious actor with adequate resources can launch a attack to store sensitive encrypted data today that can be decrypted once a CRQC is available. This implies that, every day sensitive encrypted data is susceptible to the attack by not implementing quantum-safe strategies, as it corresponds to data being deciphered in the future.  
 
@@ -265,7 +265,7 @@ HPKE (Hybrid public key encryption) {{?RFC9180}} deals with a variant of KEM whi
 
 ## What is a Post-quantum Signature
 
-Any digital signature scheme that provides a construction defining security under post quantum setting falls under this category of PQ signatures. PQ signatures are much larger in sizes as compared to pre quantum DSA because of extra level of security being provided under PQ setting.
+Any digital signature scheme that provides a construction defining security under post quantum setting falls under this category of PQ signatures. 
 
 ## What security properties do they provide
 
@@ -389,8 +389,7 @@ The PQ/T Hybrid Confidentiality property can be used to protect from a "Harvest 
 
 ## PQ/T Hybrid Authentication 
 
-The PQ/T Hybrid Authentication property is used where an on-path attacker can use network devices with CRQC to break
-the traditional authentication protocols. In this property, authentication is achieved by a PQ/T hybrid scheme or a PQ/T hybrid protocol as long as at least one component algorithm that aims to provide this property remains secure. For example, a PQ/T hybrid certificate could be used to facilitate a PQ/T hybrid authentication protocol.  However, a PQ/T hybrid authentication protocol does not need to use a PQ/T hybrid certificate {{?I-D.ounsworth-pq-composite-keys}}; separate certificates could be used for individual component algorithms {{?I-D.ietf-lamps-cert-binding-for-multi-auth}}.
+The PQ/T Hybrid Authentication property can be utilized in scenarios where an on-path attacker possesses network devices equipped with CRQCs, capable of breaking traditional authentication protocols. This property ensures authentication through a PQ/T hybrid scheme or a PQ/T hybrid protocol, as long as at least one component algorithm remains secure to provide the intended security level. For instance, a PQ/T hybrid certificate can be employed to facilitate a PQ/T hybrid authentication protocol. However, a PQ/T hybrid authentication protocol does not need to use a PQ/T hybrid certificate {{?I-D.ounsworth-pq-composite-keys}}; separate certificates could be used for individual component algorithms {{?I-D.ietf-lamps-cert-binding-for-multi-auth}}.
 
 The frequency and duration of system upgrades and the time when CRQCs will become widely available needs to be weighed in to determine whether and when to support the PQ/T Hybrid Authentication property.
 
