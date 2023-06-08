@@ -92,26 +92,23 @@ informative:
 
 --- abstract
 
-The presence of a quantum computer would render state-of-the-art, public-key cryptography deployed today obsolete, since all the assumptions about the intractability of the mathematical problems that offer confident levels of security today no longer apply in the presence of a quantum computer.  Fortunately, research has produced several post-quantum cryptographic algorithms that will enable cryptography to survive the quantum world. However, the transition to a post-quantum infrastructure is not that straightforward and there are many things yet to be done. It is now a combination of engineering, pro-active assessment and evaluation of the available technologies, as well as careful product development approach, to pave a way to transit to the post quantum era.
+The presence of a Cryptographically Relevant Quantum Computer (CRQC) would render state-of-the-art, public-key cryptography deployed today obsolete, since all the assumptions about the intractability of the mathematical problems that offer confident levels of security today no longer apply in the presence of a CRQC.  This means there is a requirement to update protocols and infrastructure to use post-quantum algorithms, which are public-key algorithms designed to be secure against CRQCs as well as classical computers. Research has produced several post-quantum cryptographic algorithms that will enable cryptography to survive the quantum world. However, the transition to a post-quantum infrastructure is not that straightforward and there are many things yet to be done. It is now a combination of engineering, pro-active assessment and evaluation of the available technologies, as well as careful product development approach, to pave a way to transit to the post quantum era. This document explains why engineers need to be aware of and understand post-quantum cryptography. It emphasizes the potential impact of CRQCs on current cryptographic systems and the need to transition to post-quantum algorithms to ensure long-term security.
 
 --- middle
 
 # Introduction
 
-Quantum computing is no longer perceived as a conjecture of computational sciences and theoretical physics. Considerable research efforts and enormous corporate and government funding for the development of practical quantum computing systems are being invested currently. For instance, Google’s announcement on achieving quantum supremacy {{Google}} and IBM’s latest 433-qubit processor Osprey {{IBM}} signify, among other outcomes, the accelerating efforts towards large-scale quantum computers. The existence of a fault tolerant quantum computer would mark a cornerstone in mankind’s technological evolution, as it would mean that computational problems which are considered currently intractable for conventional computers would be tractable for quantum ones.
+Quantum computing is no longer perceived as a conjecture of computational sciences and theoretical physics. Considerable research efforts and enormous corporate and government funding for the development of practical quantum computing systems are being invested currently. For instance, Google’s announcement on achieving quantum supremacy {{Google}} and IBM’s latest 433-qubit processor Osprey {{IBM}} signify, among other outcomes, the accelerating efforts towards large-scale quantum computers. At the time of writing the document, Cryptographically Relevant Quantum Computers (CRQCs) that can break widely used cryptographic algorithms are not yet available. However, it is worth noting that there is ongoing research and development in the field of quantum computing, with the goal of building more powerful and scalable quantum computers. As quantum technology advances, there is the potential for future quantum computers to have a significant impact on current cryptographic systems.
 
-This document is meant to give general guidance on the structure and use of post-quantum cryptographic (PQC) algorithms for engineers who are using PQC algorithms in their software.
-Topics include which PQC algorithms to use, how PQC key exchange mechanisms (KEMs) differ from classical KEMs, expected size and processing time differences between PQC algorithms and classical algorithms, as well as guidelines on the evolving threat landscape of symmetric cryptography from quantum computers.
+This document is meant to give general guidance on the structure and use of post-quantum cryptographic (PQC) algorithms for engineers who are using PQC algorithms in their software. Topics include which PQC algorithms to use, how PQC Key Encapsulation Mechanisms (KEMs) differ from DH style key exchange, expected key sizes and processing time differences between PQC algorithms and traditional algorithms. Information on the threat to symmetric cryptography from CRQC.
 
-It is crucial for the reader to understand that when the word "PQC" is mentioned in the document, it usually means Asymmetric Cryptography in general and not any algorithms from the Symmetric side based on stream, block ciphers, etc.
-It does not cover such topics as when classical algorithms might become vulnerable (for that, see documents such as [QC-DNS] and others).
+It is crucial for the reader to understand that when the word "PQC" is mentioned in the document, it means Asymmetric Cryptography (or Public key Cryptography) and not any algorithms from the Symmetric side based on stream, block ciphers, etc. It does not cover such topics as when traditional algorithms might become vulnerable (for that, see documents such as [QC-DNS] and others).
+
+Please note: This document does not go into the deep mathematics of the NIST finalists or other PQC algorithms but rather provides an overview to Engineers on the current threat landscape and the relevant algorithms designed to help prevent those threats. 
 
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
-The definitions section would be too exhaustive and what readers are already expected to be aware of as the suggested algorithms cover more or less the entire dimension of classical cryptography's mathematics. Nevertheless, the basics of lattices (hardness of SIVP, SIS), learning with errors (Ring/Module), coding theory (Goppa/LDPC/MDPC), basics of quantum computing (qubit,superposition theory, toffoli, CNOT, Hadamard gates, Grover's search attack, Shor's algorithm), multivariate cryptography (elliptic curves, diffie hellman), hashes are some of the definitions that might help get a quick understanding of the document.
-
-Please note: This document does not go into the deep mathematics of the NIST finalists or other PQC algorithms but rather provides an overview to Engineers on the current threat landscape and the relevant algorithms designed to help prevent those threats. 
 
 # Contributing to This Document
 
@@ -125,34 +122,53 @@ Opening issues that suggest new material is fine too, but relying on others to w
 
 
 
-# Classical Cryptographic Primitives that Could Be Replaced by PQC
+# Traditional Cryptographic Primitives that Could Be Replaced by PQC
 
-Any asymmetric cryptographic algorithm based on integer factorisation, finite field discrete logarithms or elliptic curve discrete logarithms will be vulnerable to attacks using Shor's Algorithm on a sufficiently large general-purpose quantum computer, known as a Cryptographically Relevant Quantum Computer (CRQC).
-This document focusses on the two mechanisms that has been the basis of the NIST PQC standardisation competition since 2016:
+Any asymmetric cryptographic algorithm based on integer factorisation, finite field discrete logarithms or elliptic curve discrete logarithms will be vulnerable to attacks using Shor's Algorithm on a sufficiently large general-purpose quantum computer, known as a CRQC. This document focusses on the principal functions of asymmetric cryptography:
 
-* KEMs: They are one of the mechanisms that can replaced by PQC as this is based on public key cryptography and is therefore vulnerable to the Shor's algorithm. One, can easily find the prime factors of the large public key which can used to derive the private key.
+* Key Agreement:  Key Agreement schemes are used to establish a shared cryptographic key for secure communication. They are one of the mechanisms that can replaced by PQC as this is based on public key cryptography and is therefore vulnerable to the Shor's algorithm. An CRQC can find the prime factors of the large public key which can used to derive the private key.
 
-* Signatures: Signatures, similar to KEMs also depend on public-private key pair and hence a break in public key cryptography will also affect classical digital signatures, hence the importance of developing post quantum digital signatures.
+* Digital Signatures: Digital Signature schemes are used to authenticate the identity of a sender, detect unauthorised modifications to data and underpin trust in a system. Signatures, similar to KEMs also depend on public-private key pair and hence a break in public key cryptography will also affect traditional digital signatures, hence the importance of developing post quantum digital signatures.  
 
-# Popular PQC Algorithms
+# NIST PQC Algorithms
 
-The National Institute of Standards and Technology (NIST) started a process to solicit, evaluate, and standardize one or more quantum-resistant public-key cryptographic algorithms, as seen [here](https://csrc.nist.gov/projects/post-quantum-cryptography).
-Said process has reached its [first announcement](https://csrc.nist.gov/publications/detail/nistir/8413/final) in July 5, 2022, which stated which candidates to be standardized for two types of algorithms:
-
-* Key Encapsulation Mechanisms (KEMs): CRYSTALS-KYBER
-* Digital Signatures: CRYSTALS-Dilithium, FALCON, SPHINCS+ 
+In 2016, the National Institute of Standards and Technology (NIST) started a process to solicit, evaluate, and standardize one or more quantum-resistant public-key cryptographic algorithms, as seen [here](https://csrc.nist.gov/projects/post-quantum-cryptography). The first set of algorithms for standardisation (https://csrc.nist.gov/publications/detail/nistir/8413/final) were selected in July 2022.
 
 NIST announced as well that they will be [opening a fourth round](https://csrc.nist.gov/csrc/media/Projects/post-quantum-cryptography/documents/round-4/guidelines-for-submitting-tweaks-fourth-round.pdf) to standardize an alternative KEM, and a [call](https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/call-for-proposals-dig-sig-sept-2022.pdf) for new candidates for a post-quantum signature algorithm.
 
+## Announced to be standardized NIST algorithms
+
+### PQC Key Encapsulation Mechanisms (KEMs)
+
+* [CRYSTALS-Kyber](https://pq-crystals.org/kyber/): Kyber is a module learning with errors (MLWE)-based key encapsulation mechanism.
+
+### PQC Signatures
+
+* [CRYSTALS-Dilithium](https://pq-crystals.org/dilithium/)
+* [Falcon](https://falcon-sign.info/)
+* [SPHINCS+](https://sphincs.org/)
+
+### Candidates advancing to the fourth-round for standardization at NIST
+
+The fourth-round of the NIST process only concerns with KEMs.
+The candidates still advancing for standardization are:
+
+* [Classic McEliece](https://classic.mceliece.org/)
+* [BIKE](https://bikesuite.org/)
+* [HQC](http://pqc-hqc.org/)
+* [SIKE](https://sike.org/) (Broken): Supersingular Isogeny Key Encapsulation (SIKE) is a specific realization of the SIDH (Supersingular Isogeny Diffie-Hellman) protocol. Recently, a [mathematical attack](https://eprint.iacr.org/2022/975.pdf) based on the "glue-and-split" theorem from 1997 from Ernst Kani was found against the underlying chosen starting curve and torsion information. In practical terms, this attack allows for the efficient recovery of the private key. NIST has to yet comment if the scheme will be still considered and there is still debate around if the scheme can be changed so that the attack can be prevented. NIST announced that SIKE was no longer under consideration but the authors of SIKE had asked for it to remain in the list so that people are aware that it is broken.
+
 # Classic vs. Post-Quantum
 
-Post-quantum cryptography or quantum-safe cryptography refers to cryptographic algorithms that are secure against cryptographic attacks from both a quantum and a classic computers.
+Post-quantum cryptography or quantum-safe cryptography refers to cryptographic algorithms that are secure against cryptographic attacks from both CRQC and classic computers.
 
 When considering the security risks associated with the ability of a quantum computer to attack classic cryptography it is important to distinguish between the impact on symmetric algorithms and public-key ones. Professor Peter Shor and computer scientist Lov Grover developed two algorithms that changed the way the world thinks of security under the presence of a quantum computer. 
 
 ## Symmetric cryptography
 
-Grover’s algorithm theoretically requires to double the key sizes of the algorithms that one deploys today to achieve quantum resistance. This is because Grover’s algorithm reduces the amount of operations to break 128-bit symmetric cryptography to 2^{64} quantum operations, which might sound computationally feasible. However, 2^{64} operations performed in parallel are feasible for modern classical computers, but 2^{64} quantum operations performed serially in a quantum computer are not. Grover's algorithm is highly non-parallelisable and even if one deploys 2^c computational units in parallel to brute-force a key using Grover's algorithm, it will complete in time proportional to 2^{(128−c)/2}, or, put simply, using 256 quantum computers will only reduce runtime by 1/16, 1024 quantum computers will only reduce runtime by 1/32 and so forth ​(see {{NIST}} and {{Cloudflare}}​).  
+Grover's algorithm is a quantum search algorithm that provides a theoretical quadratic speedup for searching an unstructured database compared to classical algorithms. Grover’s algorithm theoretically requires to double the key sizes of the algorithms that one deploys today to achieve quantum resistance. This is because Grover’s algorithm reduces the amount of operations to break 128-bit symmetric cryptography to 2^{64} quantum operations, which might sound computationally feasible. However, 2^{64} operations performed in parallel are feasible for modern classical computers, but 2^{64} quantum operations performed serially in a quantum computer are not. Grover's algorithm is highly non-parallelisable and even if one deploys 2^c computational units in parallel to brute-force a key using Grover's algorithm, it will complete in time proportional to 2^{(128−c)/2}, or, put simply, using 256 quantum computers will only reduce runtime by 1/16, 1024 quantum computers will only reduce runtime by 1/32 and so forth ​(see {{NIST}} and {{Cloudflare}}​). 
+
+For unstructured data such as symmetric encrypted data or cryptographic hashes, although CRQCs can search for specific solutions across all possible input combinations (e.g., Grover's Algorithm), no CRQCs is known  to break the security properties of these classes of algorithms.
 
 How can someone be sure then that an improved algorithm won’t outperform Grover's algorithm at some point in time? Christof Zalka has shown that Grover's algorithm (and in particular its non-parallel nature) achieves the best possible complexity for unstructured search {{Grover-search}}.
 
@@ -161,16 +177,14 @@ Finally, in their evaluation criteria for PQC, NIST is considering a security le
 
 ## Asymmetric cryptography
 
-“Shor’s algorithm” on the other side, efficiently solves the integer factorization problem (and the equivalent discrete logarithm problem), which offer the foundations of the public-key cryptography that the world uses today. This implies that, if a practical quantum computer was developed, much of today’s public-key cryptography algorithms (e.g., RSA, Diffie-Hellman and Elliptic Curve Cryptography - ECC) and the accompanying digital signatures schemes and protocols would need to be replaced by algorithms and protocols that can offer cryptanalytic resistance against quantum computers.  
+“Shor’s algorithm” on the other side, efficiently solves the integer factorization problem (and the related discrete logarithm problem), which offer the foundations of the public-key cryptography that the world uses today. This implies that, if a CRQC was developed, today’s public-key cryptography algorithms (e.g., RSA, Diffie-Hellman and Elliptic Curve Cryptography - ECC) and the accompanying digital signatures schemes and protocols would need to be replaced by algorithms and protocols that can offer cryptanalytic resistance against CRQCs.  
 
-For unstructured data such as symmetric encrypted data or cryptographic hashes, although quantum computers can search for specific solutions across all possible input combinations (e.g., Grover's Algorithm), no quantum algorithm is known to completely break the security properties of these classes of algorithms
-
-For structured data such as public-key and signatures, instead, quantum computers can fully solve the underlying hard problems used in classic cryptography (see Shor's Algorithm). Because an increase of the size of the keypair would not provide a secure solution in this case, a complete replacement of the algorithm is needed. Therefore, post-quantum public-key cryptography must rely on problems that are different from the ones used in classic public-key cryptography (i.e., the integer factorization problem, the discrete logarithm problem, and the elliptic-curve discrete logarithm problem). 
+For structured data such as public-key and signatures, instead, quantum computers can fully solve the underlying hard problems used in classic cryptography (see Shor's Algorithm). Because an increase of the size of the keypair would not provide a secure solution in this case, a complete replacement of the algorithm is needed. Therefore, post-quantum public-key cryptography must rely on problems that are different from the ones used in classic public-key cryptography (i.e., the integer factorization problem, the finite-field discrete logarithm problem, and the elliptic-curve discrete logarithm problem). 
 
 
-# Pervasive Monitoring
+# Store/Harvest now – Decrypt later
 
-An malicious actor with adequate resources may be lauching a pervasive monitoring (PM) attack to store sensitive encrypted data today that can be decrypted once a quantum computer is available. This implies that, every day sensitive encrypted data is suspetible to PM attack by not implementing quantum-safe strategies, as it corresponds to data being deciphered in the future.  
+An malicious actor with adequate resources can launch a attack to store sensitive encrypted data today that can be decrypted once a CRQC is available. This implies that, every day sensitive encrypted data is susceptible to the attack by not implementing quantum-safe strategies, as it corresponds to data being deciphered in the future.  
 
 ~~~~~
 
@@ -231,57 +245,21 @@ SPHINCS+ is an advancement on SPHINCS which reduces the signature sizes in SPHIN
 
 Schemes in cryptography based on the supersingular isogeny graph walks falls under this category of cryptosystems. The supersingular isogeny Diffie Hellman (SIDH) algorithm was the basis for the SIKE algorithm which was until recently one of the finalists in Round 4 NIST standardisarion process. Prior to the breaking of SIKE, SIDH was considered to have one of the smallest key sizes in a Post Quantum PKE as well as provide perfect forward secrecy.
 
-
-## Announced to be standardized NIST algorithms
-
-# PQC KEMs
-
-* [CRYSTALS-Kyber](https://pq-crystals.org/kyber/): Kyber is a module learning with errors (MLWE)-based key encapsulation mechanism.
-
-# PQC Signatures
-
-* [CRYSTALS-Dilithium](https://pq-crystals.org/dilithium/)
-* [Falcon](https://falcon-sign.info/)
-* [SPHINCS+](https://sphincs.org/)
-
-# Candidates advancing to the fourth-round for standardization at NIST
-
-The fourth-round of the NIST process only concerns with KEMs.
-The candidates still advancing for standardization are:
-
-* [Classic McEliece](https://classic.mceliece.org/)
-* [BIKE](https://bikesuite.org/)
-* [HQC](http://pqc-hqc.org/)
-* [SIKE](https://sike.org/) (Broken): Supersingular Isogeny Key Encapsulation (SIKE) is a specific realization of the SIDH (Supersingular Isogeny Diffie-Hellman) protocol. Recently, a [mathematical attack](https://eprint.iacr.org/2022/975.pdf) based on the "glue-and-split" theorem from 1997 from Ernst Kani was found against the underlying chosen starting curve and torsion information. In practical terms, this attack allows for the efficient recovery of the private key. NIST has to yet comment if the scheme will be still considered and there is still debate around if the scheme can be changed so that the attack can be prevented.
-
-# Algorithms not-to-be standardized by NIST that have some support
-
-* [NTRU](https://ntru.org/)
-* [NTRU-Prime](https://ntruprime.cr.yp.to/)
-
-
 # KEMs
 
 ## What is a KEM
 
-Key Encapsulation Mechanism (KEM) is a cryptographic technique used for securely exchanging symmetric keys between two parties over an insecure channel. It is commonly used in hybrid encryption schemes, where a combination of asymmetric (public-key) and symmetric encryption is employed. This is done to provide faster encryption/decryption speeds. Prior art dictates that public key systems tend to be generate high costs when encrypting longer messages than symmetric key systems. Hence, in this best of both worlds scenario, one uses the symmetric key to encrypt the message first, following which the public key of the receiver is used to encrypt the symmetric key. The receiver then first decrypts the ciphertext using the private key to gain the symmetric key, finally that symmetric key is leveraged to generate the plaintext.
+Key Encapsulation Mechanism (KEM) is a cryptographic technique used for securely exchanging symmetric keys between two parties over an insecure channel. It is commonly used in hybrid encryption schemes, where a combination of asymmetric (public-key) and symmetric encryption is employed. The sender uses the symmetric key to encrypt the message first, following which the public key of the receiver is used to encrypt the symmetric key. The receiver then first decrypts the ciphertext using the private key to gain the symmetric key, finally that symmetric key is leveraged to generate the plaintext.
 
-Additonally, HPKE (Hybrid public key encryption) {{?RFC9180}} deals with a variant of KEM which is essentially a PKE of arbitrary sized plaintexts for a recipient public key. It works with a combination of KEMs, KDFs and AEAD schemes (Authenticated Encryption with Additional Data). HPKE includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones that authenticate possession of a key encapsulation mechanism (KEM) private key.
+It is, however, essential to note that PQ KEMs are interactive in nature because the receiver's actions are dependaent on the sender's public key and unlike Diffie-Hellman (DH) which provides non-interactive key exchange (NIKE) property. 
 
-It is, however, essential to note that PQ KEMs are interactive in nature because the receiver's actions are dependant on the sender's public key and unlike Diffie-Hellman (DH) which provides non-interactive key exchange (NIKE) property. Kyber, which is a KEM does not support the static-ephemeral key exchange that allows HPKE based on DH based KEMs its (optional) authenticated modes as discussed in Section 1.2 of {{?I-D.westerbaan-cfrg-hpke-xyber768d00-02}}.
+## HPKE
+
+HPKE (Hybrid public key encryption) {{?RFC9180}} deals with a variant of KEM which is essentially a PKE of arbitrary sized plaintexts for a recipient public key. It works with a combination of KEMs, KDFs and AEAD schemes (Authenticated Encryption with Additional Data). HPKE includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones that authenticate possession of a key encapsulation mechanism (KEM) private key. Kyber, which is a KEM does not support the static-ephemeral key exchange that allows HPKE based on DH based KEMs its (optional) authenticated modes as discussed in Section 1.2 of {{?I-D.westerbaan-cfrg-hpke-xyber768d00-02}}. 
 
 ## What security properties do they provide
 
-* IND-CPA : Bike provides IND-CPA security generally but can also be used to provide IND-CCA security.
-* IND-CCA : Kyber, Classic McEliece, Saber all provide IND-CCA2 security.
-
-## Where can a KEM be used
-
-To note:
-* KEMs vs Diffie-Hellman (DH): they can be a replacement but they are not a one-to-one replacement. KEMs do not provide non-interactivity, for example, that DH does provide.
-* Replacing DH algorithms with PQ KEMs.
-* Which are used where.
-* “Key Transport API (aka RSA)”, the “Key Agreement API (aka (EC)DH)”, and how the “KEM API” is neither of those.
+* IND-CCA2 : Kyber, Classic McEliece, Saber all provide IND-CCA2 security. IND-CCA2 (INDistinguishability under Chosen-Ciphertext Attack, version 2) is an advanced security notion for encryption schemes. It ensures the confidentiality of the plaintext, resistance against chosen-ciphertext attacks, and prevents the adversary from forging new ciphertexts. 
 
 # PQC Signatures
 
@@ -291,7 +269,7 @@ Any digital signature scheme that provides a construction defining security unde
 
 ## What security properties do they provide
 
-* EUF-CMA : Dilithium, Falcon all provide EUF-CMA security.
+* EUF-CMA : Dilithium, Falcon all provide EUF-CMA security. EUF-CMA (Existential Unforgeability under Chosen Message Attack) is a security notion for digital signature schemes. It guarantees that an adversary, even with access to a signing oracle, cannot forge a valid signature for an unknown message. EUF-CMA provides strong protection against forgery attacks, ensuring the integrity and authenticity of digital signatures by preventing unauthorized modifications or fraudulent signatures.
 
 ## Where can different types of PQC signatures be used
 
@@ -341,10 +319,7 @@ three security levels.  The parameters for each of the security levels
 were chosen to provide 128 bits of security, 192 bits of security, 
 and 256 bits of security.  Sphincs+ offers larger key sizes, slower 
 signature generation, and slower verification compared to 
-Dilithium and Falcon. However, Sphincs+ is designed to be resistant to both 
-classical and quantum attacks, making it a reliable choice for 
-long-term security.
-
+Dilithium and Falcon. 
 
 ## Hash-then-Sign Versus Sign-then-Hash
 
@@ -365,7 +340,7 @@ The table below denotes the 5 security levels provided by NIST required for PQC 
 |       4        | Find optimal collision in SHA3-384 |                   No algorithm tested at this level |
 |       5        | Find optimal key in AES-256        |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA256 |
 
-The following table discusses the impact of performance on different security levels in terms of secret key sizes, public key sizes and ciphertext/signature sizes.
+The following table discusses the impact of performance on different security levels in terms of private key sizes, public key sizes and ciphertext/signature sizes.
 
 | Security Level |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  | Ciphertext/Signature size (in bytes) |
 | -------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
@@ -375,11 +350,11 @@ The following table discusses the impact of performance on different security le
 |       5        |           Falcon1024       |       1793                  |          2305                |            1330                      |
 |       5        |            Kyber1024       |       1568                  |          3168                |            1588                      |
 
-# Comparing PQC KEMs/Signatures vs Classical KEMs (KEXs)/Signatures
+# Comparing PQC KEMs/Signatures vs Traditional KEMs (KEXs)/Signatures
 
-In this section, we prepare two tables for comparison of different KEMs and Signatures respectively in the classical and Post Quantum scenario. These tables will focus on the secret key sizes, public key sizes and ciphertext/signature sizes for the PQC algorithms and their classical counterparts of similar security levels.
+In this section, we prepare two tables for comparison of different KEMs and Signatures respectively in the traditional and Post Quantum scenario. These tables will focus on the secret key sizes, public key sizes and ciphertext/signature sizes for the PQC algorithms and their traditional counterparts of similar security levels.
 
-The first table compares classical vs PQC KEMs in terms of security, public, private key sizes and ciphertext sizes.
+The first table compares traditional vs PQC KEMs in terms of security, public, private key sizes and ciphertext sizes.
 
 | PQ Security Level |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  |         Ciphertext size (in bytes)   |
 | ----------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
@@ -390,7 +365,7 @@ The first table compares classical vs PQC KEMs in terms of security, public, pri
 |          5        |            Kyber1024       |       1568                  |          3168                |            1588                      |
 |          0        |       X25519_HKDF_SHA256   |       32                    |          32                  |            32                        |
 
-The next table compares classical vs PQC Signature schemes in terms of security, public, private key sizes and signature sizes.
+The next table compares traditional vs PQC Signature schemes in terms of security, public, private key sizes and signature sizes.
 
 | PQ Security Level |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  |         Signature size (in bytes)    |
 | ----------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
@@ -400,31 +375,28 @@ The next table compares classical vs PQC Signature schemes in terms of security,
 |          0        |               P256         |       64                    |          32                  |            64                        |
 |          5        |            Falcon1024      |       1793                  |          2305                |            1330                      |
 
-As one can cleary observe from the above tables that leveraging a PQC KEM/Signature significantly increases the key sizes and the ciphertext/signature sizes as well as compared to classical KEM/Signatures. But, the PQC algorithms do provide the additional security level in case there is attack from a CRQC whereas schemes based on prime factorisation or discrete logarithm problems (classical only) only would provide no level of security at all against such attacks.
+As one can cleary observe from the above tables that leveraging a PQC KEM/Signature significantly increases the key sizes and the ciphertext/signature sizes as well as compared to traditional KEM/Signatures. But, the PQC algorithms do provide the additional security level in case there is attack from a CRQC whereas schemes based on prime factorisation or discrete logarithm problems (traditional only) only would provide no level of security at all against such attacks.
 
 # Post-Quantum and Traditional Hybrid Schemes
 
-The migration to PQC is unique in the history of modern digital cryptography in that neither the traditional algorithms nor
-the post-quantum algorithms are fully trusted to protect data for the required data lifetimes.  The traditional algorithms, such as RSA and elliptic curve, will fall to quantum cryptalanysis, while the post-quantum algorithms face uncertainty about the underlying
-mathematics, compliance issues, unknown vulnerabilities, hardware and software implementations that have not had sufficient maturing time to rule out classical cryptanalytic attacks and implementation bugs.
+The migration to PQC is unique in the history of modern digital cryptography in that neither the traditional algorithms nor the post-quantum algorithms are fully trusted to protect data for the required data lifetimes.  The traditional algorithms, such as RSA and elliptic curve, will fall to quantum cryptalanysis, while the post-quantum algorithms face uncertainty about the underlying mathematics, compliance issues, unknown vulnerabilities, hardware and software implementations that have not had sufficient maturing time to rule out classical cryptanalytic attacks and implementation bugs.
 
 During the transition from traditional to post-quantum algorithms, there may be a desire or a requirement for protocols that use both algorithm types. {{?I-D.ietf-pquip-pqt-hybrid-terminology}} defines terminology for the Post-Quantum and Traditional Hybrid Schemes.
 
 ## PQ/T Hybrid Confidentiality 
 
-The PQ/T Hybrid Confidentiality scheme is required to protect from a "Harvest Now, Decrypt Later" attack, which refers to an attacker collecting encrypted data now and waiting for quantum computers to become powerful enough to break the encryption later. For example, in {{?I-D.ietf-tls-hybrid-design}}, the client uses the TLS supported groups extension to advertise support for a PQ/T hybrid scheme and the server can select this group if it supports the scheme. The hybrid-aware client and server establish a hybrid secret by concatenating the two shared secrets and it used as the shared secret 
-in the existing TLS 1.3 key schedule.
+The PQ/T Hybrid Confidentiality property can be used to protect from a "Harvest Now, Decrypt Later" attack, which refers to an attacker collecting encrypted data now and waiting for quantum computers to become powerful enough to break the encryption later. For example, in {{?I-D.ietf-tls-hybrid-design}}, the client uses the TLS supported groups extension to advertise support for a PQ/T hybrid scheme and the server can select this group if it supports the scheme. The hybrid-aware client and server establish a hybrid secret by concatenating the two shared secrets and it used as the shared secret in the existing TLS 1.3 key schedule.
 
 ## PQ/T Hybrid Authentication 
 
-The PQ/T Hybrid Authentication scheme is required where an on-path attacker can use network devices with quantum processors to break
-the traditional authentication protocols. In this scheme, authentication is achieved by a PQ/T hybrid scheme or a PQ/T hybrid protocol as long as at least one component algorithm that aims to provide this property remains secure. For example, a PQ/T hybrid certificate could be used to facilitate a PQ/T hybrid authentication protocol.  However, a PQ/T hybrid authentication protocol does not need to use a PQ/T hybrid certificate {{?I-D.ounsworth-pq-composite-keys}}; separate certificates could be used for individual component algorithms {{?I-D.ietf-lamps-cert-binding-for-multi-auth}}.
+The PQ/T Hybrid Authentication property is used where an on-path attacker can use network devices with CRQC to break
+the traditional authentication protocols. In this property, authentication is achieved by a PQ/T hybrid scheme or a PQ/T hybrid protocol as long as at least one component algorithm that aims to provide this property remains secure. For example, a PQ/T hybrid certificate could be used to facilitate a PQ/T hybrid authentication protocol.  However, a PQ/T hybrid authentication protocol does not need to use a PQ/T hybrid certificate {{?I-D.ounsworth-pq-composite-keys}}; separate certificates could be used for individual component algorithms {{?I-D.ietf-lamps-cert-binding-for-multi-auth}}.
 
-The frequency and duration of system upgrades and the time when quantum computers will become widely available needs to be weighed in to determine when to support the PQ/T Hybrid Authentication scheme.
+The frequency and duration of system upgrades and the time when CRQCs will become widely available needs to be weighed in to determine whether and when to support the PQ/T Hybrid Authentication property.
 
 # Security Considerations
 
-A quantum-world is deﬁnitely not as intimidating as one might expect from a security standpoint. Several PQC schemes are available which needs to be tested, cryptography experts around the world are pushing for the best possible solutions and the first standards that will ease the introduction of PQC are being prepared. It is of paramount importance and a call for imminent action for organizations, bodies, and enterprises, to start evaluating their cryptographic agility, assess the complexity of implementing PQC into their products, processes, and systems, and develop a migration plan that achieves their security goals in the best possible extent.
+Several PQC schemes are available which needs to be tested, cryptography experts around the world are pushing for the best possible solutions and the first standards that will ease the introduction of PQC are being prepared. It is of paramount importance and a call for imminent action for organizations, bodies, and enterprises, to start evaluating their cryptographic agility, assess the complexity of implementing PQC into their products, processes, and systems, and develop a migration plan that achieves their security goals in the best possible extent.
 
 # Further Reading & Resources
 
@@ -438,4 +410,4 @@ A quantum-world is deﬁnitely not as intimidating as one might expect from a se
 # Acknowledgements
 {:numbered="false"}
 
-It leverages text from https://github.com/paulehoffman/post-quantum-for-engineers/blob/main/pqc-for-engineers.md.
+It leverages text from https://github.com/paulehoffman/post-quantum-for-engineers/blob/main/pqc-for-engineers.md. Thanks to Dan Wing and Florence D for the discussion and comments.
