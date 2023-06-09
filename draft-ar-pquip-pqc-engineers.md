@@ -210,7 +210,7 @@ Finally, other factors that could accelerate the introduction of a large-enough 
 
 # Post-quantum cryptography categories 
 
-The current set of problems used in post-quantum cryptography can be currently grouped into five different categories: multivariate, lattice-based, code-based, hash-based, and the isogeny-based.
+The current set of problems used in post-quantum cryptography can be currently grouped into two different categories: lattice-based and hash-based.
 
 ## Lattice-Based Public-Key Cryptography
 
@@ -222,22 +222,6 @@ Lattice-based schemes usually have good performances and average size public key
 
 Examples of such class of algorithms include Kyber, Falcon and Dilithium.
 
-## Multivariate-Based Public-Key Cryptography
-
-The Multivariate Quadratic problem is an NP-hard problem that can be expressed as finding the common "zero" vector that solves a set of polynomials in finite fields. In other words, the underlying problem can be expressed as finding the vector (z_1, ..., z_n) in Fn2 that solves a set of given equations:
-
-f_{1}(x_{1}, ..., x_{n}) = 0, ...., f_{m}(x_{1}, ..., x_{n}) = 0
-
-Signatures use easily invertible non-linear polynomials (P) that need to be masked by using a combination of affine linear transformations (S and T). Indeed, given P:Fn -> Fm, S: Fn -> Fn, T: Fm -> Fm, the affine transformations are build in such a way to make the public key G = S * P * T hard to invert. Knowing its individual components (i.e., the private key) allows to easily compute the inverse G^(-1) which is used to produce signatures, i.e. G^(-1) = T^(-1) * P^(-1) * S^(-1). To verify signatures, use the public key over the signature vector, i.e. G(s) = m.
-
-Examples of this class of algorithms include Rainbow which was [broken](https://eprint.iacr.org/2022/214.pdf) in a weekend on a laptop.
-
-## Code-Based Public-Key Cryptography
-
-This area of cryptography stemmed in the 1970s and 80s based on the seminal work of McEliece and Niederreiter which focuses on the study of cryptosystems based on error-correcting codes. Some popular error correcting codes include the Goppa codes (used in McEliece cryptosystems), encoding and decoding syndrome codes used in Hamming Quasi-Cyclic (HQC) or Quasi-cyclic Moderate density parity check (QC-MDPC) codes.
-
-Examples include all the NIST Round 4 (unbroken) finalists: Classic McEliece, HQC, BIKE.
-
 ## Hash-Based Public-Key Cryptography {#hash-based}
 
 Hash based PKC has been around since the 70s developed by Lamport and Merkle which creates a digital signature algorithm and its security is mathematically based on the security of the selected cryptographic hash function. Many variants of hash based signatures have been developed since the 70s including the recent XMSS, LMS or BPQS schemes. Unlike digital signature techniques, most hash-based signature schemes are stateful, which means that signing necessitates the update of the secret key.
@@ -246,9 +230,6 @@ SPHINCS on the other hand leverages the HORS (Hash to Obtain Random Subset) tech
 
 SPHINCS+ is an advancement on SPHINCS which reduces the signature sizes in SPHINCS and makes it more compact. SPHINCS+ was recently standardised by NIST.
 
-## Isogeny-Based Public-Key Cryptography
-
-Schemes in cryptography based on the supersingular isogeny graph walks falls under this category of cryptosystems. The supersingular isogeny Diffie Hellman (SIDH) algorithm was the basis for the SIKE algorithm which was until recently one of the finalists in Round 4 NIST standardisation process. Prior to the breaking of SIKE, SIDH was considered to have one of the smallest key sizes in a Post Quantum PKE as well as provide perfect forward secrecy.
 
 # KEMs
 
@@ -284,8 +265,7 @@ Any digital signature scheme that provides a construction defining security unde
 
 ## Details of FALCON, Dilithium and SPHINCS+
 
-Dilithium [Dilithium] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem(MLWE)). The design of the algorithm is based on Fiat Shamir with Abort method that leverages rejection sampling to render lattice based FS schemes compact and secure. Dilithium avoids using discrete Gaussian sampling which makes the algorithm be easily implemented in constant time and significantly improves on running time of NTT (Number theoretic transform) in the construction. Dilithium offers both deterministic and randomized signing. 
-The security properties of Dilithium are discussed in Section 9 of {{?I-D.ietf-lamps-dilithium-certificates}}. 
+Dilithium [Dilithium] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem(MLWE)). The design of the algorithm is based on Fiat Shamir with Abort method that leverages rejection sampling to render lattice based FS schemes compact and secure. Dilithium avoids using discrete Gaussian sampling which makes the algorithm be easily implemented in constant time and significantly improves on running time of NTT (Number theoretic transform) in the construction. Additionally, Dilithium offers both deterministic and randomized signing. Security properties of Dilithium are discussed in Section 9 of {{?I-D.ietf-lamps-dilithium-certificates}}. 
 
 Falcon [Falcon] is based on the GPV hash-and-sign lattice-based
 signature framework introduced by Gentry, Peikert and Vaikuntanathan,
