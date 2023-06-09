@@ -161,7 +161,7 @@ The candidates still advancing for standardization are:
 * [Classic McEliece](https://classic.mceliece.org/)
 * [BIKE](https://bikesuite.org/)
 * [HQC](http://pqc-hqc.org/)
-* [SIKE](https://sike.org/) (Broken): Supersingular Isogeny Key Encapsulation (SIKE) is a specific realization of the SIDH (Supersingular Isogeny Diffie-Hellman) protocol. Recently, a [mathematical attack](https://eprint.iacr.org/2022/975.pdf) based on the "glue-and-split" theorem from 1997 from Ernst Kani was found against the underlying chosen starting curve and torsion information. In practical terms, this attack allows for the efficient recovery of the private key. NIST has to yet comment if the scheme will be still considered and there is still debate around if the scheme can be changed so that the attack can be prevented. NIST announced that SIKE was no longer under consideration but the authors of SIKE had asked for it to remain in the list so that people are aware that it is broken.
+* [SIKE](https://sike.org/) (Broken): Supersingular Isogeny Key Encapsulation (SIKE) is a specific realization of the SIDH (Supersingular Isogeny Diffie-Hellman) protocol. Recently, a [mathematical attack](https://eprint.iacr.org/2022/975.pdf) based on the "glue-and-split" theorem from 1997 from Ernst Kani was found against the underlying chosen starting curve and torsion information. In practical terms, this attack allows for the efficient recovery of the private key. NIST announced that SIKE was no longer under consideration but the authors of SIKE had asked for it to remain in the list so that people are aware that it is broken.
 
 # Threat of CRQCs on Cryptography
 
