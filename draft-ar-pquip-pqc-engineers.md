@@ -271,46 +271,17 @@ Any digital signature scheme that provides a construction defining security unde
 
 ## Details of FALCON, Dilithium and SPHINCS+
 
-Dilithium [Dilithium] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem(MLWE)). The design of the algorithm is based on Fiat Shamir with Abort method that leverages rejection sampling to render lattice based FS schemes compact and secure. Dilithium avoids using discrete Gaussian sampling which makes the algorithm be easily implemented in constant time and significantly improves on running time of NTT (Number theoretic transform) in the construction. Additionally, Dilithium offers both deterministic and randomized signing. Security properties of Dilithium are discussed in Section 9 of {{?I-D.ietf-lamps-dilithium-certificates}}. 
+Dilithium [Dilithium] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem(MLWE)). The design of the algorithm is based on Fiat Shamir with Abort method that leverages rejection sampling to render lattice based FS schemes compact and secure. Additionally, Dilithium offers both deterministic and randomized signing. Security properties of Dilithium are discussed in Section 9 of {{?I-D.ietf-lamps-dilithium-certificates}}. 
 
-Falcon [Falcon] is based on the GPV hash-and-sign lattice-based
-signature framework introduced by Gentry, Peikert and Vaikuntanathan,
-which is a framework that requires a class of lattices and a
-trapdoor sampler technique. 
+Falcon [Falcon] is based on the GPV hash-and-sign lattice-based signature framework introduced by Gentry, Peikert and Vaikuntanathan, which is a framework that requires a class of lattices and a trapdoor sampler technique. 
 
-The main design principle of Falcon is compactness, i.e. it was
-designed in a way that achieves minimal total memory bandwidth
-requirement (the sum of the signature size plus the public key size).
-This is possible due to the compactness of NTRU lattices.  Falcon
-also offers very efficient signing and verification procedures.  The
-main potential downsides of Falcon refer to the non-triviality of its
-algorithms and the need for floating point arithmetic support.
+The main design principle of Falcon is compactness, i.e. it was designed in a way that achieves minimal total memory bandwidth requirement (the sum of the signature size plus the public key size). This is possible due to the compactness of NTRU lattices.  Falcon also offers very efficient signing and verification procedures. The main potential downsides of Falcon refer to the non-triviality of its algorithms and the need for floating point arithmetic support.
 
-Access to a robust floating-point stack in Falcon is essential 
-for accurate, efficient, and secure execution of the 
-mathematical computations involved in the scheme. It helps 
-maintain precision, supports error correction techniques, 
-and contributes to the overall reliability and performance 
-of Falcon's cryptographic operations.
+Access to a robust floating-point stack in Falcon is essential for accurate, efficient, and secure execution of the mathematical computations involved in the scheme. It helps maintain precision, supports error correction techniques, and contributes to the overall reliability and performance of Falcon's cryptographic operations.
 
-The performance characteristics of Dilithium and Falcon may 
-differ based on the specific implementation and hardware platform. 
-Generally, Dilithium is known for its relatively fast signature 
-generation, while Falcon can provide more efficient 
-signature verification. The choice may depend on whether 
-the application requires more frequent signature generation 
-or signature verification.
+The performance characteristics of Dilithium and Falcon may differ based on the specific implementation and hardware platform. Generally, Dilithium is known for its relatively fast signature generation, while Falcon can provide more efficient signature verification. The choice may depend on whether the application requires more frequent signature generation or signature verification.
 
-Sphincs+ utilizes the concept of stateless hash-based signatures, 
-where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). 
-This property eliminates the need for maintaining state information during 
-the signing process. Other hash-based signature algorithms are stateful, 
-including HSS/LMS {{!RFC8554}} and XMSS {{!RFC8391}}. SPHINCS+ offers 
-three security levels.  The parameters for each of the security levels 
-were chosen to provide 128 bits of security, 192 bits of security, 
-and 256 bits of security.  Sphincs+ offers larger key sizes, slower 
-signature generation, and slower verification compared to 
-Dilithium and Falcon. 
+Sphincs+ utilizes the concept of stateless hash-based signatures, where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). This property eliminates the need for maintaining state information during the signing process. Other hash-based signature algorithms are stateful, including HSS/LMS {{!RFC8554}} and XMSS {{!RFC8391}}. SPHINCS+ offers three security levels.  The parameters for each of the security levels were chosen to provide 128 bits of security, 192 bits of security, and 256 bits of security.  Sphincs+ offers larger key sizes, slower signature generation, and slower verification compared to Dilithium and Falcon. 
 
 ## Hash-then-Sign Versus Sign-then-Hash
 
