@@ -98,16 +98,16 @@ informative:
 
 --- abstract
 
-The presence of a Cryptographically Relevant Quantum Computer (CRQC) would render state-of-the-art, public-key cryptography deployed today obsolete, since all the assumptions about the intractability of the mathematical problems that offer confident levels of security today no longer apply in the presence of a CRQC.  This means there is a requirement to update protocols and infrastructure to use post-quantum algorithms, which are public-key algorithms designed to be secure against CRQCs as well as classical computers. Research has produced several post-quantum cryptographic algorithms that will enable cryptography to survive the quantum world. However, the transition to a post-quantum infrastructure is not that straightforward and there are many things yet to be done. It is now a combination of engineering, pro-active assessment and evaluation of the available technologies, as well as careful product development approach, to pave a way to transit to the post quantum era. This document explains why engineers need to be aware of and understand post-quantum cryptography. It emphasizes the potential impact of CRQCs on current cryptographic systems and the need to transition to post-quantum algorithms to ensure long-term security.
+The presence of a Cryptographically Relevant Quantum Computer (CRQC) would render state-of-the-art, public-key cryptography deployed today obsolete, since all the assumptions about the intractability of the mathematical problems that offer confident levels of security today no longer apply in the presence of a CRQC.  This means there is a requirement to update protocols and infrastructure to use post-quantum algorithms, which are public-key algorithms designed to be secure against CRQCs as well as classical computers. This document explains why engineers need to be aware of and understand post-quantum cryptography. It emphasizes the potential impact of CRQCs on current cryptographic systems and the need to transition to post-quantum algorithms to ensure long-term security.
 
 --- middle
 
 # Introduction
 
-Quantum computing is no longer perceived as a conjecture of computational sciences and theoretical physics. Considerable research efforts and enormous corporate and government funding for the development of practical quantum computing systems are being invested currently. For instance, Google’s announcement on achieving quantum supremacy {{Google}} and IBM’s latest 433-qubit processor Osprey {{IBM}} signify, among other outcomes, the accelerating efforts towards large-scale quantum computers. At the time of writing the document, Cryptographically Relevant Quantum Computers (CRQCs) that can break widely used cryptographic algorithms are not yet available. However, it is worth noting that there is ongoing research and development in the field of quantum computing, with the goal of building more powerful and scalable quantum computers. As quantum technology advances, there is the potential for future quantum computers to have a significant impact on current cryptographic systems.
+Quantum computing is no longer perceived as a conjecture of computational sciences and theoretical physics. Considerable research efforts and enormous corporate and government funding for the development of practical quantum computing systems are being invested currently. For instance, Google’s announcement on achieving quantum supremacy {{Google}} and IBM’s latest 433-qubit processor Osprey {{IBM}} signify, among other outcomes, the accelerating efforts towards large-scale quantum computers. At the time of writing the document, Cryptographically Relevant Quantum Computers (CRQCs) that can break widely used public-key cryptographic algorithms are not yet available. However, it is worth noting that there is ongoing research and development in the field of quantum computing, with the goal of building more powerful and scalable quantum computers. As quantum technology advances, there is the potential for future quantum computers to have a significant impact on current cryptographic systems.
 
-This document is meant to give general guidance on the structure and use of post-quantum cryptographic (PQC) algorithms for engineers who are using PQC algorithms in their software. Topics include which PQC algorithms to use, how PQC Key Encapsulation Mechanisms (KEMs) differ from DH style key exchange, expected key sizes and processing time differences between PQC algorithms and traditional algorithms. Information on the threat to symmetric cryptography from CRQC.
-
+Extensive research has produced several post-quantum cryptographic algorithms that offer the potential to ensure cryptography's survival in the quantum computing era. However, transitioning to a post-quantum infrastructure is not a straightforward task, and there are numerous challenges to overcome. It requires a combination of engineering efforts, proactive assessment and evaluation of available technologies, and a careful approach to product development. This document aims to provide general guidance to engineers who utilize public-key cryptography in their software. It covers topics such as selecting appropriate post-quantum cryptographic (PQC) algorithms, understanding the differences between PQC Key Encapsulation Mechanisms (KEMs) and traditional Diffie-Hellman style key exchange, and provides insights into expected key sizes and processing time differences between PQC algorithms and traditional ones. Additionally, it discusses the potential threat to symmetric cryptography from Cryptographically Relevant Quantum Computers (CRQCs).
+ 
 It is crucial for the reader to understand that when the word "PQC" is mentioned in the document, it means Asymmetric Cryptography (or Public key Cryptography) and not any algorithms from the Symmetric side based on stream, block ciphers, etc. It does not cover such topics as when traditional algorithms might become vulnerable (for that, see documents such as [QC-DNS] and others).
 
 Please note: This document does not go into the deep mathematics of the NIST finalists or other PQC algorithms but rather provides an overview to Engineers on the current threat landscape and the relevant algorithms designed to help prevent those threats. 
@@ -121,12 +121,7 @@ Please note: This document does not go into the deep mathematics of the NIST fin
 The guide was inspired by a thread in September 2022 on the <mailto:pqc@ietf.org> mailing list.
 The document is being collaborated on through a [GitHub repository](https://github.com/tireddy2/pqc-for-engineers).
 
-The editors actively encourage contributions to this document.
-Please consider writing a section on a topic that you think is missing.
-Short of that, writing a paragraph or two on an issue you found when writing code that uses PQC would make this document more useful to other coders.
-Opening issues that suggest new material is fine too, but relying on others to write the first draft of such material is much less likely to happen than if you take a stab at it yourself.
-
-
+The editors actively encourage contributions to this document. Please consider writing a section on a topic that you think is missing. Short of that, writing a paragraph or two on an issue you found when writing code that uses PQC would make this document more useful to other coders. Opening issues that suggest new material is fine too, but relying on others to write the first draft of such material is much less likely to happen than if you take a stab at it yourself.
 
 # Traditional Cryptographic Primitives that Could Be Replaced by PQC
 
@@ -135,6 +130,10 @@ Any asymmetric cryptographic algorithm based on integer factorisation, finite fi
 * Key Agreement:  Key Agreement schemes are used to establish a shared cryptographic key for secure communication. They are one of the mechanisms that can replaced by PQC as this is based on public key cryptography and is therefore vulnerable to the Shor's algorithm. An CRQC can find the prime factors of the large public key which can used to derive the private key.
 
 * Digital Signatures: Digital Signature schemes are used to authenticate the identity of a sender, detect unauthorised modifications to data and underpin trust in a system. Signatures, similar to KEMs also depend on public-private key pair and hence a break in public key cryptography will also affect traditional digital signatures, hence the importance of developing post quantum digital signatures.  
+
+# Invariants of Post-Quantum Cryptography
+
+ In the context of PQC, symmetric-key cryptographic algorithms are generally not directly impacted by quantum computing advancements. Symmetric-key cryptography, such as block ciphers (e.g., AES) and hash functions (e.g., HMAC-SHA2), rely on secret keys shared between the sender and receiver. HMAC is a specific construction that utilizes a cryptographic hash function (such as SHA-2) and a secret key shared between the sender and receiver to produce a message authentication code. Quantum computers, in theory, do not offer substantial advantages in breaking symmetric-key algorithms compared to classical computers (see {{symmetric}} for more details).
 
 # NIST PQC Algorithms
 
@@ -170,7 +169,7 @@ Post-quantum cryptography or quantum-safe cryptography refers to cryptographic a
 
 When considering the security risks associated with the ability of a quantum computer to attack classic cryptography it is important to distinguish between the impact on symmetric algorithms and public-key ones. Professor Peter Shor and computer scientist Lov Grover developed two algorithms that changed the way the world thinks of security under the presence of a quantum computer. 
 
-## Symmetric cryptography
+## Symmetric cryptography {#symmetric}
 
 Grover's algorithm is a quantum search algorithm that provides a theoretical quadratic speedup for searching an unstructured database compared to classical algorithms. Grover’s algorithm theoretically requires to double the key sizes of the algorithms that one deploys today to achieve quantum resistance. This is because Grover’s algorithm reduces the amount of operations to break 128-bit symmetric cryptography to 2^{64} quantum operations, which might sound computationally feasible. However, 2^{64} operations performed in parallel are feasible for modern classical computers, but 2^{64} quantum operations performed serially in a quantum computer are not. Grover's algorithm is highly non-parallelisable and even if one deploys 2^c computational units in parallel to brute-force a key using Grover's algorithm, it will complete in time proportional to 2^{(128−c)/2}, or, put simply, using 256 quantum computers will only reduce runtime by 1/16, 1024 quantum computers will only reduce runtime by 1/32 and so forth ​(see {{NIST}} and {{Cloudflare}}​). 
 
