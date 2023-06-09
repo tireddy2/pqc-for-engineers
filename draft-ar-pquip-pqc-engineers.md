@@ -182,7 +182,7 @@ Finally, in their evaluation criteria for PQC, NIST is considering a security le
 
 ## Asymmetric cryptography
 
-“Shor’s algorithm” on the other side, efficiently solves the integer factorization problem (and the related discrete logarithm problem), which offer the foundations of the public-key cryptography that the world uses today. This implies that, if a CRQC was developed, today’s public-key cryptography algorithms (e.g., RSA, Diffie-Hellman and Elliptic Curve Cryptography - ECC) and the accompanying digital signatures schemes and protocols would need to be replaced by algorithms and protocols that can offer cryptanalytic resistance against CRQCs.  
+“Shor’s algorithm” on the other side, efficiently solves the integer factorization problem (and the related discrete logarithm problem), which offer the foundations of the public-key cryptography that the world uses today. This implies that, if a CRQC is developed, today’s public-key cryptography algorithms (e.g., RSA, Diffie-Hellman and Elliptic Curve Cryptography - ECC) and the accompanying digital signatures schemes and protocols would need to be replaced by algorithms and protocols that can offer cryptanalytic resistance against CRQCs.  
 
 For structured data such as public-key and signatures, instead, quantum computers can fully solve the underlying hard problems used in classic cryptography (see Shor's Algorithm). Because an increase of the size of the keypair would not provide a secure solution in this case, a complete replacement of the algorithm is needed. Therefore, post-quantum public-key cryptography must rely on problems that are different from the ones used in classic public-key cryptography (i.e., the integer factorization problem, the finite-field discrete logarithm problem, and the elliptic-curve discrete logarithm problem). 
 
@@ -210,7 +210,7 @@ Finally, other factors that could accelerate the introduction of a large-enough 
 
 # Post-quantum cryptography categories 
 
-The current set of problems used in post-quantum cryptography can be currently grouped into two different categories: lattice-based and hash-based.
+The current set of problems used in post-quantum cryptography can be currently grouped into three different categories: lattice-based, hash-based and code-based.
 
 ## Lattice-Based Public-Key Cryptography
 
@@ -230,14 +230,20 @@ SPHINCS on the other hand leverages the HORS (Hash to Obtain Random Subset) tech
 
 SPHINCS+ is an advancement on SPHINCS which reduces the signature sizes in SPHINCS and makes it more compact. SPHINCS+ was recently standardised by NIST.
 
+## Code-Based Public-Key Cryptography
+
+This area of crypotography stemmed in the 1970s and 80s based on the seminal work of McEliece and Niederreiter which focuses on the study of cryptosystems based on error-correcting codes. Some popular error correcting codes include the Goppa codes (used in McEliece cryptosystems), encoding and decoding syndrome codes used in Hamming Quasi-Cyclic (HQC) or Quasi-cyclic Moderate density parity check (QC-MDPC) codes.
+
+Examples include all the NIST Round 4 (unbroken) finalists: Classic McEliece, HQC, BIKE.
+
 
 # KEMs
 
 ## What is a KEM
 
-Key Encapsulation Mechanism (KEM) is a cryptographic technique used for securely exchanging symmetric keys between two parties over an insecure channel. It is commonly used in hybrid encryption schemes, where a combination of asymmetric (public-key) and symmetric encryption is employed. The sender uses the symmetric key to encrypt the message first, following which the public key of the receiver is used to encrypt the symmetric key. The receiver then first decrypts the ciphertext using the private key to gain the symmetric key, finally that symmetric key is leveraged to generate the plaintext.
+Key Encapsulation Mechanism (KEM) is a cryptographic technique used for securely exchanging symmetric keys between two parties over an insecure channel. It is commonly used in hybrid encryption schemes, where a combination of asymmetric (public-key) and symmetric encryption is employed. The sender uses the symmetric key to encrypt the message first, following which the public key of the receiver is used to encrypt the symmetric key. The receiver then first decrypts the ciphertext using the private key to gain the symmetric key, finally that symmetric key is leveraged to decrypt the ciphertext.
 
-It is, however, essential to note that PQ KEMs are interactive in nature because the receiver's actions are dependaent on the sender's public key and unlike Diffie-Hellman (DH) which provides non-interactive key exchange (NIKE) property. 
+It is, however, essential to note that PQ KEMs are interactive in nature because the senders's actions are dependent on the receivers's public key and unlike Diffie-Hellman (DH) which provides non-interactive key exchange (NIKE) property.
 
 ## HPKE
 
