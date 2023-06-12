@@ -263,13 +263,7 @@ Any digital signature scheme that provides a construction defining security unde
 
 * EUF-CMA : Dilithium, Falcon all provide EUF-CMA security. EUF-CMA (Existential Unforgeability under Chosen Message Attack) is a security notion for digital signature schemes. It guarantees that an adversary, even with access to a signing oracle, cannot forge a valid signature for an unknown message. EUF-CMA provides strong protection against forgery attacks, ensuring the integrity and authenticity of digital signatures by preventing unauthorized modifications or fraudulent signatures.
 
-## Where can different types of PQC signatures be used
-
-(HBS vs Lattice signatures: when each is appropriate.)
-
-(Guidance for managing state of XMSS / LMS. Tree-splitting at keygen time, synchronous state management, any other tricks that are worth documenting. Including when it’s just too complicated to even attempt, like a 30 year signing key where you don’t know at keygen time how many backup copies you’ll need over its lifetime and flips to backup may happen without warning.)
-
-## Details of FALCON, Dilithium and SPHINCS+
+## Details of FALCON, Dilithium, and SPHINCS+
 
 Dilithium [Dilithium] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem(MLWE)). The design of the algorithm is based on Fiat Shamir with Abort method that leverages rejection sampling to render lattice based FS schemes compact and secure. Additionally, Dilithium offers both deterministic and randomized signing. Security properties of Dilithium are discussed in Section 9 of {{?I-D.ietf-lamps-dilithium-certificates}}. 
 
@@ -281,7 +275,7 @@ Access to a robust floating-point stack in Falcon is essential for accurate, eff
 
 The performance characteristics of Dilithium and Falcon may differ based on the specific implementation and hardware platform. Generally, Dilithium is known for its relatively fast signature generation, while Falcon can provide more efficient signature verification. The choice may depend on whether the application requires more frequent signature generation or signature verification.
 
-Sphincs+ utilizes the concept of stateless hash-based signatures, where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). This property eliminates the need for maintaining state information during the signing process. Other hash-based signature algorithms are stateful, including HSS/LMS {{!RFC8554}} and XMSS {{!RFC8391}}. SPHINCS+ offers three security levels.  The parameters for each of the security levels were chosen to provide 128 bits of security, 192 bits of security, and 256 bits of security.  Sphincs+ offers larger key sizes, slower signature generation, and slower verification compared to Dilithium and Falcon. 
+Sphincs+ utilizes the concept of stateless hash-based signatures, where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). This property eliminates the need for maintaining state information during the signing process. Other hash-based signature algorithms are stateful, including HSS/LMS {{!RFC8554}} and XMSS {{!RFC8391}}. SPHINCS+ offers three security levels.  The parameters for each of the security levels were chosen to provide 128 bits of security, 192 bits of security, and 256 bits of security.  Sphincs+ offers smaller key sizes, slower signature generation, and slower verification compared to Dilithium and Falcon. Hence, when one wants to choose an algorithm which offers significantly smaller private and public key sizes, Sphincs+ provides a better solution.
 
 ## Hash-then-Sign Versus Sign-then-Hash
 
@@ -291,16 +285,19 @@ In the case of Dilithium, it internally incorporates the necessary hash operatio
 
 # Recommendations for Security / Performance Tradeoffs
 
-(For example if full-strength Kyber1024 just won’t fit. Under what circumstances can you go down to level1 lattice strength (or less)?)
+Example question that needs to be answered: if full-strength Kyber1024 just won’t fit. Under what circumstances can you go down to Level 1 lattice strength (or less)?
+
 The table below denotes the 5 security levels provided by NIST required for PQC algoritms. Users can leverage the required algorithm based on the security level based on their use case. The security is defined as a function of resources required to break AES and SHA3 algorithms, i.e., optimal key recovery for AES and optimal collision attacks for SHA3.
 
-| Security Level |            AES/SHA3 hardness       |                   PQC Algorithm                     |
-| -------------- | ---------------------------------- | --------------------------------------------------- |
-|       1        | Find optimal key in AES-128        |          Kyber512, Falcon512, Sphincs+SHA128        |
-|       2        | Find optimal collision in SHA3-256 |                       Dilithium2                    |
-|       3        | Find optimal key in AES-192        |         Kyber768, Dilithium3, Sphincs+SHA192        |
-|       4        | Find optimal collision in SHA3-384 |                   No algorithm tested at this level |
-|       5        | Find optimal key in AES-256        |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA256 |
+| Security Level |            AES/SHA3 hardness       |                   PQC Algorithm                            |
+| -------------- | ---------------------------------- | ---------------------------------------------------------- |
+|       1        | Find optimal key in AES-128        |          Kyber512, Falcon512, Sphincs+SHA256 128f/s        |
+|       2        | Find optimal collision in SHA3-256 |                       Dilithium2                           |
+|       3        | Find optimal key in AES-192        |         Kyber768, Dilithium3, Sphincs+SHA256 192f/s        |
+|       4        | Find optimal collision in SHA3-384 |                   No algorithm tested at this level        |
+|       5        | Find optimal key in AES-256        |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA256 256f/s |
+
+Please the Sphincs+SHA256 x"f/s" in the above table denotes whether its the Sphincs+ fast (f) version or small (s) version for "x" bit AES security level. Refer to {{?I-D.ietf-lamps-cms-sphincs-plus-02}} for further details on the Sphincs+ specifications.
 
 The following table discusses the impact of performance on different security levels in terms of private key sizes, public key sizes and ciphertext/signature sizes.
 
