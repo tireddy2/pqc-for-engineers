@@ -285,8 +285,6 @@ In the case of Dilithium, it internally incorporates the necessary hash operatio
 
 # Recommendations for Security / Performance Tradeoffs
 
-Example question that needs to be answered: if full-strength Kyber1024 just won’t fit. Under what circumstances can you go down to Level 1 lattice strength (or less)?
-
 The table below denotes the 5 security levels provided by NIST required for PQC algoritms. Users can leverage the required algorithm based on the security level based on their use case. The security is defined as a function of resources required to break AES and SHA3 algorithms, i.e., optimal key recovery for AES and optimal collision attacks for SHA3.
 
 | Security Level |            AES/SHA3 hardness       |                   PQC Algorithm                            |
@@ -297,7 +295,7 @@ The table below denotes the 5 security levels provided by NIST required for PQC 
 |       4        | Find optimal collision in SHA3-384 |                   No algorithm tested at this level        |
 |       5        | Find optimal key in AES-256        |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA256 256f/s |
 
-Please the Sphincs+SHA256 x"f/s" in the above table denotes whether its the Sphincs+ fast (f) version or small (s) version for "x" bit AES security level. Refer to {{?I-D.ietf-lamps-cms-sphincs-plus-02}} for further details on the Sphincs+ specifications.
+Please note the Sphincs+SHA256 x"f/s" in the above table denotes whether its the Sphincs+ fast (f) version or small (s) version for "x" bit AES security level. Refer to {{?I-D.ietf-lamps-cms-sphincs-plus-02}} for further details on Sphincs+ specifications.
 
 The following table discusses the impact of performance on different security levels in terms of private key sizes, public key sizes and ciphertext/signature sizes.
 
