@@ -295,7 +295,7 @@ The table below denotes the 5 security levels provided by NIST required for PQC 
 |       4        | Find optimal collision in SHA3-384 |                   No algorithm tested at this level        |
 |       5        | Find optimal key in AES-256        |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA256 256f/s |
 
-Please note the Sphincs+SHA256 x"f/s" in the above table denotes whether its the Sphincs+ fast (f) version or small (s) version for "x" bit AES security level. Refer to {{?I-D.ietf-lamps-cms-sphincs-plus-02}} for further details on Sphincs+ specifications.
+Please note the Sphincs+SHA256 x"f/s" in the above table denotes whether its the Sphincs+ fast (f) version or small (s) version for "x" bit AES security level. Refer to {{?I-D.ietf-lamps-cms-sphincs-plus-02}} for further details on Sphincs+ algorithms.
 
 The following table discusses the impact of performance on different security levels in terms of private key sizes, public key sizes and ciphertext/signature sizes.
 
