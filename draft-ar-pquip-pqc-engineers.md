@@ -273,9 +273,9 @@ The main design principle of Falcon is compactness, i.e. it was designed in a wa
 
 Access to a robust floating-point stack in Falcon is essential for accurate, efficient, and secure execution of the mathematical computations involved in the scheme. It helps maintain precision, supports error correction techniques, and contributes to the overall reliability and performance of Falcon's cryptographic operations.
 
-The performance characteristics of Dilithium and Falcon may differ based on the specific implementation and hardware platform. Generally, Dilithium is known for its relatively fast signature generation, while Falcon can provide more efficient signature verification. The choice may depend on whether the application requires more frequent signature generation or signature verification.
+The performance characteristics of Dilithium and Falcon may differ based on the specific implementation and hardware platform. Generally, Dilithium is known for its relatively fast signature generation, while Falcon can provide more efficient signature verification. The choice may depend on whether the application requires more frequent signature generation or signature verification. For further clarity, please refer to the tables in sections {{RecSecurity}} and {{Comparisons}}.
 
-Sphincs+ utilizes the concept of stateless hash-based signatures, where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). This property eliminates the need for maintaining state information during the signing process. Other hash-based signature algorithms are stateful, including HSS/LMS {{!RFC8554}} and XMSS {{!RFC8391}}. SPHINCS+ offers three security levels.  The parameters for each of the security levels were chosen to provide 128 bits of security, 192 bits of security, and 256 bits of security.  Sphincs+ offers smaller key sizes, slower signature generation, and slower verification compared to Dilithium and Falcon. Hence, when one wants to choose an algorithm which offers significantly smaller private and public key sizes, Sphincs+ provides a better solution.
+Sphincs+ utilizes the concept of stateless hash-based signatures, where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). This property eliminates the need for maintaining state information during the signing process. Other hash-based signature algorithms are stateful, including HSS/LMS {{!RFC8554}} and XMSS {{!RFC8391}}. SPHINCS+ offers three security levels.  The parameters for each of the security levels were chosen to provide 128 bits of security, 192 bits of security, and 256 bits of security.  Sphincs+ offers smaller key sizes, and larger signature sizes when compared to both Dilithium and Falcon but has slower signature generation, and slower verification only compared to Falcon. Hence, when one wants to choose an algorithm which offers significantly smaller private and public key sizes, Sphincs+ provides a better solution.
 
 ## Hash-then-Sign Versus Sign-then-Hash
 
@@ -283,7 +283,7 @@ Within the hash-then-sign paradigm, the message is hashed before signing it.  Ha
 
 In the case of Dilithium, it internally incorporates the necessary hash operations as part of its signing algorithm. Dilithium directly takes the original message, applies a hash function internally, and then uses the resulting hash value for the signature generation process. Therefore, the hash-then-sign paradigm is not needed to Dilithium, as it already incorporates hashing within its signing mechanism.
 
-# Recommendations for Security / Performance Tradeoffs
+# Recommendations for Security / Performance Tradeoffs {#RecSecurity}
 
 The table below denotes the 5 security levels provided by NIST required for PQC algoritms. Users can leverage the required algorithm based on the security level based on their use case. The security is defined as a function of resources required to break AES and SHA3 algorithms, i.e., optimal key recovery for AES and optimal collision attacks for SHA3.
 
@@ -307,7 +307,7 @@ The following table discusses the impact of performance on different security le
 |       5        |           Falcon1024       |       1793                  |          2305                |            1330                      |
 |       5        |            Kyber1024       |       1568                  |          3168                |            1588                      |
 
-# Comparing PQC KEMs/Signatures vs Traditional KEMs (KEXs)/Signatures
+# Comparing PQC KEMs/Signatures vs Traditional KEMs (KEXs)/Signatures {#Comparisons}
 
 In this section, we prepare two tables for comparison of different KEMs and Signatures respectively in the traditional and Post Quantum scenario. These tables will focus on the secret key sizes, public key sizes and ciphertext/signature sizes for the PQC algorithms and their traditional counterparts of similar security levels.
 
