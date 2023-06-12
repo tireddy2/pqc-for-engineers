@@ -161,7 +161,7 @@ The candidates still advancing for standardization are:
 * [Classic McEliece](https://classic.mceliece.org/)
 * [BIKE](https://bikesuite.org/)
 * [HQC](http://pqc-hqc.org/)
-* [SIKE](https://sike.org/) (Broken): Supersingular Isogeny Key Encapsulation (SIKE) is a specific realization of the SIDH (Supersingular Isogeny Diffie-Hellman) protocol. Recently, a [mathematical attack](https://eprint.iacr.org/2022/975.pdf) based on the "glue-and-split" theorem from 1997 from Ernst Kani was found against the underlying chosen starting curve and torsion information. In practical terms, this attack allows for the efficient recovery of the private key. NIST has to yet comment if the scheme will be still considered and there is still debate around if the scheme can be changed so that the attack can be prevented. NIST announced that SIKE was no longer under consideration but the authors of SIKE had asked for it to remain in the list so that people are aware that it is broken.
+* [SIKE](https://sike.org/) (Broken): Supersingular Isogeny Key Encapsulation (SIKE) is a specific realization of the SIDH (Supersingular Isogeny Diffie-Hellman) protocol. Recently, a [mathematical attack](https://eprint.iacr.org/2022/975.pdf) based on the "glue-and-split" theorem from 1997 from Ernst Kani was found against the underlying chosen starting curve and torsion information. In practical terms, this attack allows for the efficient recovery of the private key. NIST announced that SIKE was no longer under consideration but the authors of SIKE had asked for it to remain in the list so that people are aware that it is broken.
 
 # Threat of CRQCs on Cryptography
 
@@ -271,7 +271,7 @@ Any digital signature scheme that provides a construction defining security unde
 
 ## Details of FALCON, Dilithium and SPHINCS+
 
-Dilithium [Dilithium] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem(MLWE)). The design of the algorithm is based on Fiat Shamir with Abort method that leverages rejection sampling to render lattice based FS schemes compact and secure. Dilithium avoids using discrete Gaussian sampling which makes the algorithm be easily implemented in constant time and significantly improves on running time of NTT (Number theoretic transform) in the construction. Additionally, Dilithium offers both deterministic and randomized signing. Security properties of Dilithium are discussed in Section 9 of {{?I-D.ietf-lamps-dilithium-certificates}}. 
+Dilithium [Dilithium] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem(MLWE)). The design of the algorithm is based on Fiat Shamir with Abort method that leverages rejection sampling to render lattice based FS schemes compact and secure. Additionally, Dilithium offers both deterministic and randomized signing. Security properties of Dilithium are discussed in Section 9 of {{?I-D.ietf-lamps-dilithium-certificates}}. 
 
 Falcon [Falcon] is based on the GPV hash-and-sign lattice-based
 signature framework introduced by Gentry, Peikert and Vaikuntanathan,
