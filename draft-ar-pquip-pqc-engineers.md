@@ -250,7 +250,7 @@ Examples include all the NIST Round 4 (unbroken) finalists: Classic McEliece, HQ
 
 Key Encapsulation Mechanism (KEM) is a cryptographic technique used for securely exchanging symmetric keys between two parties over an insecure channel. It is commonly used in hybrid encryption schemes, where a combination of asymmetric (public-key) and symmetric encryption is employed. The sender uses the symmetric key to encrypt the message first, following which the public key of the receiver is used to encrypt the symmetric key. The receiver then first decrypts the ciphertext using the private key to gain the symmetric key, finally that symmetric key is leveraged to decrypt the ciphertext.
 
-It is, however, essential to note that PQ KEMs are interactive in nature because the senders's actions are dependent on the receivers's public key and unlike Diffie-Hellman (DH) which provides non-interactive key exchange (NIKE) property.
+It is, however, essential to note that PQ KEMs are interactive in nature because the senders's actions are dependent on the receivers's public key and unlike Diffie-Hellman (DH) Key exchange (KEX) which provides non-interactive key exchange (NIKE) property.
 
 ## HPKE
 
