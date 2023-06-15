@@ -339,7 +339,7 @@ The next table compares traditional vs PQC Signature schemes in terms of securit
 |          0        |               P256         |       64                    |          32                  |            64                        |
 |          5        |            Falcon1024      |       1793                  |          2305                |            1330                      |
 
-As one can cleary observe from the above tables that leveraging a PQC KEM/Signature significantly increases the key sizes and the ciphertext/signature sizes as well as compared to traditional KEM/Signatures. But, the PQC algorithms do provide the additional security level in case there is attack from a CRQC whereas schemes based on prime factorisation or discrete logarithm problems (traditional only) only would provide no level of security at all against such attacks.
+As one can clearly observe from the above tables that leveraging a PQC KEM/Signature significantly increases the key sizes and the ciphertext/signature sizes as well as compared to traditional KEM(KEX)/Signatures. But, the PQC algorithms do provide the additional security level in case there is attack from a CRQC whereas schemes based on prime factorisation or discrete logarithm problems (finite field or elliptic curves) would provide no level of security at all against such attacks.
 
 # Post-Quantum and Traditional Hybrid Schemes
 
