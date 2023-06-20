@@ -178,7 +178,7 @@ The candidates still advancing for standardization are:
 
 Post-quantum cryptography or quantum-safe cryptography refers to cryptographic algorithms that are secure against cryptographic attacks from both CRQCs and classic computers.
 
-When considering the security risks associated with the ability of a quantum computer to attack traditional cryptography, it is important to distinguish between the impact on symmetric algorithms and public-key ones. Professor Peter Shor and computer scientist Lov Grover developed two algorithms that changed the way the world thinks of security under the presence of a CRQC. 
+When considering the security risks associated with the ability of a quantum computer to attack traditional cryptography, it is important to distinguish between the impact on symmetric algorithms and public-key ones. Dr. Peter Shor and Dr. Lov Grover developed two algorithms that changed the way the world thinks of security under the presence of a CRQC. 
 
 ## Symmetric cryptography {#symmetric}
 
