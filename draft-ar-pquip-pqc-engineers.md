@@ -326,21 +326,21 @@ The first table compares traditional vs. PQC KEMs in terms of security, public, 
 
 | PQ Security Level |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  |         Ciphertext size (in bytes)   |
 | ----------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
+|      Traditional  |        P256_HKDF_SHA256    |       65                    |          32                  |            65                        |
+|      Traditional  |        P521_HKDF_SHA512    |       133                   |          66                  |            133                       |
+|      Traditional  |       X25519_HKDF_SHA256   |       32                    |          32                  |            32                        |
 |          1        |            Kyber512        |       800                   |          1632                |            768                       |
-|          0        |        P256_HKDF_SHA256    |       65                    |          32                  |            65                        |
 |          3        |            Kyber768        |       1184                  |          2400                |            1088                      |
-|          0        |        P521_HKDF_SHA512    |       133                   |          66                  |            133                       |
 |          5        |            Kyber1024       |       1568                  |          3168                |            1588                      |
-|          0        |       X25519_HKDF_SHA256   |       32                    |          32                  |            32                        |
 
 The next table compares traditional vs. PQC Signature schemes in terms of security, public, private key sizes, and signature sizes.
 
 | PQ Security Level |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  |         Signature size (in bytes)    |
 | ----------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
+|      Traditional  |              RSA2048       |       256                   |          256                 |            256                       |
+|      Traditional  |               P256         |       64                    |          32                  |            64                        |
 |          2        |            Dilithium2      |       1312                  |          2528                |            768                       |
-|          0        |              RSA2048       |       256                   |          256                 |            256                       |
 |          3        |            Dilithium3      |       1952                  |          4000                |            3293                      |
-|          0        |               P256         |       64                    |          32                  |            64                        |
 |          5        |            Falcon1024      |       1793                  |          2305                |            1330                      |
 
 As one can clearly observe from the above tables, leveraging a PQC KEM/Signature significantly increases the key sizes and the ciphertext/signature sizes as well as compared to traditional KEM(KEX)/Signatures. But the PQC algorithms do provide the additional security level in case there is an attack from a CRQC, whereas schemes based on prime factorization or discrete logarithm problems (finite field or elliptic curves) would provide no level of security at all against such attacks.
