@@ -152,7 +152,7 @@ NIST announced as well that they will be [opening a fourth round](https://csrc.n
 
 These algorithms are not a drop-in replacement for classical asymmetric cryptographic algorithms.  RSA and ECC can be used for both key encapsulation and signatures, while for post-quantum algorithms, a different algorithm is needed for each.  When upgrading protocols, it is important to replace the existing use of classical algorithms with either a PQC key encapsulation method or a PQC signature method, depending on how RSA and/or ECC was previously being used.
 
-## NIST finalists for standardization
+## NIST candidates selected for standardization
 
 ### PQC Key Encapsulation Mechanisms (KEMs)
 
@@ -164,7 +164,7 @@ These algorithms are not a drop-in replacement for classical asymmetric cryptogr
 * [Falcon](https://falcon-sign.info/)
 * [SPHINCS+](https://sphincs.org/)
 
-### Candidates advancing to the fourth-round for standardization at NIST
+## Candidates advancing to the fourth-round for standardization at NIST
 
 The fourth-round of the NIST process only concerns with KEMs.
 The candidates still advancing for standardization are:
