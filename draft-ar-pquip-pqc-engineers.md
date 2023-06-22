@@ -121,6 +121,10 @@ informative:
      title: "A digital signature scheme secure against adaptive chosen-message attacks."
      target: https://people.csail.mit.edu/silvio/Selected%20Scientific%20Papers/Digital%20Signatures/A_Digital_Signature_Scheme_Secure_Against_Adaptive_Chosen-Message_Attack.pdf 
      date: false
+  PQCAPI:
+     title: "PQC - API notes"
+     target: https://csrc.nist.gov/CSRC/media/Projects/Post-Quantum-Cryptography/documents/example-files/api-notes.pdf
+     date: false
      
 --- abstract
 
@@ -272,6 +276,39 @@ Examples include all the NIST Round 4 (unbroken) finalists: Classic McEliece, HQ
 Key Encapsulation Mechanism (KEM) is a cryptographic technique used for securely exchanging symmetric keys between two parties over an insecure channel. It is commonly used in hybrid encryption schemes, where a combination of asymmetric (public-key) and symmetric encryption is employed. The KEM encapsulation results in a fixed-length symmetric key that can be used in one of two ways: (1) Derive a Data Encryption Key (DEK) to encrypt the data (2) Derive a Key Encryption Key (KEK) used to wrap the DEK. 
 
 It is, however, essential to note that PQ KEMs are interactive in nature because the sender's actions are dependent on the receiver's public key and unlike Diffie-Hellman (DH) Key exchange (KEX) which provides non-interactive key exchange (NIKE) property.
+
+KEM relies on the following primitives [PQCAPI]:
+
+* def kemKeyGen() -> (pk, sk)
+* def kemEncaps(pk) -> (ct, ss)
+* def kemDecaps(ct, sk) -> ss
+
+where pk is public key, sk is secret key, ct is the ciphertext representing an encapsulated key, and ss is shared secret.  The following figure illustrates a sample flow of KEM
+
+~~~~~ aasvg
+
+                      +---------+ +---------+
+                      | Client  | | Server  |
+                      +---------+ +---------+
+  -----------------------\ |           |
+  | sk, pk = kemKeyGen() |-|           |
+  |----------------------| |           |
+                           |           |
+                           | pk        |
+                           |---------->|
+                           |           | -------------------------\
+                           |           |-| ss, ct = kemEncaps(pk) |
+                           |           | |------------------------|
+                           |           |
+                           |        ct |
+                           |<----------|
+-------------------------\ |           |
+| ss = kemDecaps(ct, sk) |-|           |
+|------------------------| |           |
+                           |           |
+
+
+~~~~~
 
 ## HPKE
 
