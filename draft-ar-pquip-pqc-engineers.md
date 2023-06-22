@@ -101,10 +101,27 @@ informative:
      title: "Cryptographic Suite for Algebraic Lattices (CRYSTALS) - Dilithium"
      target: https://pq-crystals.org/dilithium/index.shtml
      date: false
+  SPHINCS:
+     title: "SPHINCS+"
+     target: https://sphincs.org/index.html
+     date: false
+  RSA:
+     title: "A Method for Obtaining Digital Signatures and Public-Key Cryptosystems+"
+     target: https://dl.acm.org/doi/pdf/10.1145/359340.359342 
+     date: false
+  CS01:
+     title: "Design and Analysis of Practical Public-Key Encryption Schemes Secure against Adaptive Chosen Ciphertext Attack"
+     target: https://eprint.iacr.org/2001/108 
+     date: false
+  BHK09:
+     title: "Subtleties in the Definition of IND-CCA: When and How Should Challenge-Decryption be Disallowed?"
+     target: https://eprint.iacr.org/2009/418 
+     date: false
+  GMR88:
+     title: "A digital signature scheme secure against adaptive chosen-message attacks."
+     target: https://people.csail.mit.edu/silvio/Selected%20Scientific%20Papers/Digital%20Signatures/A_Digital_Signature_Scheme_Secure_Against_Adaptive_Chosen-Message_Attack.pdf 
+     date: false
      
-
-
-
 --- abstract
 
 The presence of a Cryptographically Relevant Quantum Computer (CRQC) would render state-of-the-art, public-key cryptography deployed today obsolete, since all the assumptions about the intractability of the mathematical problems that offer confident levels of security today no longer apply in the presence of a CRQC.  This means there is a requirement to update protocols and infrastructure to use post-quantum algorithms, which are public-key algorithms designed to be secure against CRQCs as well as classical computers.  These algorithms are just like previous public key algorithms, however the intractable mathematical problems have been carefully chosen, so they are hard for CRQCs as well as classical computers. This document explains why engineers need to be aware of and understand post-quantum cryptography. It emphasizes the potential impact of CRQCs on current cryptographic systems and the need to transition to post-quantum algorithms to ensure long-term security.  The most important thing to understand is that this transition is not like previous transitions from DES to AES or from SHA-1 to SHA2, as the algorithm properties are significantly different from classical algorithms, and a drop-in replacement is not possible. 
@@ -150,7 +167,7 @@ In 2016, the National Institute of Standards and Technology (NIST) started a pro
 
 NIST announced as well that they will be [opening a fourth round](https://csrc.nist.gov/csrc/media/Projects/post-quantum-cryptography/documents/round-4/guidelines-for-submitting-tweaks-fourth-round.pdf) to standardize an alternative KEM, and a [call](https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/call-for-proposals-dig-sig-sept-2022.pdf) for new candidates for a post-quantum signature algorithm.
 
-These algorithms are not a drop-in replacement for classical asymmetric cryptographic algorithms.  RSA and ECC can be used for both key encapsulation and signatures, while for post-quantum algorithms, a different algorithm is needed for each.  When upgrading protocols, it is important to replace the existing use of classical algorithms with either a PQC key encapsulation method or a PQC signature method, depending on how RSA and/or ECC was previously being used.
+These algorithms are not a drop-in replacement for classical asymmetric cryptographic algorithms.  RSA [RSA] and ECC {{?RFC6090}} can be used for both key encapsulation and signatures, while for post-quantum algorithms, a different algorithm is needed for each.  When upgrading protocols, it is important to replace the existing use of classical algorithms with either a PQC key encapsulation method or a PQC signature method, depending on how RSA and/or ECC was previously being used.
 
 ## NIST candidates selected for standardization
 
@@ -260,9 +277,11 @@ It is, however, essential to note that PQ KEMs are interactive in nature because
 
 HPKE (Hybrid public key encryption) {{?RFC9180}} deals with a variant of KEM which is essentially a PKE of arbitrary sized plaintexts for a recipient public key. It works with a combination of KEMs, KDFs and AEAD schemes (Authenticated Encryption with Additional Data). HPKE includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones that authenticate possession of a key encapsulation mechanism (KEM) private key. Kyber, which is a KEM does not support the static-ephemeral key exchange that allows HPKE based on DH based KEMs its (optional) authenticated modes as discussed in Section 1.2 of {{?I-D.westerbaan-cfrg-hpke-xyber768d00-02}}. 
 
-## Security properties
+## Security property
 
-* IND-CCA2 : Kyber, Classic McEliece, Saber all provide IND-CCA2 security. IND-CCA2 (INDistinguishability under Chosen-Ciphertext Attack, version 2) is an advanced security notion for encryption schemes. It ensures the confidentiality of the plaintext, resistance against chosen-ciphertext attacks, and prevents the adversary from forging new ciphertexts. 
+* IND-CCA2 : IND-CCA2 (INDistinguishability under Chosen-Ciphertext Attack, version 2) is an advanced security notion for encryption schemes. It ensures the confidentiality of the plaintext, resistance against chosen-ciphertext attacks, and prevents the adversary from forging new ciphertexts. An appropriate definition of IND-CCA2 security for KEMs can be found in [CS01] and [BHK09]. Kyber, Classic McEliece and Saber provide IND-CCA2 security. 
+
+Understanding IND-CCA2 security is essential for individual involved in designing or implementing cryptographic systems to to evaluate the strength of the algorithm, assess its suitability for specific use cases, and ensure that data confidentiality and security requirements are met.
 
 # PQC Signatures
 
@@ -270,9 +289,12 @@ HPKE (Hybrid public key encryption) {{?RFC9180}} deals with a variant of KEM whi
 
 Any digital signature scheme that provides a construction defining security under post quantum setting falls under this category of PQ signatures. 
 
-## What security properties do they provide
+## Security property
 
-* EUF-CMA : Dilithium, Falcon all provide EUF-CMA security. EUF-CMA (Existential Unforgeability under Chosen Message Attack) is a security notion for digital signature schemes. It guarantees that an adversary, even with access to a signing oracle, cannot forge a valid signature for an unknown message. EUF-CMA provides strong protection against forgery attacks, ensuring the integrity and authenticity of digital signatures by preventing unauthorized modifications or fraudulent signatures.
+* EUF-CMA : EUF-CMA (Existential Unforgeability under Chosen Message Attack) [GMR88] is a security notion for digital signature schemes. It guarantees that an adversary, even with access to a signing oracle, cannot forge a valid signature for an unknown message. EUF-CMA provides strong protection against forgery attacks, ensuring the integrity and authenticity of digital signatures by preventing unauthorized modifications or fraudulent signatures. Dilithium, Falcon and Sphincs+ provide EUF-CMA security. 
+
+Understanding EUF-CMA security is essential for individual involved in designing or implementing cryptographic systems to ensure the security, reliability, and trustworthiness of digital signature schemes. 
+It allows for informed decision-making, vulnerability analysis, compliance with standards, and designing systems that provide strong protection against forgery attacks.
 
 ## Details of FALCON, Dilithium, and SPHINCS+
 
@@ -286,11 +308,13 @@ Access to a robust floating-point stack in Falcon is essential for accurate, eff
 
 The performance characteristics of Dilithium and Falcon may differ based on the specific implementation and hardware platform. Generally, Dilithium is known for its relatively fast signature generation, while Falcon can provide more efficient signature verification. The choice may depend on whether the application requires more frequent signature generation or signature verification. For further clarity, please refer to the tables in sections {{RecSecurity}} and {{Comparisons}}.
 
-Sphincs+ utilizes the concept of stateless hash-based signatures, where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). This property eliminates the need for maintaining state information during the signing process. Other hash-based signature algorithms are stateful, including HSS/LMS {{!RFC8554}} and XMSS {{!RFC8391}}. SPHINCS+ was designed to sign up to 2^64 messages and it offers three security levels. The parameters for each of the security levels were chosen to provide 128 bits of security, 192 bits of security, and 256 bits of security.  Sphincs+ offers smaller key sizes, larger signature sizes, slower signature generation, and slower verification when compared to Dilithium and Falcon. SPHINCS+ does not introduce a new intractability assumption. It builds upon established foundations in cryptography, making it a reliable and robust digital signature scheme for a post-quantum world. The advantages and disadvantages of SPHINCS+ over other signature algorithms is disussed in Section 3.1 of {{?I-D.draft-ietf-cose-sphincs-plus}}.
+Sphincs+ [SPHINCS] utilizes the concept of stateless hash-based signatures, where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). This property eliminates the need for maintaining state information during the signing process. Other hash-based signature algorithms are stateful, including HSS/LMS {{!RFC8554}} and XMSS {{!RFC8391}}. SPHINCS+ was designed to sign up to 2^64 messages and it offers three security levels. The parameters for each of the security levels were chosen to provide 128 bits of security, 192 bits of security, and 256 bits of security.  Sphincs+ offers smaller key sizes, larger signature sizes, slower signature generation, and slower verification when compared to Dilithium and Falcon. SPHINCS+ does not introduce a new intractability assumption. It builds upon established foundations in cryptography, making it a reliable and robust digital signature scheme for a post-quantum world. The advantages and disadvantages of SPHINCS+ over other signature algorithms is disussed in Section 3.1 of {{?I-D.draft-ietf-cose-sphincs-plus}}.
 
 ## Hash-then-Sign Versus Sign-then-Hash
 
-Within the hash-then-sign paradigm, the message is hashed before signing it.  Hashing the message before signing it provides an additional layer of security by ensuring that only a fixed-size digest of the message is signed, rather than the entire message itself. By pre-hashing, the onus of resistance to existential forgeries becomes heavily reliant on the collision-resistance of the hash function in use.  As well as this security goal, the hash-then-sign paradigm also has the ability to improve performance by reducing the size of signed messages.  As a corollary, hashing remains mandatory even for short messages and assigns a further computational requirement onto the verifier.  This makes the performance of hash-then-sign schemes more consistent, but not necessarily more efficient. Using a hash function to produce a fixed-size digest of a message ensures that the signature is compatible with a wide range of systems and protocols, regardless of the specific message size or format.  Hash-then-Sign also greatly reduces the amount of data that needs to be processed by a hardware security module, which sometimes have somewhat limited data processing capabilities. For instance, TLS 1.3 uses the Hash-then-Sign paradigm in the Certificate Verify message (Section 4.4.3 of {{?RFC8446}}).
+Within the hash-then-sign paradigm, the message is hashed before signing it.  Hashing the message before signing it provides an additional layer of security by ensuring that only a fixed-size digest of the message is signed, rather than the entire message itself. By pre-hashing, the onus of resistance to existential forgeries becomes heavily reliant on the collision-resistance of the hash function in use.  As well as this security goal, the hash-then-sign paradigm also has the ability to improve performance by reducing the size of signed messages.  As a corollary, hashing remains mandatory even for short messages and assigns a further computational requirement onto the verifier.  This makes the performance of hash-then-sign schemes more consistent, but not necessarily more efficient. Using a hash function to produce a fixed-size digest of a message ensures that the signature is compatible with a wide range of systems and protocols, regardless of the specific message size or format.  Hash-then-Sign also greatly reduces the amount of data that needs to be processed by a hardware security module, which sometimes have somewhat limited data processing capabilities. 
+
+Protocols like TLS 1.3 and DNSSEC use the Hash-then-Sign paradigm. TLS 1.3 {{?RFC8446}} uses it in the Certificate Verify to proof that the endpoint possesses the private key corresponding to its certificate, while DNSSEC {{?RFC4033}} uses it to provide origin authentication and integrity assurance services for DNS data.
 
 In the case of Dilithium, it internally incorporates the necessary hash operations as part of its signing algorithm. Dilithium directly takes the original message, applies a hash function internally, and then uses the resulting hash value for the signature generation process. Therefore, the hash-then-sign paradigm is not needed for Dilithium, as it already incorporates hashing within its signing mechanism. In case of SPHINCS+, it internally performs randomized message compression using an keyed hash function that can process arbitrary length messages. Therefore, the hash-then-sign paradigm is also not needed for SPHINCS+.
 
