@@ -281,7 +281,7 @@ HPKE (Hybrid public key encryption) {{?RFC9180}} deals with a variant of KEM whi
 
 * IND-CCA2 : IND-CCA2 (INDistinguishability under Chosen-Ciphertext Attack, version 2) is an advanced security notion for encryption schemes. It ensures the confidentiality of the plaintext, resistance against chosen-ciphertext attacks, and prevents the adversary from forging new ciphertexts. An appropriate definition of IND-CCA2 security for KEMs can be found in [CS01] and [BHK09]. Kyber, Classic McEliece and Saber provide IND-CCA2 security. 
 
-Understanding IND-CCA2 security is essential for individual involved in designing or implementing cryptographic systems to to evaluate the strength of the algorithm, assess its suitability for specific use cases, and ensure that data confidentiality and security requirements are met.
+Understanding IND-CCA2 security is essential for individual involved in designing or implementing cryptographic systems to evaluate the strength of the algorithm, assess its suitability for specific use cases, and ensure that data confidentiality and security requirements are met.
 
 # PQC Signatures
 
@@ -293,8 +293,7 @@ Any digital signature scheme that provides a construction defining security unde
 
 * EUF-CMA : EUF-CMA (Existential Unforgeability under Chosen Message Attack) [GMR88] is a security notion for digital signature schemes. It guarantees that an adversary, even with access to a signing oracle, cannot forge a valid signature for an unknown message. EUF-CMA provides strong protection against forgery attacks, ensuring the integrity and authenticity of digital signatures by preventing unauthorized modifications or fraudulent signatures. Dilithium, Falcon and Sphincs+ provide EUF-CMA security. 
 
-Understanding EUF-CMA security is essential for individual involved in designing or implementing cryptographic systems to ensure the security, reliability, and trustworthiness of digital signature schemes. 
-It allows for informed decision-making, vulnerability analysis, compliance with standards, and designing systems that provide strong protection against forgery attacks.
+Understanding EUF-CMA security is essential for individual involved in designing or implementing cryptographic systems to ensure the security, reliability, and trustworthiness of digital signature schemes. It allows for informed decision-making, vulnerability analysis, compliance with standards, and designing systems that provide strong protection against forgery attacks.
 
 ## Details of FALCON, Dilithium, and SPHINCS+
 
