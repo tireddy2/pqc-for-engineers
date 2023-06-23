@@ -275,8 +275,6 @@ Examples include all the NIST Round 4 (unbroken) finalists: Classic McEliece, HQ
 
 Key Encapsulation Mechanism (KEM) is a cryptographic technique used for securely exchanging symmetric keys between two parties over an insecure channel. It is commonly used in hybrid encryption schemes, where a combination of asymmetric (public-key) and symmetric encryption is employed. The KEM encapsulation results in a fixed-length symmetric key that can be used in one of two ways: (1) Derive a Data Encryption Key (DEK) to encrypt the data (2) Derive a Key Encryption Key (KEK) used to wrap the DEK. 
 
-It is, however, essential to note that PQ KEMs are interactive in nature because the sender's actions are dependent on the receiver's public key and unlike Diffie-Hellman (DH) Key exchange (KEX) which provides non-interactive key exchange (NIKE) property.
-
 KEM relies on the following primitives [PQCAPI]:
 
 * def kemKeyGen() -> (pk, sk)
@@ -291,7 +289,7 @@ where pk is public key, sk is secret key, ct is the ciphertext representing an e
                       | Client  | | Server  |
                       +---------+ +---------+
   -----------------------\ |           |
-  | sk, pk = kemKeyGen() |-|           |
+  | sk, pk = kemKeyGen()   |-|         |
   |----------------------| |           |
                            |           |
                            | pk        |
@@ -304,6 +302,35 @@ where pk is public key, sk is secret key, ct is the ciphertext representing an e
                            |<----------|
 -------------------------\ |           |
 | ss = kemDecaps(ct, sk) |-|           |
+|------------------------| |           |
+                           |           |
+
+~~~~~
+
+### Interactivity in PQC KEM and Diffie-Hellman (DH) Key Exchange
+
+It is, however, essential to note that PQ KEMs are interactive in nature becaue it involves back-and-forth communication to negotiate and establish the shared secret key and unlike Diffie-Hellman (DH) Key exchange (KEX) which provides non-interactive key exchange (NIKE) property. NIKE is a cryptographic primitive which enables two parties, who know each others public keys, to agree on a symmetric shared key without requiring any interaction. The following figure illustrates a sample flow of DH.
+
+~~~~~ aasvg
+
+                      +---------+ +---------+
+                      | Client  | | Server  |
+                      +---------+ +---------+
+  -----------------------\ |           |
+  | sk1, pk1 = KeyGen()  |-|           |
+  |----------------------| |           |
+                           |           |
+                           | pk1       |
+                           |---------->|
+                           |           | -------------------------\
+                           |           |-| sk2, pk2 = KeyGen()    |
+                                       | | ss = Combine(pk1, sk2) |
+                           |           | |------------------------|
+                           |           |
+                           |        pk2|
+                           |<----------|
+-------------------------\ |           |
+| ss = Combine(pk2, sk1) |-|           |
 |------------------------| |           |
                            |           |
 
