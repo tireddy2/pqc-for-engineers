@@ -309,7 +309,7 @@ where pk is public key, sk is secret key, ct is the ciphertext representing an e
 
 ### Interactivity in PQC KEM and Diffie-Hellman (DH) Key Exchange
 
-PQ KEMs are interactive in nature becaue it involves back-and-forth communication to negotiate and establish the shared secret key and unlike Diffie-Hellman (DH) Key exchange (KEX) which provides non-interactive key exchange (NIKE) property. NIKE is a cryptographic primitive which enables two parties, who know each others public keys, to agree on a symmetric shared key without requiring any interaction. The following figure illustrates a sample flow of DH.
+PQ KEMs are interactive in nature because it involves back-and-forth communication to negotiate and establish the shared secret key and unlike Diffie-Hellman (DH) Key exchange (KEX) which provides non-interactive key exchange (NIKE) property. NIKE is a cryptographic primitive which enables two parties, who know each others public keys, to agree on a symmetric shared key without requiring any interaction. The following figure illustrates a sample flow of DH.
 
 ~~~~~ aasvg
 
