@@ -18,8 +18,8 @@ keyword:
 venue:
   group: "pquip"
   type: "Working Group"
-  mail: "pquip@ietf.org"
-  arch: "https://mailarchive.ietf.org/arch/browse/pquip/"
+  mail: "pqc@ietf.org"
+  arch: "https://mailarchive.ietf.org/arch/browse/pqc/"
   
 
 stand_alone: yes
@@ -125,6 +125,15 @@ informative:
      title: "PQC - API notes"
      target: https://csrc.nist.gov/CSRC/media/Projects/Post-Quantum-Cryptography/documents/example-files/api-notes.pdf
      date: false
+  RSA8HRS:
+     title: "How to factor 2048 bit RSA integers in 8 hours using 20 million noisy qubits"
+     target: https://arxiv.org/abs/1905.09749
+     date: false
+  RSA10SC:
+     title: "Breaking RSA Encryption - an Update on the State-of-the-Art"
+     target: https://www.quintessencelabs.com/blog/breaking-rsa-encryption-update-state-art
+     date: false
+
      
 --- abstract
 
@@ -216,7 +225,9 @@ Finally, in their evaluation criteria for PQC, NIST is considering a security le
 
 “Shor’s algorithm” on the other side, efficiently solves the integer factorization problem (and the related discrete logarithm problem), which offer the foundations of the public-key cryptography that the world uses today. This implies that, if a CRQC is developed, today’s public-key cryptography algorithms (e.g., RSA, Diffie-Hellman and Elliptic Curve Cryptography - ECC) and the accompanying digital signatures schemes and protocols would need to be replaced by algorithms and protocols that can offer cryptanalytic resistance against CRQCs. Note that Shor’s algorithm doesn’t run on any classic computer, it needs a CRQC. 
 
-For structured data such as public-key and signatures, instead, CRQCs can fully solve the underlying hard problems used in classic cryptography (see Shor's Algorithm). Because an increase of the size of the key-pair would not provide a secure solution in this case, a complete replacement of the algorithm is needed. Therefore, post-quantum public-key cryptography must rely on problems that are different from the ones used in classic public-key cryptography (i.e., the integer factorization problem, the finite-field discrete logarithm problem, and the elliptic-curve discrete logarithm problem). 
+For example, to provide some context, one would need 20 million noisy qubits to break RSA-2048 in 8 hours {{RSA8HRS}} or 4099 stable qubits to break it in 10 seconds {{RSA10SC}}.
+
+For structured data such as public-key and signatures, instead, CRQCs can fully solve the underlying hard problems used in classic cryptography (see Shor's Algorithm). Because an increase of the size of the key-pair would not provide a secure solution in this case, a complete replacement of the algorithm is needed. Therefore, post-quantum public-key cryptography must rely on problems that are different from the ones used in classic public-key cryptography (i.e., the integer factorization problem, the finite-field discrete logarithm problem, and the elliptic-curve discrete logarithm problem).
 
 
 # Timeline for transition
