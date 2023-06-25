@@ -356,7 +356,7 @@ HPKE (Hybrid public key encryption) {{?RFC9180}} deals with a variant of KEM whi
 
 * IND-CCA2 : IND-CCA2 (INDistinguishability under adaptive Chosen-Ciphertext Attack) is an advanced security notion for encryption schemes. In this scheme from a provable security perspective, an adversary is given access to the decryption oracle (which they can use to decrypt arbitary ciphertexts into plaintexts) and is given the ciphertext even before it makes any queries to the oracle, although they cannot query the ciphertext itself to the oracle. A scheme is IND-CCA2 secure if no adversary has non-negligible advantage of winning this game. It ensures the confidentiality of the plaintext, resistance against chosen-ciphertext attacks, and prevents the adversary from forging new ciphertexts. An appropriate definition of IND-CCA2 security for KEMs can be found in [CS01] and [BHK09]. Kyber, Classic McEliece and Saber provide IND-CCA2 security. 
 
-Understanding IND-CCA2 security is essential for individual involved in designing or implementing cryptographic systems to evaluate the strength of the algorithm, assess its suitability for specific use cases, and ensure that data confidentiality and security requirements are met.
+Understanding IND-CCA2 security is essential for individuals involved in designing or implementing cryptographic systems to evaluate the strength of the algorithm, assess its suitability for specific use cases, and ensure that data confidentiality and security requirements are met.
 
 # PQC Signatures
 
@@ -390,7 +390,7 @@ Within the hash-then-sign paradigm, the message is hashed before signing it.  Ha
 
 Protocols like TLS 1.3 and DNSSEC use the Hash-then-Sign paradigm. TLS 1.3 {{?RFC8446}} uses it in the Certificate Verify to proof that the endpoint possesses the private key corresponding to its certificate, while DNSSEC {{?RFC4033}} uses it to provide origin authentication and integrity assurance services for DNS data.
 
-In the case of Dilithium, it internally incorporates the necessary hash operations as part of its signing algorithm. Dilithium directly takes the original message, applies a hash function internally, and then uses the resulting hash value for the signature generation process. Therefore, the hash-then-sign paradigm is not needed for Dilithium, as it already incorporates hashing within its signing mechanism. In case of SPHINCS+, it internally performs randomized message compression using an keyed hash function that can process arbitrary length messages. Therefore, the hash-then-sign paradigm is also not needed for SPHINCS+.
+In the case of Dilithium, it internally incorporates the necessary hash operations as part of its signing algorithm. Dilithium directly takes the original message, applies a hash function internally, and then uses the resulting hash value for the signature generation process. Therefore, the hash-then-sign paradigm is not needed for Dilithium, as it already incorporates hashing within its signing mechanism. In case of SPHINCS+, it internally performs randomized message compression using a keyed hash function that can process arbitrary length messages. Therefore, the hash-then-sign paradigm is also not needed for SPHINCS+.
 
 # Recommendations for Security / Performance Tradeoffs {#RecSecurity}
 
