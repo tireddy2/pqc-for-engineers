@@ -268,8 +268,8 @@ A malicious actor with adequate resources can launch an attack to store sensitiv
 |                        |                            |
 |         y              |           x                |
 +------------------------+----------+-----------------+
-|                                   |
-|               z                   |
+|                                   | <--------------->
+|               z                   |   Security gap
 +-----------------------------------+
 
 ~~~~~
@@ -382,7 +382,7 @@ HPKE (Hybrid public key encryption) {{?RFC9180}} deals with a variant of KEM whi
 
 ## Security property
 
-* IND-CCA2 : IND-CCA2 (INDistinguishability under adaptive Chosen-Ciphertext Attack) is an advanced security notion for encryption schemes. In this scheme from a provable security perspective, an adversary is given access to the decryption oracle (which they can use to decrypt arbitary ciphertexts into plaintexts) and is given the ciphertext even before it makes any queries to the oracle, although they cannot query the ciphertext itself to the oracle. A scheme is IND-CCA2 secure if no adversary has non-negligible advantage of winning this game. It ensures the confidentiality of the plaintext, resistance against chosen-ciphertext attacks, and prevents the adversary from forging new ciphertexts. An appropriate definition of IND-CCA2 security for KEMs can be found in [CS01] and [BHK09]. Kyber, Classic McEliece and Saber provide IND-CCA2 security. 
+* IND-CCA2 : IND-CCA2 (INDistinguishability under adaptive Chosen-Ciphertext Attack) is an advanced security notion for encryption schemes. It ensures the confidentiality of the plaintext, resistance against chosen-ciphertext attacks, and prevents the adversary from forging new ciphertexts. An appropriate definition of IND-CCA2 security for KEMs can be found in [CS01] and [BHK09]. Kyber, Classic McEliece and Saber provide IND-CCA2 security. 
 
 Understanding IND-CCA2 security is essential for individuals involved in designing or implementing cryptographic systems to evaluate the strength of the algorithm, assess its suitability for specific use cases, and ensure that data confidentiality and security requirements are met.
 
