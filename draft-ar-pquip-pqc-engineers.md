@@ -133,6 +133,14 @@ informative:
      title: "Breaking RSA Encryption - an Update on the State-of-the-Art"
      target: https://www.quintessencelabs.com/blog/breaking-rsa-encryption-update-state-art
      date: false
+  KyberSide:
+     title: "A Side-Channel Attack on a Hardware Implementation of CRYSTALS-Kyber"
+     target: https://eprint.iacr.org/2022/1452
+     date: false
+  SaberSide:
+     title: "A side-channel attack on a masked and shuffled software implementation of Saber"
+     target: https://link.springer.com/article/10.1007/s13389-023-00315-3
+     date: false
 
      
 --- abstract
@@ -462,6 +470,10 @@ The frequency and duration of system upgrades and the time when CRQCs will becom
 # Security Considerations
 
 Several PQC schemes are available that need to be tested; cryptography experts around the world are pushing for the best possible solutions, and the first standards that will ease the introduction of PQC are being prepared. It is of paramount importance and a call for imminent action for organizations, bodies, and enterprises to start evaluating their cryptographic agility, assess the complexity of implementing PQC into their products, processes, and systems, and develop a migration plan that achieves their security goals to the best possible extent.
+Classical cryptanalysis exploits weaknesses in algorithm design, mathematical vulnerabilities, or implementation flaws, whereas quantum cryptanalysis harnesses the power of CRQCs 
+to solve specific mathematical problems more efficiently. Both pose threats to the security of cryptographic algorithms, including those used in PQC. Developing and adopting new cryptographic algorithms resilient against these threats is crucial for ensuring long-term security in the face of advancing cryptanalysis techniques. Cryptographic agility is relevant for both classical and quantum cryptanalysis as it enables organizations to adapt to emerging threats, adopt stronger algorithms, comply with standards, and plan for long-term security in the face of evolving cryptanalytic techniques and the advent of CRQCs.
+Recent attacks on the side-channel implementations using deep learning based power analysis have also shown that one needs to be cautious while implementing the required PQC algorithms in hardware. Two of the most recent works include: one attack on Kyber {{KyberSide}} and one attack on Saber {{Saberside}}.
+Post-quantum algorithms selected for standardization are relatively new and they they have not been subject to the same depth of study as traditional algorithms. In addition, certain deployments may need  need to retain traditional algorithms due to regulatory constraints, for example FIPS compliance. Hybrid key exchange enables potential security against "Harvest Now, Decrypt Later" attack while not fully abandoning traditional cryptosystems.
 
 # Further Reading & Resources
 
