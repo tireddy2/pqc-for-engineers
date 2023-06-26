@@ -214,13 +214,13 @@ These algorithms are not a drop-in replacement for classical asymmetric cryptogr
 
 ### PQC Key Encapsulation Mechanisms (KEMs)
 
-* [CRYSTALS-Kyber](https://pq-crystals.org/kyber/): Kyber is a module learning with errors (MLWE)-based key encapsulation mechanism.
+* [CRYSTALS-Kyber](https://pq-crystals.org/kyber/): Kyber is a module learning with errors (MLWE)-based key encapsulation mechanism ({{lattice-based}}).
 
 ### PQC Signatures
 
-* [CRYSTALS-Dilithium](https://pq-crystals.org/dilithium/)
-* [Falcon](https://falcon-sign.info/)
-* [SPHINCS+](https://sphincs.org/)
+* [CRYSTALS-Dilithium](https://pq-crystals.org/dilithium/): CRYSTALS-Dilithium is a lattice signature scheme ({{lattice-based}} and {{sig-scheme}}).
+* [Falcon](https://falcon-sign.info/): Falcon is a lattice signature scheme ({{lattice-based}} and {{sig-scheme}}).
+* [SPHINCS+](https://sphincs.org/): SPHINCS+ is a stateless hash-based signature scheme ({{hash-based}} and {{sig-scheme}}).
 
 ## Candidates advancing to the fourth-round for standardization at NIST
 
@@ -283,7 +283,7 @@ Finally, other factors that could accelerate the introduction of a CRQC should n
 
 The current set of problems used in post-quantum cryptography can be currently grouped into three different categories: lattice-based, hash-based and code-based.
 
-## Lattice-Based Public-Key Cryptography
+## Lattice-Based Public-Key Cryptography {#lattice-based}
 
 Lattice-based public-key cryptography leverages the simple construction of lattices (i.e., a regular collection of points in a Euclidean space that are regularly spaced) to build problems that are hard to solve such as the Shortest Vector or Closes Vector Problem, Learning with Errors, and Learning with Rounding. All these problems have good proof for worst-to-average case reduction, thus equating the hardness of the average case to the worst-case.
 
@@ -301,7 +301,7 @@ SPHINCS on the other hand leverages the HORS (Hash to Obtain Random Subset) tech
 
 SPHINCS+ is an advancement on SPHINCS which reduces the signature sizes in SPHINCS and makes it more compact. SPHINCS+ was recently standardized by NIST.
 
-## Code-Based Public-Key Cryptography
+## Code-Based Public-Key Cryptography {#code-based}
 
 This area of cryptography stemmed in the 1970s and 80s based on the seminal work of McEliece and Niederreiter which focuses on the study of cryptosystems based on error-correcting codes. Some popular error correcting codes include the Goppa codes (used in McEliece cryptosystems), encoding and decoding syndrome codes used in Hamming Quasi-Cyclic (HQC) or Quasi-cyclic Moderate density parity check (QC-MDPC) codes.
 
@@ -398,7 +398,7 @@ Any digital signature scheme that provides a construction defining security unde
 
 Understanding EUF-CMA security is essential for individual involved in designing or implementing cryptographic systems to ensure the security, reliability, and trustworthiness of digital signature schemes. It allows for informed decision-making, vulnerability analysis, compliance with standards, and designing systems that provide strong protection against forgery attacks.
 
-## Details of FALCON, Dilithium, and SPHINCS+
+## Details of FALCON, Dilithium, and SPHINCS+ {#sig-scheme}
 
 Dilithium [Dilithium] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem(MLWE)). The design of the algorithm is based on Fiat Shamir with Abort method that leverages rejection sampling to render lattice based FS schemes compact and secure. Additionally, Dilithium offers both deterministic and randomized signing. Security properties of Dilithium are discussed in Section 9 of {{?I-D.ietf-lamps-dilithium-certificates}}. 
 
