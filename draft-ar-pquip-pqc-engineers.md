@@ -519,9 +519,12 @@ Post-quantum algorithms selected for standardization are relatively new and they
 
 The following individuals have contributed to this document:
 
-   Kris Kwiatkowski
-   PQShield, LTD
-   United Kingdom
+   Kris Kwiatkowski  
+
+   PQShield, LTD  
+
+   United Kingdom. 
+   
    kris@amongbytes.com
 
 # Acknowledgements
