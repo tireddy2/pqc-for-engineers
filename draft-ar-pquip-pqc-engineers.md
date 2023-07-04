@@ -515,6 +515,15 @@ Post-quantum algorithms selected for standardization are relatively new and they
 
 - [Open Quantum Safe](https://openquantumsafe.org/) and corresponding [github](https://github.com/open-quantum-safe)
 
+# Contributors
+
+The following individuals have contributed to this document:
+
+   Kris Kwiatkowski
+   PQShield, LTD
+   United Kingdom
+   kris@amongbytes.com
+
 # Acknowledgements
 {:numbered="false"}
 
