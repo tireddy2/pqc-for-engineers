@@ -194,13 +194,13 @@ The editors actively encourage contributions to this document. Please consider w
 
 Any asymmetric cryptographic algorithm based on integer factorization, finite field discrete logarithms or elliptic curve discrete logarithms will be vulnerable to attacks using Shor's Algorithm on a sufficiently large general-purpose quantum computer, known as a CRQC. This document focuses on the principal functions of asymmetric cryptography:
 
-* Key Agreement:  Key Agreement schemes are used to establish a shared cryptographic key for secure communication. They are one of the mechanisms that can replaced by PQC, as this is based on public key cryptography and is therefore vulnerable to the Shor's algorithm. An CRQC can find the prime factors of the large public key, which can used to derive the private key.
+* Key Agreement:  Key Agreement schemes are used to establish a shared cryptographic key for secure communication. They are one of the mechanisms that can be replaced by PQC, as this is based on public key cryptography and is therefore vulnerable to the Shor's algorithm. An CRQC can find the prime factors of the large public key, which can be used to derive the private key.
 
-* Digital Signatures: Digital Signature schemes are used to authenticate the identity of a sender, detect unauthorized modifications to data and underpin trust in a system. Signatures, similar to KEMs also depend on public-private key pair and hence a break in public key cryptography will also affect traditional digital signatures, hence the importance of developing post quantum digital signatures.  
+* Digital Signatures: Digital Signature schemes are used to authenticate the identity of a sender, detect unauthorized modifications to data and underpin trust in a system. Similarly to Key Agreement, signatures also depend on public-private key pair and hence a break in public key cryptography will also affect traditional digital signatures, hence the importance of developing post quantum digital signatures.
 
 # Invariants of Post-Quantum Cryptography
 
- In the context of PQC, symmetric-key cryptographic algorithms are generally not directly impacted by quantum computing advancements. Symmetric-key cryptography, such as block ciphers (e.g., AES) and hash functions (e.g., HMAC-SHA2), rely on secret keys shared between the sender and receiver. HMAC is a specific construction that utilizes a cryptographic hash function (such as SHA-2) and a secret key shared between the sender and receiver to produce a message authentication code. CRQCs, in theory, do not offer substantial advantages in breaking symmetric-key algorithms compared to classical computers (see {{symmetric}} for more details).
+ In the context of PQC, symmetric-key cryptographic algorithms are generally not directly impacted by quantum computing advancements. Symmetric-key cryptography, such as block ciphers (e.g., AES) and message authentication mechanisms (e.g., HMAC-SHA2), rely on secret keys shared between the sender and receiver. HMAC is a specific construction that utilizes a cryptographic hash function (such as SHA-2) and a secret key shared between the sender and receiver to produce a message authentication code. CRQCs, in theory, do not offer substantial advantages in breaking symmetric-key algorithms compared to classical computers (see {{symmetric}} for more details).
 
 # NIST PQC Algorithms
 
@@ -224,7 +224,7 @@ These algorithms are not a drop-in replacement for classical asymmetric cryptogr
 
 ## Candidates advancing to the fourth-round for standardization at NIST
 
-The fourth-round of the NIST process only concerns with KEMs.
+The fourth-round of the NIST process focuses only on KEMs. The goal of that round is to select an althernative algorithm that is based on different hard problem than Kyber.
 The candidates still advancing for standardization are:
 
 * [Classic McEliece](https://classic.mceliece.org/)
@@ -244,14 +244,14 @@ Grover's algorithm is a quantum search algorithm that provides a theoretical qua
 
 For unstructured data such as symmetric encrypted data or cryptographic hashes, although CRQCs can search for specific solutions across all possible input combinations (e.g., Grover's Algorithm), no CRQCs is known  to break the security properties of these classes of algorithms.
 
-How can someone be sure then that an improved algorithm won’t outperform Grover's algorithm at some point in time? Christof Zalka has shown that Grover's algorithm (and in particular its non-parallel nature) achieves the best possible complexity for unstructured search {{Grover-search}}.
+How can someone be sure that an improved algorithm won’t outperform Grover's algorithm at some point in time? Christof Zalka has shown that Grover's algorithm (and in particular its non-parallel nature) achieves the best possible complexity for unstructured search {{Grover-search}}.
 
 Finally, in their evaluation criteria for PQC, NIST is considering a security level equivalent to that of AES-128, meaning that NIST has confidence in standardizing parameters for PQC that offer similar levels of security as AES-128 does {{NIST}}​. As a result, 128-bit algorithms should be considered quantum-safe for many years to come. 
 
 
 ## Asymmetric cryptography
 
-“Shor’s algorithm” on the other side, efficiently solves the integer factorization problem (and the related discrete logarithm problem), which offer the foundations of the public-key cryptography that the world uses today. This implies that, if a CRQC is developed, today’s public-key cryptography algorithms (e.g., RSA, Diffie-Hellman and Elliptic Curve Cryptography - ECC) and the accompanying digital signatures schemes and protocols would need to be replaced by algorithms and protocols that can offer cryptanalytic resistance against CRQCs. Note that Shor’s algorithm doesn’t run on any classic computer, it needs a CRQC. 
+“Shor’s algorithm” on the other side, efficiently solves the integer factorization problem (and the related discrete logarithm problem), which offer the foundations of the public-key cryptography that the world uses today. This implies that, if a CRQC is developed, today’s public-key cryptography algorithms (e.g., RSA, Diffie-Hellman and Elliptic Curve Cryptography) and protocols would need to be replaced by algorithms and protocols that can offer cryptanalytic resistance against CRQCs. Note that Shor’s algorithm doesn’t run on any classic computer, it needs a CRQC.
 
 For example, to provide some context, one would need 20 million noisy qubits to break RSA-2048 in 8 hours {{RSA8HRS}} or 4099 stable qubits to break it in 10 seconds {{RSA10SC}}.
 
@@ -295,7 +295,7 @@ Examples of such class of algorithms include Kyber, Falcon and Dilithium.
 
 ## Hash-Based Public-Key Cryptography {#hash-based}
 
-Hash based PKC has been around since the 70s, developed by Lamport and Merkle which creates a digital signature algorithm and its security is mathematically based on the security of the selected cryptographic hash function. Many variants of hash based signatures have been developed since the 70s including the recent XMSS, LMS or BPQS schemes. Unlike digital signature techniques, most hash-based signature schemes are stateful, which means that signing necessitates the update of the secret key.
+Hash based PKC has been around since the 70s, developed by Lamport and Merkle which creates a digital signature algorithm and its security is mathematically based on the security of the selected cryptographic hash function. Many variants of hash based signatures have been developed since the 70s including the recent XMSS {{!RFC8391}}, HSS/LMS {{!RFC8554}} or BPQS schemes. Unlike digital signature techniques, most hash-based signature schemes are stateful, which means that signing necessitates the update of the secret key.
 
 SPHINCS on the other hand leverages the HORS (Hash to Obtain Random Subset) technique and remains the only hash based signature scheme that is stateless.
 
@@ -394,7 +394,7 @@ Any digital signature scheme that provides a construction defining security unde
 
 ## Security property
 
-* EUF-CMA : EUF-CMA (Existential Unforgeability under Chosen Message Attack) [GMR88] is a security notion for digital signature schemes. It guarantees that an adversary, even with access to a signing oracle, cannot forge a valid signature for an unknown message. EUF-CMA provides strong protection against forgery attacks, ensuring the integrity and authenticity of digital signatures by preventing unauthorized modifications or fraudulent signatures. Dilithium, Falcon and Sphincs+ provide EUF-CMA security. 
+* EUF-CMA : EUF-CMA (Existential Unforgeability under Chosen Message Attack) [GMR88] is a security notion for digital signature schemes. It guarantees that an adversary, even with access to a signing oracle, cannot forge a valid signature for an arbitrary message. EUF-CMA provides strong protection against forgery attacks, ensuring the integrity and authenticity of digital signatures by preventing unauthorized modifications or fraudulent signatures. Dilithium, Falcon and Sphincs+ provide EUF-CMA security.
 
 Understanding EUF-CMA security is essential for individual involved in designing or implementing cryptographic systems to ensure the security, reliability, and trustworthiness of digital signature schemes. It allows for informed decision-making, vulnerability analysis, compliance with standards, and designing systems that provide strong protection against forgery attacks.
 
@@ -410,7 +410,7 @@ Access to a robust floating-point stack in Falcon is essential for accurate, eff
 
 The performance characteristics of Dilithium and Falcon may differ based on the specific implementation and hardware platform. Generally, Dilithium is known for its relatively fast signature generation, while Falcon can provide more efficient signature verification. The choice may depend on whether the application requires more frequent signature generation or signature verification. For further clarity, please refer to the tables in sections {{RecSecurity}} and {{Comparisons}}.
 
-Sphincs+ [SPHINCS] utilizes the concept of stateless hash-based signatures, where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). This property eliminates the need for maintaining state information during the signing process. Other hash-based signature algorithms are stateful, including HSS/LMS {{!RFC8554}} and XMSS {{!RFC8391}}. SPHINCS+ was designed to sign up to 2^64 messages and it offers three security levels. The parameters for each of the security levels were chosen to provide 128 bits of security, 192 bits of security, and 256 bits of security.  Sphincs+ offers smaller key sizes, larger signature sizes, slower signature generation, and slower verification when compared to Dilithium and Falcon. SPHINCS+ does not introduce a new intractability assumption. It builds upon established foundations in cryptography, making it a reliable and robust digital signature scheme for a post-quantum world. The advantages and disadvantages of SPHINCS+ over other signature algorithms is disussed in Section 3.1 of {{?I-D.draft-ietf-cose-sphincs-plus}}.
+SPHINCS+ [SPHINCS] utilizes the concept of stateless hash-based signatures, where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). This property eliminates the need for maintaining state information during the signing process. SPHINCS+ was designed to sign up to 2^64 messages and it offers three security levels. The parameters for each of the security levels were chosen to provide 128 bits of security, 192 bits of security, and 256 bits of security. SPHINCS+ offers smaller key sizes, larger signature sizes, slower signature generation, and slower verification when compared to Dilithium and Falcon. SPHINCS+ does not introduce a new intractability assumption. It builds upon established foundations in cryptography, making it a reliable and robust digital signature scheme for a post-quantum world. The advantages and disadvantages of SPHINCS+ over other signature algorithms is disussed in Section 3.1 of {{?I-D.draft-ietf-cose-sphincs-plus}}.
 
 ## Hash-then-Sign Versus Sign-then-Hash
 
@@ -424,25 +424,26 @@ In the case of Dilithium, it internally incorporates the necessary hash operatio
 
 The table below denotes the 5 security levels provided by NIST required for PQC algorithms. Users can leverage the required algorithm based on the security level based on their use case. The security is defined as a function of resources required to break AES and SHA3 algorithms, i.e., optimal key recovery for AES and optimal collision attacks for SHA3.
 
-| Security Level |            AES/SHA3 hardness       |                   PQC Algorithm                            |
-| -------------- | ---------------------------------- | ---------------------------------------------------------- |
-|       1        | Find optimal key in AES-128        |          Kyber512, Falcon512, Sphincs+SHA256 128f/s        |
-|       2        | Find optimal collision in SHA3-256 |                       Dilithium2                           |
-|       3        | Find optimal key in AES-192        |         Kyber768, Dilithium3, Sphincs+SHA256 192f/s        |
-|       4        | Find optimal collision in SHA3-384 |                   No algorithm tested at this level        |
-|       5        | Find optimal key in AES-256        |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA256 256f/s |
+| PQ Security Level |            AES/SHA3 hardness       |                   PQC Algorithm                            |
+| ----------------- | ---------------------------------- | ---------------------------------------------------------- |
+|         1         | Find optimal key in AES-128        |          Kyber512, Falcon512, Sphincs+SHA256 128f/s        |
+|         2         | Find optimal collision in SHA3-256 |                       Dilithium2                           |
+|         3         | Find optimal key in AES-192        |         Kyber768, Dilithium3, Sphincs+SHA256 192f/s        |
+|         4         | Find optimal collision in SHA3-384 |                   No algorithm tested at this level        |
+|         5         | Find optimal key in AES-256        |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA256 256f/s |
 
 Please note the Sphincs+SHA256 x"f/s" in the above table denotes whether its the Sphincs+ fast (f) version or small (s) version for "x" bit AES security level. Refer to {{?I-D.ietf-lamps-cms-sphincs-plus-02}} for further details on Sphincs+ algorithms.
 
 The following table discusses the impact of performance on different security levels in terms of private key sizes, public key sizes and ciphertext/signature sizes.
 
-| Security Level |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  | Ciphertext/Signature size (in bytes) |
-| -------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
-|       1        |            Kyber512        |       800                   |          1632                |             768                      |
-|       2        |           Dilithium2       |       1312                  |          2528                |            2420                      |
-|       3        |            Kyber768        |       1184                  |          2400                |            1088                      |
-|       5        |           Falcon1024       |       1793                  |          2305                |            1330                      |
-|       5        |            Kyber1024       |       1568                  |          3168                |            1588                      |
+| PQ Security Level  |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  | Ciphertext/Signature size (in bytes) |
+| ------------------ | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
+|         1          |            Kyber512        |       800                   |          1632                |            768                       |
+|         1          |           Falcon512        |       897                   |          1281                |            666                       |
+|         2          |           Dilithium2       |       1312                  |          2528                |            2420                      |
+|         3          |            Kyber768        |       1184                  |          2400                |            1088                      |
+|         5          |           Falcon1024       |       1793                  |          2305                |            1280                      |
+|         5          |            Kyber1024       |       1568                  |          3168                |            1588                      |
 
 # Comparing PQC KEMs/Signatures vs Traditional KEMs (KEXs)/Signatures {#Comparisons}
 
@@ -465,9 +466,10 @@ The next table compares traditional vs. PQC Signature schemes in terms of securi
 | ----------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
 |      Traditional  |              RSA2048       |       256                   |          256                 |            256                       |
 |      Traditional  |               P256         |       64                    |          32                  |            64                        |
+|          1        |            Falcon512       |       897                   |          1281                |            666                       |
 |          2        |            Dilithium2      |       1312                  |          2528                |            768                       |
 |          3        |            Dilithium3      |       1952                  |          4000                |            3293                      |
-|          5        |            Falcon1024      |       1793                  |          2305                |            1330                      |
+|          5        |            Falcon1024      |       1793                  |          2305                |            1280                      |
 
 As one can clearly observe from the above tables, leveraging a PQC KEM/Signature significantly increases the key sizes and the ciphertext/signature sizes as well as compared to traditional KEM(KEX)/Signatures. But the PQC algorithms do provide the additional security level in case there is an attack from a CRQC, whereas schemes based on prime factorization or discrete logarithm problems (finite field or elliptic curves) would provide no level of security at all against such attacks.
 
