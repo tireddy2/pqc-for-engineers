@@ -196,7 +196,7 @@ Any asymmetric cryptographic algorithm based on integer factorization, finite fi
 
 * Key Agreement:  Key Agreement schemes are used to establish a shared cryptographic key for secure communication. They are one of the mechanisms that can be replaced by PQC, as this is based on public key cryptography and is therefore vulnerable to the Shor's algorithm. An CRQC can find the prime factors of the large public key, which can be used to derive the private key.
 
-* Digital Signatures: Digital Signature schemes are used to authenticate the identity of a sender, detect unauthorized modifications to data and underpin trust in a system. Similarly to Key Agreement, signatures also depend on public-private key pair and hence a break in public key cryptography will also affect traditional digital signatures, hence the importance of developing post quantum digital signatures.
+* Digital Signatures: Digital Signature schemes are used to authenticate the identity of a sender, detect unauthorized modifications to data and underpin trust in a system. Similar to Key Agreement, signatures also depend on public-private key pair and hence a break in public key cryptography will also affect traditional digital signatures, hence the importance of developing post quantum digital signatures.
 
 # Invariants of Post-Quantum Cryptography
 
