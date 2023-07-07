@@ -448,7 +448,7 @@ The table below denotes the 5 security levels provided by NIST required for PQC 
 
 Please note the Sphincs+SHA256 x"f/s" in the above table denotes whether its the Sphincs+ fast (f) version or small (s) version for "x" bit AES security level. Refer to {{?I-D.ietf-lamps-cms-sphincs-plus-02}} for further details on Sphincs+ algorithms.
 
-The following table below also discusses the signature size difference for similar SPHINCS+ algorithm security levels but of different category i.e., fast (f) or small (s) version.
+The following table discusses the signature size differences for similar SPHINCS+ algorithm security levels with the "simple" version but for different categories i.e., (f) for fast verification and (s) for compactness/smaller. Both SHA256 and SHAKE-256 parametrisation output the same signature sizes, so both have been included.
 
 | PQ Security Level | Algorithm | Public key size (in bytes) | Private key size (in bytes) | Signature size (in bytes) |
 | ------------------ | --------------------------------- | --------------------------- | --------------------------- | ------------------------------------ |
