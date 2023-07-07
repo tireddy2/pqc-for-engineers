@@ -231,9 +231,9 @@ These algorithms are not a drop-in replacement for classical asymmetric cryptogr
 The fourth-round of the NIST process focuses only on KEMs. The goal of that round is to select an althernative algorithm that is based on different hard problem than Kyber.
 The candidates still advancing for standardization are:
 
-* [Classic McEliece](https://classic.mceliece.org/)
-* [BIKE](https://bikesuite.org/)
-* [HQC](http://pqc-hqc.org/)
+* [Classic McEliece](https://classic.mceliece.org/): Based on the hardness of syndrome decoding of Goppa codes
+* [BIKE](https://bikesuite.org/): Based on the the hardness of syndrome decoding of QC-MDPC codes.
+* [HQC](http://pqc-hqc.org/) : Based on the hardness of syndrome decoding of Hamming Quasi-cyclic codes.
 * [SIKE](https://sike.org/) (Broken): Supersingular Isogeny Key Encapsulation (SIKE) is a specific realization of the SIDH (Supersingular Isogeny Diffie-Hellman) protocol. Recently, a [mathematical attack](https://eprint.iacr.org/2022/975.pdf) based on the "glue-and-split" theorem from 1997 from Ernst Kani was found against the underlying chosen starting curve and torsion information. In practical terms, this attack allows for the efficient recovery of the private key. NIST announced that SIKE was no longer under consideration, but the authors of SIKE had asked for it to remain in the list so that people are aware that it is broken.
 
 # Threat of CRQCs on Cryptography
