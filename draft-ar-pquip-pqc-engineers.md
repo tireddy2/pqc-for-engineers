@@ -165,8 +165,15 @@ informative:
      title: "Announcing the Commercial National Security Algorithm Suite 2.0"
      target: https://media.defense.gov/2022/Sep/07/2003071834/-1/-1/0/CSA_CNSA_2.0_ALGORITHMS_.PDF
      date: false
-
-     
+  LattFail1:
+     title: "Decryption Failure Attacks on IND-CCA Secure Lattice-Based Schemes"
+     target: https://link.springer.com/chapter/10.1007/978-3-030-17259-6_19#chapter-info
+     date: false
+  LattFail2:
+     title: "(One) Failure Is Not an Option: Bootstrapping the Search for Failures in Lattice-Based Encryption Schemes."
+     target: https://link.springer.com/chapter/10.1007/978-3-030-45727-3_1
+     date: false
+      
 --- abstract
 
 The presence of a Cryptographically Relevant Quantum Computer (CRQC) would render state-of-the-art, public-key cryptography deployed today obsolete, since all the assumptions about the intractability of the mathematical problems that offer confident levels of security today no longer apply in the presence of a CRQC.  This means there is a requirement to update protocols and infrastructure to use post-quantum algorithms, which are public-key algorithms designed to be secure against CRQCs as well as classical computers.  These algorithms are just like previous public key algorithms, however the intractable mathematical problems have been carefully chosen, so they are hard for CRQCs as well as classical computers. This document explains why engineers need to be aware of and understand post-quantum cryptography. It emphasizes the potential impact of CRQCs on current cryptographic systems and the need to transition to post-quantum algorithms to ensure long-term security.  The most important thing to understand is that this transition is not like previous transitions from DES to AES or from SHA-1 to SHA2, as the algorithm properties are significantly different from classical algorithms, and a drop-in replacement is not possible. 
@@ -296,6 +303,8 @@ The possibility to implement public-key schemes on lattices is tied to the chara
 Lattice-based schemes usually have good performances and average size public keys and signatures, making them good candidates for general-purpose use such as replacing the use of RSA in PKIX certificates.
 
 Examples of such class of algorithms include Kyber, Falcon and Dilithium.
+
+It is noteworthy that, lattice-based encryption schemes are often prone to decryption failures, meaning that valid encryptions are decrypted incorrectly; as such, an attacker could significantly reduce the security of lattice-based schemes that have a relatively high failure rate. However, for most of the NIST Post-Quantum Proposals, the number of required oracle queries is above practical limits, as has been shown in {{LattFail1}}. More recent works have improved upon the results in {{LattFail1}}, showing that the cost of searching for additional failing ciphertexts after one or more have already been found, can be sped up dramatically {{LattFail2}}. However, at this point in time (July 2023), the PQC candidates by NIST are considered secure under these attacks and we suggest constant monitoring as cryptanalysis research is ongoing.
 
 ## Hash-Based Public-Key Cryptography {#hash-based}
 
