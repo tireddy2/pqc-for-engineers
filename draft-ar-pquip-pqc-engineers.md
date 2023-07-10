@@ -504,6 +504,19 @@ The migration to PQC is unique in the history of modern digital cryptography in 
 
 During the transition from traditional to post-quantum algorithms, there may be a desire or a requirement for protocols that use both algorithm types. {{?I-D.ietf-pquip-pqt-hybrid-terminology}} defines the terminology for the Post-Quantum and Traditional Hybrid Schemes.
 
+## PQ/T Hybrid Confidentiality 
+
+The PQ/T Hybrid Confidentiality property can be used to protect from a "Harvest Now, Decrypt Later" attack, which refers to an attacker collecting encrypted data now and waiting for quantum computers to become powerful enough to break the encryption later. Two types of hybrid key agreement schemes are discussed below:
+
+1. Concatenate hybrid key agreement scheme: The final shared secret that will be used as an input of the key derivation function is the result of the concatenation of the secrets established with each key agreement scheme. For example, in {{?I-D.ietf-tls-hybrid-design}}, the client uses the TLS supported groups extension to advertise support for a PQ/T hybrid scheme, and the server can select this group if it supports the scheme. The hybrid-aware client and server establish a hybrid secret by concatenating the two shared secrets, which is used as the shared secret in the existing TLS 1.3 key schedule. 
+2. Cascade hybrid key agreement scheme: The final shared secret is computed by applying as many iterations of the key derivation function as the number of key agreement schemes composing the hybrid key agreement scheme. For example, {{?RFC9730}} extends the Internet Key Exchange Protocol Version 2 (IKEv2) to allow one or more PQC algorithms in addition to the traditional algorithm to derive the final IKE SA keys using the cascade method as explained in Section 2.2.2 of {{?RFC9730}}. 
+
+## PQ/T Hybrid Authentication 
+
+The PQ/T Hybrid Authentication property can be utilized in scenarios where an on-path attacker possesses network devices equipped with CRQCs, capable of breaking traditional authentication protocols. This property ensures authentication through a PQ/T hybrid scheme or a PQ/T hybrid protocol, as long as at least one component algorithm remains secure to provide the intended security level. For instance, a PQ/T hybrid certificate can be employed to facilitate a PQ/T hybrid authentication protocol. However, a PQ/T hybrid authentication protocol does not need to use a PQ/T hybrid certificate {{?I-D.ounsworth-pq-composite-keys}}; separate certificates could be used for individual component algorithms {{?I-D.ietf-lamps-cert-binding-for-multi-auth}}.
+
+The frequency and duration of system upgrades and the time when CRQCs will become widely available need to be weighed in to determine whether and when to support the PQ/T Hybrid Authentication property.
+
 ## Additional Considerations
 
 It is also possible to use more than two algorithms together in a hybrid scheme, and there are multiple possible ways those algorithms can be combined.  For the purposes of a post-quantum transition, the simple combination of a post-quantum algorithm with a single classical algorithm is the most straightforward, but the use of multiple post-quantum algorithms with different hard math problems has also been considered.  When combining algorithms, it is possible to require that both algorithms validate (the so-called "and" mode) or that only one does (the "or" mode), or even some more complicated scheme.  Schemes that do not require both algorithms to validate only have the strength of the weakest algorithm, and therefore offer little or no security benefit.  Since such schemes generally also require both keys to be distributed (e.g. https://datatracker.ietf.org/doc/html/draft-truskovsky-lamps-pq-hybrid-x509-01), there are substantial performance costs in some scenarios.  This combination of properties makes optionally including post-quantum keys without requiring their use to be generally unattractive in most use cases.
@@ -517,19 +530,6 @@ The same considerations apply when using multiple certificates to transport a pa
 At least one scheme has been proposed that allows the pair of certificates to exist as a single certificate when being issued and managed, but dynamically split into individual certificates when needed (https://datatracker.ietf.org/doc/draft-bonnell-lamps-chameleon-certs/).
 
 Many of these points are still being actively explored and discussed, and the consensus may change over time.
-
-## PQ/T Hybrid Confidentiality 
-
-The PQ/T Hybrid Confidentiality property can be used to protect from a "Harvest Now, Decrypt Later" attack, which refers to an attacker collecting encrypted data now and waiting for quantum computers to become powerful enough to break the encryption later. Two types of hybrid key agreement schemes are discussed below:
-
-1. Concatenate hybrid key agreement scheme: The final shared secret that will be used as an input of the key derivation function is the result of the concatenation of the secrets established with each key agreement scheme. For example, in {{?I-D.ietf-tls-hybrid-design}}, the client uses the TLS supported groups extension to advertise support for a PQ/T hybrid scheme, and the server can select this group if it supports the scheme. The hybrid-aware client and server establish a hybrid secret by concatenating the two shared secrets, which is used as the shared secret in the existing TLS 1.3 key schedule. 
-2. Cascade hybrid key agreement scheme: The final shared secret is computed by applying as many iterations of the key derivation function as the number of key agreement schemes composing the hybrid key agreement scheme. For example, {{?RFC9730}} extends the Internet Key Exchange Protocol Version 2 (IKEv2) to allow one or more PQC algorithms in addition to the traditional algorithm to derive the final IKE SA keys using the cascade method as explained in Section 2.2.2 of {{?RFC9730}}. 
-
-## PQ/T Hybrid Authentication 
-
-The PQ/T Hybrid Authentication property can be utilized in scenarios where an on-path attacker possesses network devices equipped with CRQCs, capable of breaking traditional authentication protocols. This property ensures authentication through a PQ/T hybrid scheme or a PQ/T hybrid protocol, as long as at least one component algorithm remains secure to provide the intended security level. For instance, a PQ/T hybrid certificate can be employed to facilitate a PQ/T hybrid authentication protocol. However, a PQ/T hybrid authentication protocol does not need to use a PQ/T hybrid certificate {{?I-D.ounsworth-pq-composite-keys}}; separate certificates could be used for individual component algorithms {{?I-D.ietf-lamps-cert-binding-for-multi-auth}}.
-
-The frequency and duration of system upgrades and the time when CRQCs will become widely available need to be weighed in to determine whether and when to support the PQ/T Hybrid Authentication property.
 
 # Security Considerations
 
