@@ -161,6 +161,10 @@ informative:
      title: "Post-Quantum Authenticated Encryption against Chosen-Ciphertext Side-Channel Attacks"
      target: https://eprint.iacr.org/2022/916
      date: false
+  CNSA2-0:
+     title: "Announcing the Commercial National Security Algorithm Suite 2.0"
+     target: https://media.defense.gov/2022/Sep/07/2003071834/-1/-1/0/CSA_CNSA_2.0_ALGORITHMS_.PDF
+     date: false
 
      
 --- abstract
@@ -173,7 +177,7 @@ The presence of a Cryptographically Relevant Quantum Computer (CRQC) would rende
 
 Quantum computing is no longer perceived as a conjecture of computational sciences and theoretical physics. Considerable research efforts and enormous corporate and government funding for the development of practical quantum computing systems are being invested currently. For instance, Google’s announcement on achieving quantum supremacy {{Google}}, IBM’s latest 433-qubit processor Osprey {{IBM}} or even Nokia Bell Labs' work on topological qubits {{Nokia}} signify, among other outcomes, the accelerating efforts towards large-scale quantum computers. At the time of writing the document, Cryptographically Relevant Quantum Computers (CRQCs) that can break widely used public-key cryptographic algorithms are not yet available. However, it is worth noting that there is ongoing research and development in the field of quantum computing, with the goal of building more powerful and scalable quantum computers. As quantum technology advances, there is the potential for future quantum computers to have a significant impact on current cryptographic systems.  Forecasting the future is difficult, but the general consensus is that such computers might arrive some time in the 2030s, or might not arrive until 2050 or later.
 
-Extensive research has produced several post-quantum cryptographic algorithms that offer the potential to ensure cryptography's survival in the quantum computing era. However, transitioning to a post-quantum infrastructure is not a straightforward task, and there are numerous challenges to overcome. It requires a combination of engineering efforts, proactive assessment and evaluation of available technologies, and a careful approach to product development. This document aims to provide general guidance to engineers who utilize public-key cryptography in their software. It covers topics such as selecting appropriate post-quantum cryptographic (PQC) algorithms, understanding the differences between PQC Key Encapsulation Mechanisms (KEMs) and traditional Diffie-Hellman style key exchange, and provides insights into expected key sizes and processing time differences between PQC algorithms and traditional ones. Additionally, it discusses the potential threat to symmetric cryptography from Cryptographically Relevant Quantum Computers (CRQCs).  It is important to remember that asymmetric algorithms are largely used for secure communications between organizations that may not have previously interacted, so a significant amount of coordination between organizations, and within and between ecosystems needs to be taken into account.  Such transitions are some of the most complicated in the tech industry.
+Extensive research has produced several post-quantum cryptographic algorithms that offer the potential to ensure cryptography's survival in the quantum computing era. However, transitioning to a post-quantum infrastructure is not a straightforward task, and there are numerous challenges to overcome. It requires a combination of engineering efforts, proactive assessment and evaluation of available technologies, and a careful approach to product development. This document aims to provide general guidance to engineers who utilize public-key cryptography in their software. It covers topics such as selecting appropriate post-quantum cryptographic (PQC) algorithms, understanding the differences between PQC Key Encapsulation Mechanisms (KEMs) and traditional Diffie-Hellman style key exchange, and provides insights into expected key sizes and processing time differences between PQC algorithms and traditional ones. Additionally, it discusses the potential threat to symmetric cryptography from Cryptographically Relevant Quantum Computers (CRQCs).  It is important to remember that asymmetric algorithms are largely used for secure communications between organizations that may not have previously interacted, so a significant amount of coordination between organizations, and within and between ecosystems needs to be taken into account.  Such transitions are some of the most complicated in the tech industry. It might be worth mentioning that recently NSA released an article on Future Quantum-Resistant (QR) Algorithm Requirements for National Security Systems {{CNSA2-0}} based on the need to protect against deployments of CRQCs in the future.
  
 It is crucial for the reader to understand that when the word "PQC" is mentioned in the document, it means Asymmetric Cryptography (or Public key Cryptography) and not any algorithms from the Symmetric side based on stream, block ciphers, etc. It does not cover such topics as when traditional algorithms might become vulnerable (for that, see documents such as [QC-DNS] and others).  It also does not cover unrelated technologies like Quantum Key Distribution or Quantum Key Generation, which use quantum hardware to exploit quantum effects to protect communications and generate keys, respectively.  Post-quantum cryptography is based on standard math and software and can be run on any general purpose computer.
 
@@ -227,9 +231,9 @@ These algorithms are not a drop-in replacement for classical asymmetric cryptogr
 The fourth-round of the NIST process focuses only on KEMs. The goal of that round is to select an althernative algorithm that is based on different hard problem than Kyber.
 The candidates still advancing for standardization are:
 
-* [Classic McEliece](https://classic.mceliece.org/)
-* [BIKE](https://bikesuite.org/)
-* [HQC](http://pqc-hqc.org/)
+* [Classic McEliece](https://classic.mceliece.org/): Based on the hardness of syndrome decoding of Goppa codes. Goppa codes are a class of error-correcting codes that can correct a certain number of errors in a transmitted message. The decoding problem involves recovering the original message from the received noisy codeword.
+* [BIKE](https://bikesuite.org/): Based on the the hardness of syndrome decoding of QC-MDPC codes. Quasi-Cyclic Moderate Density Parity Check (QC-MDPC) code are a class of error correcting codes that leverages bit flipping technique to efficiently correct errors.
+* [HQC](http://pqc-hqc.org/) : Based on the hardness of syndrome decoding of Quasi-cyclic BCH codes. BCH codes are a class of cyclic error-correcting codes constructed using polynomials in the Galois field. They offer a significant generalization of the Hamming code, enabling the correction of multiple bit errors. Later versions use concatenated Reed Muller Reed Solomon (RMRS) codes for efficient decoding.
 * [SIKE](https://sike.org/) (Broken): Supersingular Isogeny Key Encapsulation (SIKE) is a specific realization of the SIDH (Supersingular Isogeny Diffie-Hellman) protocol. Recently, a [mathematical attack](https://eprint.iacr.org/2022/975.pdf) based on the "glue-and-split" theorem from 1997 from Ernst Kani was found against the underlying chosen starting curve and torsion information. In practical terms, this attack allows for the efficient recovery of the private key. NIST announced that SIKE was no longer under consideration, but the authors of SIKE had asked for it to remain in the list so that people are aware that it is broken.
 
 # Threat of CRQCs on Cryptography
@@ -406,7 +410,7 @@ Falcon [Falcon] is based on the GPV hash-and-sign lattice-based signature framew
 
 The main design principle of Falcon is compactness, i.e. it was designed in a way that achieves minimal total memory bandwidth requirement (the sum of the signature size plus the public key size). This is possible due to the compactness of NTRU lattices.  Falcon also offers very efficient signing and verification procedures. The main potential downsides of Falcon refer to the non-triviality of its algorithms and the need for floating point arithmetic support.
 
-Access to a robust floating-point stack in Falcon is essential for accurate, efficient, and secure execution of the mathematical computations involved in the scheme. It helps maintain precision, supports error correction techniques, and contributes to the overall reliability and performance of Falcon's cryptographic operations.
+Access to a robust floating-point stack in Falcon is essential for accurate, efficient, and secure execution of the mathematical computations involved in the scheme. It helps maintain precision, supports error correction techniques, and contributes to the overall reliability and performance of Falcon's cryptographic operations as well makes it more resistant to side-channel attacks.
 
 The performance characteristics of Dilithium and Falcon may differ based on the specific implementation and hardware platform. Generally, Dilithium is known for its relatively fast signature generation, while Falcon can provide more efficient signature verification. The choice may depend on whether the application requires more frequent signature generation or signature verification. For further clarity, please refer to the tables in sections {{RecSecurity}} and {{Comparisons}}.
 
@@ -443,6 +447,17 @@ The table below denotes the 5 security levels provided by NIST required for PQC 
 |         5         | Find optimal key in AES-256        |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA256 256f/s |
 
 Please note the Sphincs+SHA256 x"f/s" in the above table denotes whether its the Sphincs+ fast (f) version or small (s) version for "x" bit AES security level. Refer to {{?I-D.ietf-lamps-cms-sphincs-plus-02}} for further details on Sphincs+ algorithms.
+
+The following table discusses the signature size differences for similar SPHINCS+ algorithm security levels with the "simple" version but for different categories i.e., (f) for fast verification and (s) for compactness/smaller. Both SHA256 and SHAKE-256 parametrisation output the same signature sizes, so both have been included.
+
+| PQ Security Level | Algorithm | Public key size (in bytes) | Private key size (in bytes) | Signature size (in bytes) |
+| ------------------ | --------------------------------- | --------------------------- | --------------------------- | ------------------------------------ |
+| 1 | SPHINCS+-{SHA2,SHAKE}-128f-simple | 32 | 64 | 17088 |
+| 1 | SPHINCS+-{SHA2,SHAKE}-128s-simple | 32 | 64 | 7856 |
+| 3 | SPHINCS+-{SHA2,SHAKE}-192f-simple | 48 | 96 | 35664 |
+| 3 | SPHINCS+-{SHA2,SHAKE}-192s-simple | 48 | 96 | 16224 |
+| 5 | SPHINCS+-{SHA2,SHAKE}-256f-simple | 64 | 128 | 49856 |
+| 5 | SPHINCS+-{SHA2,SHAKE}-256s-simple | 64 | 128 | 29792 |
 
 The following table discusses the impact of performance on different security levels in terms of private key sizes, public key sizes and ciphertext/signature sizes.
 
