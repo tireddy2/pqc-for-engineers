@@ -425,7 +425,7 @@ The performance characteristics of Dilithium and Falcon may differ based on the 
 
 SPHINCS+ [SPHINCS] utilizes the concept of stateless hash-based signatures, where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). This property eliminates the need for maintaining state information during the signing process. SPHINCS+ was designed to sign up to 2^64 messages and it offers three security levels. The parameters for each of the security levels were chosen to provide 128 bits of security, 192 bits of security, and 256 bits of security. SPHINCS+ offers smaller key sizes, larger signature sizes, slower signature generation, and slower verification when compared to Dilithium and Falcon. SPHINCS+ does not introduce a new intractability assumption. It builds upon established foundations in cryptography, making it a reliable and robust digital signature scheme for a post-quantum world. The advantages and disadvantages of SPHINCS+ over other signature algorithms is disussed in Section 3.1 of {{?I-D.draft-ietf-cose-sphincs-plus}}.
 
-## Details of XMSS and HMS
+## Details of XMSS and LMS
 
 The eXtended Merkle Signature Scheme (XMSS) {{?RFC8391}} and Leighton-Micali Signature (LMS) {{?RFC8554}} are stateful hash-based signature schemes, where the secret key changes over time. In both schemes, reusing a secret key state compromises cryptographic security guarantees.
 
