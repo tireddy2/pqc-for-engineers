@@ -461,12 +461,12 @@ The following table discusses the signature size differences for similar SPHINCS
 
 | PQ Security Level | Algorithm | Public key size (in bytes) | Private key size (in bytes) | Signature size (in bytes) |
 | ------------------ | --------------------------------- | --------------------------- | --------------------------- | ------------------------------------ |
-| 1 | SPHINCS+-{SHA2,SHAKE}-128f-simple | 32 | 64 | 17088 |
-| 1 | SPHINCS+-{SHA2,SHAKE}-128s-simple | 32 | 64 | 7856 |
-| 3 | SPHINCS+-{SHA2,SHAKE}-192f-simple | 48 | 96 | 35664 |
-| 3 | SPHINCS+-{SHA2,SHAKE}-192s-simple | 48 | 96 | 16224 |
-| 5 | SPHINCS+-{SHA2,SHAKE}-256f-simple | 64 | 128 | 49856 |
-| 5 | SPHINCS+-{SHA2,SHAKE}-256s-simple | 64 | 128 | 29792 |
+| 1 | SPHINCS+-{SHA2,SHAKE}-128f | 32 | 64 | 17088 |
+| 1 | SPHINCS+-{SHA2,SHAKE}-128s | 32 | 64 | 7856 |
+| 3 | SPHINCS+-{SHA2,SHAKE}-192f | 48 | 96 | 35664 |
+| 3 | SPHINCS+-{SHA2,SHAKE}-192s | 48 | 96 | 16224 |
+| 5 | SPHINCS+-{SHA2,SHAKE}-256f | 64 | 128 | 49856 |
+| 5 | SPHINCS+-{SHA2,SHAKE}-256s | 64 | 128 | 29792 |
 
 The following table discusses the impact of performance on different security levels in terms of private key sizes, public key sizes and ciphertext/signature sizes.
 
