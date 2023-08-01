@@ -449,13 +449,13 @@ In the case of Dilithium, it internally incorporates the necessary hash operatio
 
 The table below denotes the 5 security levels provided by NIST required for PQC algorithms. Users can leverage the required algorithm based on the security level based on their use case. The security is defined as a function of resources required to break AES and SHA3 algorithms, i.e., optimal key recovery for AES and optimal collision attacks for SHA3.
 
-| PQ Security Level |            AES/SHA3 hardness       |                   PQC Algorithm                            |
-| ----------------- | ---------------------------------- | ---------------------------------------------------------- |
-|         1         | Find optimal key in AES-128        |          Kyber512, Falcon512, Sphincs+SHA256 128f/s        |
-|         2         | Find optimal collision in SHA3-256 |                       Dilithium2                           |
-|         3         | Find optimal key in AES-192        |         Kyber768, Dilithium3, Sphincs+SHA256 192f/s        |
-|         4         | Find optimal collision in SHA3-384 |                   No algorithm tested at this level        |
-|         5         | Find optimal key in AES-256        |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA256 256f/s |
+| PQ Security Level |            AES/SHA3 hardness              |                   PQC Algorithm                            |
+| ----------------- | ----------------------------------------- | ---------------------------------------------------------- |
+|         1         | Find optimal key in AES-128               |          Kyber512, Falcon512, Sphincs+SHA256 128f/s        |
+|         2         | Find optimal collision in SHA256/SHA3-256 |                       Dilithium2                           |
+|         3         | Find optimal key in AES-192               |         Kyber768, Dilithium3, Sphincs+SHA256 192f/s        |
+|         4         | Find optimal collision in SHA384/SHA3-384 |                   No algorithm tested at this level        |
+|         5         | Find optimal key in AES-256               |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA256 256f/s |
 
 Please note the Sphincs+SHA256 x"f/s" in the above table denotes whether its the Sphincs+ fast (f) version or small (s) version for "x" bit AES security level. Refer to {{?I-D.ietf-lamps-cms-sphincs-plus-02}} for further details on Sphincs+ algorithms.
 
