@@ -447,19 +447,19 @@ In the case of Dilithium, it internally incorporates the necessary hash operatio
 
 # Recommendations for Security / Performance Tradeoffs {#RecSecurity}
 
-The table below denotes the 5 security levels provided by NIST required for PQC algorithms. Users can leverage the required algorithm based on the security level based on their use case. The security is defined as a function of resources required to break AES and SHA3 algorithms, i.e., optimal key recovery for AES and optimal collision attacks for SHA3.
+The table below denotes the 5 security levels provided by NIST required for PQC algorithms. Users can leverage the required algorithm based on the security level based on their use case. The security is defined as a function of resources required to break AES and SHA2/SHA3 algorithms, i.e., exhaustive key recovery for AES and optimal collision search for SHA2/SHA3.
 
-| PQ Security Level |            AES/SHA3 hardness              |                   PQC Algorithm                            |
-| ----------------- | ----------------------------------------- | ---------------------------------------------------------- |
-|         1         | Find optimal key in AES-128               |          Kyber512, Falcon512, Sphincs+SHA256 128f/s        |
-|         2         | Find optimal collision in SHA256/SHA3-256 |                       Dilithium2                           |
-|         3         | Find optimal key in AES-192               |         Kyber768, Dilithium3, Sphincs+SHA256 192f/s        |
-|         4         | Find optimal collision in SHA384/SHA3-384 |                   No algorithm tested at this level        |
-|         5         | Find optimal key in AES-256               |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA256 256f/s |
+| PQ Security Level |            AES/SHA(2/3) hardness                                            |                   PQC Algorithm                            |
+| ----------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------- |
+|         1         | Atleast as hard as to break AES-128 (exhaustive key recovery)               |          Kyber512, Falcon512, Sphincs+SHA-256 128f/s       |
+|         2         | Atleast as hard as to break SHA-256/SHA3-256 (collision search)             |                       Dilithium2                           |
+|         3         | Atleast as hard as to break AES-192 (exhaustive key recovery)               |         Kyber768, Dilithium3, Sphincs+SHA-256 192f/s       |
+|         4         | Atleast as hard as to break SHA-384/SHA3-384 (collision search)             |                   No algorithm tested at this level        |
+|         5         | Atleast as hard as to break AES-256 (exhaustive key recovery)               |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA-256 256f/s|
 
-Please note the Sphincs+SHA256 x"f/s" in the above table denotes whether its the Sphincs+ fast (f) version or small (s) version for "x" bit AES security level. Refer to {{?I-D.ietf-lamps-cms-sphincs-plus-02}} for further details on Sphincs+ algorithms.
+Please note the Sphincs+SHA-256 x"f/s" in the above table denotes whether its the Sphincs+ fast (f) version or small (s) version for "x" bit AES security level. Refer to {{?I-D.ietf-lamps-cms-sphincs-plus-02}} for further details on Sphincs+ algorithms.
 
-The following table discusses the signature size differences for similar SPHINCS+ algorithm security levels with the "simple" version but for different categories i.e., (f) for fast verification and (s) for compactness/smaller. Both SHA256 and SHAKE-256 parametrisation output the same signature sizes, so both have been included.
+The following table discusses the signature size differences for similar SPHINCS+ algorithm security levels with the "simple" version but for different categories i.e., (f) for fast verification and (s) for compactness/smaller. Both SHA-256 and SHAKE-256 parametrisation output the same signature sizes, so both have been included.
 
 | PQ Security Level | Algorithm | Public key size (in bytes) | Private key size (in bytes) | Signature size (in bytes) |
 | ------------------ | --------------------------------- | --------------------------- | --------------------------- | ------------------------------------ |
@@ -489,9 +489,9 @@ The first table compares traditional vs. PQC KEMs in terms of security, public, 
 
 | PQ Security Level |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  |         Ciphertext size (in bytes)   |
 | ----------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
-|      Traditional  |        P256_HKDF_SHA256    |       65                    |          32                  |            65                        |
-|      Traditional  |        P521_HKDF_SHA512    |       133                   |          66                  |            133                       |
-|      Traditional  |       X25519_HKDF_SHA256   |       32                    |          32                  |            32                        |
+|      Traditional  |        P256_HKDF_SHA-256    |       65                    |          32                  |            65                        |
+|      Traditional  |        P521_HKDF_SHA-512    |       133                   |          66                  |            133                       |
+|      Traditional  |       X25519_HKDF_SHA-256   |       32                    |          32                  |            32                        |
 |          1        |            Kyber512        |       800                   |          1632                |            768                       |
 |          3        |            Kyber768        |       1184                  |          2400                |            1088                      |
 |          5        |            Kyber1024       |       1568                  |          3168                |            1588                      |
