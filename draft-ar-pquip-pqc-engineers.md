@@ -593,7 +593,7 @@ Post-quantum algorithms selected for standardization are relatively new and they
 
 # Contributors
 
-The authors would like to acknowledge that this content is assembled from countless hours of discussion and countless megabytes of email discussions. We have tried to reference as much source material as possible, and appologize to anyone whose work was inadvertently missed.
+The authors would like to acknowledge that this content is assembled from countless hours of discussion and countless megabytes of email discussions. We have tried to reference as much source material as possible, and apologize to anyone whose work was inadvertently missed.
 
 In particular, the authors would like to acknowledge the contributions to this document by the following individuals:
 
