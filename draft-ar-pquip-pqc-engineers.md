@@ -372,7 +372,7 @@ where pk is public key, sk is secret key, ct is the ciphertext representing an e
 
 ### Authenticated Key Exchange (AKE)
 
-*Authenticated* Key Exchange with KEMs -- i.e., where both parties contribute a KEM public key to the overall session key -- is interactive in the way described in this section (RIP Signal Protocol), but single-sided KEM, for example where one person has a KEM key in a certificate and the other person simply wants to encrypt for it, as in S/MIME or OpenPGP email, is perfectly doable with non-interactive HPKE (RFC9180), which is explained in the next section. The following figure illustrates the Diffie-Hellman (DH) Key exchange:
+*Authenticated* Key Exchange with KEMs -- i.e., where both parties contribute a KEM public key to the overall session key -- is interactive in the way described in the previous subsection section (RIP Signal Protocol), but single-sided KEM, for example where one person has a KEM key in a certificate and the other person simply wants to encrypt for it, as in S/MIME or OpenPGP email, is perfectly doable with non-interactive HPKE (RFC9180), which is explained in the next section. The following figure illustrates the Diffie-Hellman (DH) Key exchange:
 
 ~~~~~ aasvg
 
