@@ -370,11 +370,9 @@ where pk is public key, sk is secret key, ct is the ciphertext representing an e
 
 ~~~~~
 
-### Interactivity in PQC KEM and Diffie-Hellman (DH) Key Exchange
+### Authenticated Key Exchange (AKE)
 
-PQ KEMs are interactive in nature because it involves back-and-forth communication to negotiate and establish the shared secret key and is unlike the Diffie-Hellman (DH) Key exchange (KEX) or RSA Key Transport which provide non-interactive key exchange (NIKE) property. NIKE is a cryptographic primitive which enables two parties, who know each others public keys, to agree on a symmetric shared key without requiring any real-time interaction.  Think of encrypted email where the content needs to be encrypted and sent even if the receiving device containing the decryption keys (e.g., phone or laptop) is currently offline.  The following figure illustrates a sample flow of (ephemeral-ephemeral) DH:
-
-EDNOTE (Mike Ounsworth): I actually disagree with this section. *Authenticated* Key Exchange with KEMs -- ie where both parties contribute a KEM public key to the overall session key -- is necessarily interactive in the way described in this section (RIP Signal Protocol), but single-sided KEM, for example where one person has a KEM key in a certificate and the other person simply wants to encrypt for it, as in S/MIME or OpenPGP email, is perfectly doable with non-interactive HPKE (RFC9180), which is actually explaied in the next section. I suggest this section be re-worked: a) re-titled to "Authenticated Key Exchange", and b) explain why we love this property of DH, and why we're all it tears about losing it, I have added some text below the diagram to attempt to do this, but this needs another editing pass.
+*Authenticated* Key Exchange with KEMs -- i.e., where both parties contribute a KEM public key to the overall session key -- is interactive in the way described in {{?I-D.draft-ietf-lake-edhoc-22}}, but single-sided KEM, for example where one peer has a KEM key in a certificate and the other peer simply wants to encrypt for it, as in S/MIME or OpenPGP email, is perfectly doable with non-interactive HPKE (RFC9180), which is explained in the next section. The following figure illustrates the Diffie-Hellman (DH) Key exchange:
 
 ~~~~~ aasvg
 
@@ -402,6 +400,8 @@ EDNOTE (Mike Ounsworth): I actually disagree with this section. *Authenticated* 
 ~~~~~
 
 What is important to note about the above sample flow is that the shared secret `ss` is derived using key material from both the Client and the Server and is thus considered to be an *Authenticated* Key Exchange (AKE). Note also that in an Ephemeral-Static DH, where `sk2`, `pk2` are long-term keys, for example contained in an email encryption certificate, then the client can compute `ss = KeyEx(pk2, sk1)` without waiting for a response from the Server, which makes this a non-interactive and authenticated key exchange. Many Internet protocols rely on this property of DH. When using KEMs as the underlying primitive, a flow may be non-interactive or may be authenticated, but not both. Some Internet protocols will require re-design to accomodate this, either requiring extra network round-trips, or sacrificing security properties.
+
+Post-Quantum KEMs are interactive AKE in nature because it involves back-and-forth communication to negotiate and establish the shared secret key and is unlike the Diffie-Hellman (DH) Key exchange (KEX) or RSA Key Transport which provide non-interactive key exchange (NIKE) property. NIKE is a cryptographic primitive which enables two parties, who know each others public keys, to agree on a symmetric shared key without requiring any real-time interaction.  Think of encrypted email where the content needs to be encrypted and sent even if the receiving device containing the decryption keys (e.g., phone or laptop) is currently offline.
 
 ## HPKE
 
