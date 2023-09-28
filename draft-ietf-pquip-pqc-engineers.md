@@ -65,14 +65,6 @@ informative:
      title: "Quantum Threat Timeline Report 2020"
      target: https://globalriskinstitute.org/publications/quantum-threat-timeline-report-2020/
      date: false
-  IBM:
-     title: "IBM Unveils 400 Qubit-Plus Quantum Processor and Next-Generation IBM Quantum System Two"
-     target: https://newsroom.ibm.com/2022-11-09-IBM-Unveils-400-Qubit-Plus-Quantum-Processor-and-Next-Generation-IBM-Quantum-System-Two
-     date: false     
-  Google:
-     title: "Quantum Supremacy Using a Programmable Superconducting Processor"
-     target: https://ai.googleblog.com/2019/10/quantum-supremacy-using-programmable.html
-     date: false  
   QC-DNS:
      title: "Quantum Computing and the DNS"
      target: https://www.icann.org/octo-031-en.pdf
@@ -81,18 +73,10 @@ informative:
      title: "Post-Quantum Cryptography Standardization"
      target: https://csrc.nist.gov/projects/post-quantum-cryptography/post-quantum-cryptography-standardization
      date: false
-  Nokia:
-     title: "Interference Measurements of Non-Abelian e/4 & Abelian e/2 Quasiparticle Braiding"
-     target: https://journals.aps.org/prx/pdf/10.1103/PhysRevX.13.011028
-     date: false
   Cloudflare:
      title: "NIST’s pleasant post-quantum surprise"
      target: https://blog.cloudflare.com/nist-post-quantum-surprise/
      date: false  
-  IBMRoadmap:
-     title: "The IBM Quantum Development Roadmap"
-     target: https://www.ibm.com/quantum/roadmap
-     date: false
   Falcon:
      title: "Fast Fourier lattice-based compact signatures over NTRU"
      target: https://falcon-sign.info/
@@ -181,6 +165,10 @@ informative:
      title: "Post-quantum RSA"
      target: https://cr.yp.to/papers/pqrsa-20170419.pdf
      date: 2017.04.19
+  SP-800-56C:
+     title: "Recommendation for Key-Derivation Methods in Key-Establishment Schemes"
+     target: https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Cr2.pdf 
+     date: false
       
 --- abstract
 
@@ -190,7 +178,7 @@ The presence of a Cryptographically Relevant Quantum Computer (CRQC) would rende
 
 # Introduction
 
-Quantum computing is no longer perceived as a conjecture of computational sciences and theoretical physics. Considerable research efforts and enormous corporate and government funding for the development of practical quantum computing systems are being invested currently. For instance, some recent results as of writing in mid 2023 such as Google’s announcement on achieving quantum supremacy {{Google}}, IBM’s latest 433-qubit processor Osprey {{IBM}} or even Nokia Bell Labs' work on topological qubits {{Nokia}} signify, among other outcomes, the accelerating efforts towards large-scale quantum computers. At the time of writing the document, Cryptographically Relevant Quantum Computers (CRQCs) that can break widely used public-key cryptographic algorithms are not yet available. However, it is worth noting that there is ongoing research and development in the field of quantum computing, with the goal of building more powerful and scalable quantum computers. One common myth is that quantum computers are faster than conventional CPUs and GPUs in all areas. This is not the case; much as GPUs outperform general-purpose CPUs only on specific types of problems, so too will quantum computers have a niche set of problems on which they excel; unfortunately for cryptographers, integer factorization and discrete logarithms, the mathematical problems underpinning all of modern cryptography, happen to fall within the niche that we expect quantum computers to excel at. As such, as quantum technology advances, there is the potential for future quantum computers to have a significant impact on current cryptographic systems.  Forecasting the future is difficult, but the general consensus is that such computers might arrive some time in the 2030s, or might not arrive until 2050 or later.
+Quantum computing is no longer perceived as a conjecture of computational sciences and theoretical physics. Considerable research efforts and enormous corporate and government funding for the development of practical quantum computing systems are being invested currently. At the time of writing the document, Cryptographically Relevant Quantum Computers (CRQCs) that can break widely used public-key cryptographic algorithms are not yet available. However, it is worth noting that there is ongoing research and development in the field of quantum computing, with the goal of building more powerful and scalable quantum computers. One common myth is that quantum computers are faster than conventional CPUs and GPUs in all areas. This is not the case; much as GPUs outperform general-purpose CPUs only on specific types of problems, so too will quantum computers have a niche set of problems on which they excel; unfortunately for cryptographers, integer factorization and discrete logarithms, the mathematical problems underpinning all of modern cryptography, happen to fall within the niche that we expect quantum computers to excel at. As such, as quantum technology advances, there is the potential for future quantum computers to have a significant impact on current cryptographic systems.  Forecasting the future is difficult, but the general consensus is that such computers might arrive some time in the 2030s, or might not arrive until 2050 or later.
 
 Extensive research has produced several "post-quantum cryptographic (PQC) algorithms" (sometimes refered to as "quantum-safe" algorithms) that offer the potential to ensure cryptography's survival in the quantum computing era. However, transitioning to a post-quantum infrastructure is not a straightforward task, and there are numerous challenges to overcome. It requires a combination of engineering efforts, proactive assessment and evaluation of available technologies, and a careful approach to product development. This document aims to provide general guidance to engineers who utilize public-key cryptography in their software. It covers topics such as selecting appropriate PQC algorithms, understanding the differences between PQC Key Encapsulation Mechanisms (KEMs) and traditional Diffie-Hellman style key exchange, and provides insights into expected key sizes and processing time differences between PQC algorithms and traditional ones. Additionally, it discusses the potential threat to symmetric cryptography from Cryptographically Relevant Quantum Computers (CRQCs).  It is important to remember that asymmetric algorithms (also known as public key algorithms) are largely used for secure communications between organizations or endpoints that may not have previously interacted, so a significant amount of coordination between organizations, and within and between ecosystems needs to be taken into account.  Such transitions are some of the most complicated in the tech industry and will require staged migrations in which upgraded agents need to co-exist and communicate with non-upgraded agents at a scale never before undertaken. It might be worth mentioning that recently NSA released an article on Future Quantum-Resistant (QR) Algorithm Requirements for National Security Systems {{CNSA2-0}} based on the need to protect against deployments of CRQCs in the future. Germany's BSI has also released a PQC migration and recommendations document [BSI-PQC] which largely aligns with United States NIST and NSA guidance, but does differ on some of the guidance.
  
@@ -299,7 +287,7 @@ For authentication, it is often the case that signatures have a very short lifet
 
 These challenges are illustrated nicely by the so called Mosca model discussed in ​{{Threat-Report}}. In the {{Mosca}}, "x" denotes the time that our systems and data need to remain secure, "y" the number of years to fully migrate to a PQC infrastructure and "z" the time until a CRQC that can break current cryptography is available. The model assumes either that encrypted data can be intercepted and stored before the migration is completed in "y" years,  or that signatures will still be relied upon for "x" years after their creation. This data remains vulnerable for the complete "x" years of their lifetime, thus the sum "x+y" gives us an estimate of the full timeframe that data remain insecure​. The model essentially asks how are we preparing our IT systems during those "y" years (or in other words, how can one minimize those "y" years) to minimize the transition phase to a PQC infrastructure and hence minimize the risks of data being exposed in the future. 
 
-Finally, other factors that could accelerate the introduction of a CRQC should not be under-estimated, like for example faster-than-expected advances in quantum computing and more efficient versions of Shor’s algorithm requiring fewer qubits. As an example, IBM, one of the leading actors in the development of a large-scale quantum computer, has recently published a roadmap committing to new quantum processors supporting more than 1000 qubits by 2025 and networked systems with 10k-100k qubits beyond 2026 {{IBMRoadmap}}. Innovation often comes in waves, so it is to the industry’s benefit to remain vigilant and prepare as early as possible. Bear in mind also that while we track advances from public research institutions such as universities and companies that publish their results, there is also a great deal of large-budget quantum research being conducted privately by various national interests. Therefore, the true state of quantum computer advancement is likely several years ahead of the publicly available research.  
+Finally, other factors that could accelerate the introduction of a CRQC should not be under-estimated, like for example faster-than-expected advances in quantum computing and more efficient versions of Shor’s algorithm requiring fewer qubits. Innovation often comes in waves, so it is to the industry’s benefit to remain vigilant and prepare as early as possible. Bear in mind also that while we track advances from public research institutions such as universities and companies that publish their results, there is also a great deal of large-budget quantum research being conducted privately by various national interests. Therefore, the true state of quantum computer advancement is likely several years ahead of the publicly available research.  
 
 # Post-quantum cryptography categories 
 
@@ -370,6 +358,7 @@ where pk is public key, sk is secret key, ct is the ciphertext representing an e
 
 ~~~~~
 
+
 ### Authenticated Key Exchange (AKE)
 
 Authenticated Key Exchange with KEMs where both parties contribute a KEM public key to the overall session key is interactive as described in {{?I-D.draft-ietf-lake-edhoc-22}}. However, single-sided KEM, such as when one peer has a KEM key in a certificate and the other peer wants to encrypt for it (as in S/MIME or OpenPGP email), can be achieved using non-interactive HPKE {{RFC9180}}, explained in [hpke]. The following figure illustrates the Diffie-Hellman (DH) Key exchange:
@@ -403,15 +392,15 @@ What's important to note about the sample flow above is that the shared secret `
 
 Post-Quantum KEMs are inherently interactive Authenticated Key Exchange (AKE) protocols because they involve back-and-forth communication to negotiate and establish a shared secret key. This is unlike Diffie-Hellman (DH) Key Exchange (KEX) or RSA Key Transport, which provide the non-interactive key exchange (NIKE) property. NIKE is a cryptographic primitive that enables two parties who know each other's public keys to agree on a symmetric shared key without requiring any real-time interaction. Consider encrypted email, where the content needs to be encrypted and sent even if the receiving device containing the decryption keys (e.g., a phone or laptop) is currently offline.
 
-## HPKE {#hpke}
-
-HPKE (Hybrid Public Key Encryption) {{?RFC9180}} deals with a variant of KEM which is essentially a PKE of arbitrary sized plaintexts for a recipient public key. It works with a combination of KEMs, KDFs and AEAD schemes (Authenticated Encryption with Additional Data). HPKE includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones that authenticate possession of a key encapsulation mechanism (KEM) private key. Kyber, which is a KEM does not support the static-ephemeral key exchange that allows HPKE based on DH based KEMs its (optional) authenticated modes as discussed in Section 1.2 of {{?I-D.westerbaan-cfrg-hpke-xyber768d00-02}}. 
-
 ## Security property
 
 * IND-CCA2 : IND-CCA2 (INDistinguishability under adaptive Chosen-Ciphertext Attack) is an advanced security notion for encryption schemes. It ensures the confidentiality of the plaintext, resistance against chosen-ciphertext attacks, and prevents the adversary from forging new ciphertexts. An appropriate definition of IND-CCA2 security for KEMs can be found in [CS01] and [BHK09]. Kyber and Classic McEliece provide IND-CCA2 security. 
 
 Understanding IND-CCA2 security is essential for individuals involved in designing or implementing cryptographic systems and protocols to evaluate the strength of the algorithm, assess its suitability for specific use cases, and ensure that data confidentiality and security requirements are met. Understanding IND-CCA2 security is generally not necessary for developers migrating to using an IETF-vetted key establishment method (KEM) within a given protocol or flow. IETF specification authors should include all security concerns in the 'Security Considerations' section of the relevant RFC and not rely on implementers being deep experts in cryptographic theory.
+
+## HPKE {#hpke}
+
+HPKE (Hybrid Public Key Encryption) {{?RFC9180}} deals with a variant of KEM which is essentially a PKE of arbitrary sized plaintexts for a recipient public key. It works with a combination of KEMs, KDFs and AEAD schemes (Authenticated Encryption with Additional Data). HPKE includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones that authenticate possession of a key encapsulation mechanism (KEM) private key. HPKE can be extended to support hybrid post-quantum KEM {{?I-D.westerbaan-cfrg-hpke-xyber768d00-02}}. Kyber, which is a KEM does not support the static-ephemeral key exchange that allows HPKE based on DH based KEMs and its optional authenticated modes as discussed in Section 1.2 of {{?I-D.westerbaan-cfrg-hpke-xyber768d00-02}}. 
 
 # PQC Signatures
 
@@ -455,9 +444,9 @@ XMSS and HSS/LMS can be applied in various scenarios where digital signatures ar
 
 ## Hash-then-Sign Versus Sign-then-Hash
 
-Within the hash-then-sign paradigm, the message is hashed before signing it.  Hashing the message before signing it provides an additional layer of security by ensuring that only a fixed-size digest of the message is signed, rather than the entire message itself. By pre-hashing, the onus of resistance to existential forgeries becomes heavily reliant on the collision-resistance of the hash function in use.  As well as this security goal, the hash-then-sign paradigm also has the ability to improve performance by reducing the size of signed messages.  As a corollary, hashing remains mandatory even for short messages and assigns a further computational requirement onto the verifier.  This makes the performance of hash-then-sign schemes more consistent, but not necessarily more efficient. Using a hash function to produce a fixed-size digest of a message ensures that the signature is compatible with a wide range of systems and protocols, regardless of the specific message size or format. Crucially for hardware security modules, Hash-then-Sign also significantly reduces the amount of data that needs to be transmitted and processed by a hardware security module. Consider scenarios such as a networked HSM located in a different data center from the calling application or a smart card connected over a USB interface. In these cases, streaming a message that is megabytes or gigabytes long can result in notable network latency, on-device signing delays, or even depletion of available on-device memory. 
+Within the hash-then-sign paradigm, the message is hashed before signing it. By pre-hashing, the onus of resistance to existential forgeries becomes heavily reliant on the collision-resistance of the hash function in use. The hash-then-sign paradigm has the ability to improve performance by reducing the size of signed messages, making the signature size predictable and manageable. As a corollary, hashing remains mandatory even for short messages and assigns a further computational requirement onto the verifier.  This makes the performance of hash-then-sign schemes more consistent, but not necessarily more efficient. Using a hash function to produce a fixed-size digest of a message ensures that the signature is compatible with a wide range of systems and protocols, regardless of the specific message size or format. Crucially for hardware security modules, Hash-then-Sign also significantly reduces the amount of data that needs to be transmitted and processed by a hardware security module. Consider scenarios such as a networked HSM located in a different data center from the calling application or a smart card connected over a USB interface. In these cases, streaming a message that is megabytes or gigabytes long can result in notable network latency, on-device signing delays, or even depletion of available on-device memory. 
 
-Protocols like TLS 1.3 and DNSSEC use the Hash-then-Sign paradigm. TLS 1.3 {{?RFC8446}} uses it in the Certificate Verify to prove that the endpoint possesses the private key corresponding to its certificate, while DNSSEC {{?RFC4033}} uses it to provide origin authentication and integrity assurance services for DNS data.
+Protocols like TLS 1.3 and DNSSEC use the Hash-then-Sign paradigm. In TLS 1.3 {{?RFC8446}} CertificateVerify message, the content that is covered under the signature includes the transcript hash output (Section 4.4.1 of {{?RFC8446}}), while DNSSEC {{?RFC4033}} uses it to provide origin authentication and integrity assurance services for DNS data.
 
 In the case of Dilithium, it internally incorporates the necessary hash operations as part of its signing algorithm. Dilithium directly takes the original message, applies a hash function internally, and then uses the resulting hash value for the signature generation process. In case of SPHINCS+, it internally performs randomized message compression using a keyed hash function that can process arbitrary length messages. In case of Falcon, a hash function is used as part of the signature process, it uses the SHAKE-256 hash function to derive a digest of the message being signed. Therefore, Dilithium, Falcon, and SIHPNCS+ offer enhanced security over the traditional Hash-then-Sign paradigm because by incorporating dynamic key material into the message digest, a pre-computed hash collision on the message to be signed no longer yields a signature forgery. Applications requiring the performance and bandwidth benefits of Hash-then-Sign may still pre-hash at the protocol level prior to invoking Dilithium, Falcon, or SPHINCS+, but protocol designers should be aware that doing so re-introduces the weakness that hash collisions directly yield signature forgeries. Signing the full un-digested message is strongly preferred where applications can tolerate it.
 
@@ -524,7 +513,7 @@ The next table compares traditional vs. PQC Signature schemes in terms of securi
 |          3        |            Dilithium3      |       1952                  |          4000                |            3293                      |
 |          5        |            Falcon1024      |       1793                  |          2305                |            1280                      |
 
-As one can clearly observe from the above tables, leveraging a PQC KEM/Signature significantly increases the key sizes and the ciphertext/signature sizes as well as compared to traditional KEM(KEX)/Signatures. But the PQC algorithms do provide the additional security level in case there is an attack from a CRQC, whereas schemes based on prime factorization or discrete logarithm problems (finite field or elliptic curves) would provide no level of security at all against such attacks.
+As one can clearly observe from the above tables, leveraging a PQC KEM/Signature significantly increases the key sizes and the ciphertext/signature sizes as well as compared to traditional KEM(KEX)/Signatures. But the PQC algorithms do provide the additional security level in case there is an attack from a CRQC, whereas schemes based on prime factorization or discrete logarithm problems (finite field or elliptic curves) would provide no level of security at all against such attacks. As an example, IKEv2 uses UDP as the transport for its messages. One challenge with integrating PQC key exchange into the initial IKEv2 exchange is that IKE fragmentation cannot be utilized. To address this issue, {{!RFC9242}} introduces a solution by defining a new exchange called the 'Intermediate Exchange' which can be fragmented using the IKE fragmentation mechanism. This Intermediate Exchange can carry out the PQC key exchange after the initial IKEv2 exchange and before the IKE_AUTH exchange.
 
 # Post-Quantum and Traditional Hybrid Schemes
 
@@ -579,7 +568,8 @@ Numerous commercial solutions are available for both detecting hardcoded cryptog
 
 ## Hybrid Key Exchange and Signatures: Bridging the Gap Between Post-Quantum and Traditional Cryptography
 
-Post-quantum algorithms selected for standardization are relatively new and they they have not been subject to the same depth of study as traditional algorithms. PQC implementations will also be new and therefore more likely to contain implementation bugs than the battle-tested crypto implementations that we rely on today. In addition, certain deployments may need to retain traditional algorithms due to regulatory constraints, for example FIPS or PCI compliance. Hybrid key exchange enables potential security against "Harvest Now, Decrypt Later" attack and hybrid signatures provide for time to react in the case of the announcement of a devastating attack agaist any one algorithm, while not fully abandoning traditional cryptosystems.
+Post-quantum algorithms selected for standardization are relatively new and they they have not been subject to the same depth of study as traditional algorithms. PQC implementations will also be new and therefore more likely to contain implementation bugs than the battle-tested crypto implementations that we rely on today. In addition, certain deployments may need to retain traditional algorithms due to regulatory constraints, for example FIPS 
+{{SP-800-56C}} or PCI compliance. Hybrid key exchange enables potential security against "Harvest Now, Decrypt Later" attack and hybrid signatures provide for time to react in the case of the announcement of a devastating attack agaist any one algorithm, while not fully abandoning traditional cryptosystems.
 
 # Further Reading & Resources
 
@@ -617,4 +607,4 @@ In particular, the authors would like to acknowledge the contributions to this d
 # Acknowledgements
 {:numbered="false"}
 
-It leverages text from https://github.com/paulehoffman/post-quantum-for-engineers/blob/main/pqc-for-engineers.md. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Sofia Celi, Melchior Aelmans, and Falko Strenzke for the discussion, review and comments.
+It leverages text from https://github.com/paulehoffman/post-quantum-for-engineers/blob/main/pqc-for-engineers.md. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Panos Kampanakis, Sofia Celi, Melchior Aelmans, and Falko Strenzke for the discussion, review and comments.
