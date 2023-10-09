@@ -186,6 +186,8 @@ It is crucial for the reader to understand that when the word "PQC" is mentioned
 
 Please note: This document does not go into the deep mathematics or technical specification of the PQC algorithms, but rather provides an overview to engineers on the current threat landscape and the relevant algorithms designed to help prevent those threats.  Also, the cryptographic and algorithmic guidance given in this document should be taken as non-authoritative if it conflicts with emerging and evolving guidance from the IRTF's Cryptographic Forum Research Group (CFRG).
 
+There is some discussion as to whether to use the term "Post-Quantum" or "Quantum Ready/Resistant" to denote algorithms that are resistant to CRQCs but no consensus has beenr reached. We would like to point out that Post-Quantum does not refer to algorithms that needs to be made quantum safe after the arrival of CRQCs but rather before that are based on hard cryptographically relevant mathematical problems that a CRQC as well as classical computers will not be able to break. On the other hand, quantum resistant/ready algorithms are such that have already been thought to be resistant to an attack by a CRQC but maybe vulnerable to traditional cryptanalysis and need not necessarily only consider algorithms based cryptographically hard math problems.
+
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
