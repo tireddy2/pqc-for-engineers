@@ -349,19 +349,19 @@ where pk is public key, sk is secret key, ct is the ciphertext representing an e
                       | Client  | | Server  |
                       +---------+ +---------+
   +----------------------+ |           |
-  | sk, pk = KeyGen()    |-|           |
+  | sk, pk = kemKeyGen()   |-|         |
   +----------------------+ |           |
                            |           |
                            | pk        |
                            |---------->|
                            |           | +-----------------------+
-                           |           |-| ss, ct = Encaps(pk)   |
+                           |           |-| ss, ct = kemEncaps(pk)|
                            |           | +-----------------------+
                            |           |
                            |       ct  |
                            |<----------|
 +------------------------+ |           |
-| ss = decaps(ct, sk)    |-|           |
+| ss = kemDecaps(ct, sk)   |-|         |
 +------------------------+ |           |
                            |           |
 ~~~~~
@@ -407,28 +407,28 @@ Another important property of Diffie-Hellman is that in addition to being a NIKE
                       | Client  | | Server  |
                       +---------+ +---------+
   +----------------------+ |           |
-  | sk1, pk1 = KeyGen()  |-|           |
+  | sk1, pk1 = kemKeyGen() |-|         |
   +----------------------+ |           |
                            |           |
                            |pk1        |
                            |---------->|
                            |           | +--------------------------+
-                           |           |-| ss1, ct1 = Encaps(pk1)   |
-                           |           | | sk2, pk2 = KeyGen()      |
+                           |           |-| ss1, ct1 = kemEncaps(pk1)|
+                           |           | | sk2, pk2 = kemKeyGen()   |
                            |           | +--------------------------+
                            |           |
                            |    ct1,pk2|
                            |<----------|
 +------------------------+ |           |
-| ss1 = Decaps(ct1, sk1) |-|           |
-| ss2, ct2 = Encaps(pk2) | |           |
+| ss1 = kemDecaps(ct1, sk1)|-|         |
+| ss2, ct2 = kemEncaps(pk2)|           |
 | ss = Combiner(ss1, ss2)| |           |
 +------------------------+ |           |
                            |           |
                            |ct2        |
                            |---------->|
                            |           | +--------------------------+
-                           |           |-| ss2 = Decaps(ct2, sk2)   |
+                           |           |-| ss2 = kemDecaps(ct2, sk2)|
                            |           | | ss = Combiner(ss1, ss2)  |
                            |           | +--------------------------+
 ~~~~~
