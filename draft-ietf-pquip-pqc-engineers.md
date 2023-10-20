@@ -117,6 +117,14 @@ informative:
      title: "Breaking RSA Encryption - an Update on the State-of-the-Art"
      target: https://www.quintessencelabs.com/blog/breaking-rsa-encryption-update-state-art
      date: false
+  RSAShor:
+     title: "Circuit for Shor’s algorithm using 2n+3 qubits"
+     target: https://arxiv.org/pdf/quant-ph/0205095.pdf
+     date: false
+  LIBOQS:
+     title: "LibOQS - Open Quantum Safe"
+     target: https://github.com/open-quantum-safe/liboqs
+     date: false
   KyberSide:
      title: "A Side-Channel Attack on a Hardware Implementation of CRYSTALS-Kyber"
      target: https://eprint.iacr.org/2022/1452
@@ -217,7 +225,7 @@ In 2016, the National Institute of Standards and Technology (NIST) started a pro
 
 NIST announced as well that they will be [opening a fourth round](https://csrc.nist.gov/csrc/media/Projects/post-quantum-cryptography/documents/round-4/guidelines-for-submitting-tweaks-fourth-round.pdf) to standardize an alternative KEM, and a [call](https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/call-for-proposals-dig-sig-sept-2022.pdf) for new candidates for a post-quantum signature algorithm.
 
-These algorithms are not a drop-in replacement for classical asymmetric cryptographic algorithms.  RSA [RSA] and ECC {{?RFC6090}} can be used for both key encapsulation and signatures, while for post-quantum algorithms, a different algorithm is needed for each.  When upgrading protocols, it is important to replace the existing use of classical algorithms with either a PQC key encapsulation method or a PQC signature method, depending on how RSA and/or ECC was previously being used. Additionally, Key Encapsulation Methods (KEMs), as described in {{KEMs}}, present a different API than either key agreement or key transport primitives. As a result, they may require protocol-level or application-level changes in order to be incorporated.
+These algorithms are not a drop-in replacement for classical asymmetric cryptographic algorithms. For instance, RSA [RSA] and ECC {{?RFC6090}} can be used as both a key encapsulation method (KEM) and as a signature scheme, whereas there is currently no post-quantum algorithm that can perform both functions. When upgrading protocols, it is important to replace the existing use of classical algorithms with either a PQC KEM or a PQC signature method, depending on how the classical algorithm was previously being used. Additionally, KEMs, as described in Section 10, present a different API than either key agreement or key transport primitives. As a result, they may require protocol-level or application-level changes in order to be incorporated.
 
 ## NIST candidates selected for standardization
 
@@ -261,7 +269,7 @@ Finally, in their evaluation criteria for PQC, NIST is assessing the security le
 
 “Shor’s algorithm” on the other side, efficiently solves the integer factorization problem (and the related discrete logarithm problem), which offer the foundations of the vast majority of public-key cryptography that the world uses today. This implies that, if a CRQC is developed, today’s public-key cryptography algorithms (e.g., RSA, Diffie-Hellman and Elliptic Curve Cryptography, as well as less commonly-used variants such as ElGamal and Schnorr signatures) and protocols would need to be replaced by algorithms and protocols that can offer cryptanalytic resistance against CRQCs. Note that Shor’s algorithm cannot run solely on a classic computer, it needs a CRQC.
 
-For example, to provide some context, one would need 20 million noisy qubits to break RSA-2048 in 8 hours {{RSA8HRS}} or 4099 stable qubits to break it in 10 seconds {{RSA10SC}}.
+For example, to provide some context, one would need 20 million noisy qubits to break RSA-2048 in 8 hours {{RSAShor}}{{RSA8HRS}} or 4099 stable (or logical) qubits to break it in 10 seconds {{RSA10SC}}.
 
 For structured data such as public-key and signatures, instead, CRQCs can fully solve the underlying hard problems used in classic cryptography (see Shor's Algorithm). Because an increase of the size of the key-pair would not provide a secure solution short of RSA keys that are many gigabytes in size {{PQRSA}}, a complete replacement of the algorithm is needed. Therefore, post-quantum public-key cryptography must rely on problems that are different from the ones used in classic public-key cryptography (i.e., the integer factorization problem, the finite-field discrete logarithm problem, and the elliptic-curve discrete logarithm problem).
 
@@ -334,31 +342,30 @@ KEM relies on the following primitives [PQCAPI]:
 * def kemEncaps(pk) -> (ct, ss)
 * def kemDecaps(ct, sk) -> ss
 
-where pk is public key, sk is secret key, ct is the ciphertext representing an encapsulated key, and ss is shared secret.  The following figure illustrates a sample flow of KEM:
+where pk is public key, sk is secret key, ct is the ciphertext representing an encapsulated key, and ss is shared secret.  The following figure illustrates a sample flow of KEM based key exchange:
 
 ~~~~~ aasvg
-
                       +---------+ +---------+
                       | Client  | | Server  |
                       +---------+ +---------+
-  -----------------------\ |           |
+  +----------------------+ |           |
   | sk, pk = kemKeyGen()   |-|         |
-  |----------------------| |           |
+  +----------------------+ |           |
                            |           |
                            | pk        |
                            |---------->|
-                           |           | -------------------------\
-                           |           |-| ss, ct = kemEncaps(pk) |
-                           |           | |------------------------|
+                           |           | +-----------------------+
+                           |           |-| ss, ct = kemEncaps(pk)|
+                           |           | +-----------------------+
                            |           |
-                           |        ct |
+                           |       ct  |
                            |<----------|
--------------------------\ |           |
-| ss = kemDecaps(ct, sk) |-|           |
-|------------------------| |           |
++------------------------+ |           |
+| ss = kemDecaps(ct, sk)   |-|         |
++------------------------+ |           |
                            |           |
-
 ~~~~~
+{: #tab-kem-ke title="KEM based Key Exchange"}
 
 
 ### Authenticated Key Exchange (AKE)
@@ -391,31 +398,6 @@ Authenticated Key Exchange with KEMs where both parties contribute a KEM public 
 
 What's important to note about the sample flow above is that the shared secret `ss` is derived using key material from both the Client and the Server, which classifies it as an Authenticated Key Exchange (AKE). It's also worth noting that in an Ephemeral-Static Diffie-Hellman (DH) scenario, where `sk2` and `pk2` represent long-term keys. such as those contained in an email encryption certificate, the client can compute `ss = KeyEx(pk2, sk1)` without waiting for a response from the Server. This characteristic transforms it into a non-interactive and authenticated key exchange method. Many Internet protocols rely on this aspect of DH. When using Key Encapsulation Mechanisms (KEMs) as the underlying primitive, a flow may be non-interactive or authenticated, but not both. Consequently, certain Internet protocols will necessitate redesign to accommodate this distinction, either by introducing extra network round-trips or by making trade-offs in security properties.
 
-
-~~~~~ aasvg
-                      +---------+ +---------+
-                      | Client  | | Server  |
-                      +---------+ +---------+
-  +----------------------+ |           |
-  | sk, pk = KeyGen()    |-|           |
-  +----------------------+ |           |
-                           |           |
-                           | pk        |
-                           |---------->|
-                           |           | +-----------------------+
-                           |           |-| ss, enc = Encaps(pk)  |
-                           |           | +-----------------------+
-                           |           |
-                           |       enc |
-                           |<----------|
-+------------------------+ |           |
-| ss = decaps(enc, sk)   |-|           |
-+------------------------+ |           |
-                           |           |
-~~~~~
-{: #tab-kem-ke title="KEM based Key Exchange"}
-
-
 Post-Quantum KEMs are inherently interactive Key Exchange (KE) protocols because they involve back-and-forth communication to negotiate and establish a shared secret key. This is unlike Diffie-Hellman (DH) Key Exchange (KEX) or RSA Key Transport, which provide the non-interactive key exchange (NIKE) property. NIKE is a cryptographic primitive that enables two parties who know each other's public keys to agree on a symmetric shared key without requiring any real-time interaction. Consider encrypted email, where the content needs to be encrypted and sent even if the receiving device containing the decryption keys (e.g., a phone or laptop) is currently offline.
 
 Another important property of Diffie-Hellman is that in addition to being a NIKE, it is also an Authenticated Key Exchange (AKE), meaning that since both parties needed to involve their asymmetric keypair, both parties have proof-of-identity of the other party. In order to achieve an AKE with KEM primitives, two full KEM exchanges need to be performed, and their results combined to form a single shared secret.
@@ -425,28 +407,28 @@ Another important property of Diffie-Hellman is that in addition to being a NIKE
                       | Client  | | Server  |
                       +---------+ +---------+
   +----------------------+ |           |
-  | sk1, pk1 = KeyGen()  |-|           |
+  | sk1, pk1 = kemKeyGen() |-|         |
   +----------------------+ |           |
                            |           |
                            |pk1        |
                            |---------->|
                            |           | +--------------------------+
-                           |           |-| ss1, enc1 = Encaps(pk1)  |
-                           |           | | sk2, pk2 = KeyGen()      |
+                           |           |-| ss1, ct1 = kemEncaps(pk1)|
+                           |           | | sk2, pk2 = kemKeyGen()   |
                            |           | +--------------------------+
                            |           |
-                           |   enc1,pk2|
+                           |    ct1,pk2|
                            |<----------|
 +------------------------+ |           |
-| ss1 = Decaps(enc1, sk1)|-|           |
-| ss2, enc2 = Encaps(pk2)| |           |
+| ss1 = kemDecaps(ct1, sk1)|-|         |
+| ss2, ct2 = kemEncaps(pk2)|           |
 | ss = Combiner(ss1, ss2)| |           |
 +------------------------+ |           |
                            |           |
-                           |enc2       |
+                           |ct2        |
                            |---------->|
                            |           | +--------------------------+
-                           |           |-| ss2 = Decaps(enc2, sk2)  |
+                           |           |-| ss2 = kemDecaps(ct2, sk2)|
                            |           | | ss = Combiner(ss1, ss2)  |
                            |           | +--------------------------+
 ~~~~~
@@ -456,7 +438,7 @@ Here, `Combiner(ss1, ss2)`, often referred to as a KEM Combiner is a cryptograph
 
 ## Security property
 
-* IND-CCA2 : IND-CCA2 (INDistinguishability under adaptive Chosen-Ciphertext Attack) is an advanced security notion for encryption schemes. It ensures the confidentiality of the plaintext, resistance against chosen-ciphertext attacks, and prevents the adversary from forging new ciphertexts. An appropriate definition of IND-CCA2 security for KEMs can be found in [CS01] and [BHK09]. Kyber and Classic McEliece provide IND-CCA2 security.
+* IND-CCA2 : IND-CCA2 (INDistinguishability under adaptive Chosen-Ciphertext Attack) is an advanced security notion for encryption schemes. It ensures the confidentiality of the plaintext, resistance against chosen-ciphertext attacks, and prevents the adversary from forging valid ciphertexts (given access to the public key). An appropriate definition of IND-CCA2 security for KEMs can be found in [CS01] and [BHK09]. Kyber and Classic McEliece provide IND-CCA2 security.
 
 Understanding IND-CCA2 security is essential for individuals involved in designing or implementing cryptographic systems and protocols to evaluate the strength of the algorithm, assess its suitability for specific use cases, and ensure that data confidentiality and security requirements are met. Understanding IND-CCA2 security is generally not necessary for developers migrating to using an IETF-vetted key establishment method (KEM) within a given protocol or flow. IETF specification authors should include all security concerns in the 'Security Considerations' section of the relevant RFC and not rely on implementers being deep experts in cryptographic theory.
 
@@ -484,11 +466,9 @@ Falcon [Falcon] is based on the GPV hash-and-sign lattice-based signature framew
 
 The main design principle of Falcon is compactness, i.e. it was designed in a way that achieves minimal total memory bandwidth requirement (the sum of the signature size plus the public key size). This is possible due to the compactness of NTRU lattices.  Falcon also offers very efficient signing and verification procedures. The main potential downsides of Falcon refer to the non-triviality of its algorithms and the need for floating point arithmetic support in order to support Gaussian-distributed random number sampling where the other lattice schemes use the less efficient but easier to support uniformly-distributed random number sampling.
 
-Access to a robust floating-point stack in Falcon is essential for accurate, efficient, and secure execution of the mathematical computations involved in the scheme. It helps maintain precision, supports error correction techniques, and contributes to the overall reliability and performance of Falcon's cryptographic operations as well makes it more resistant to side-channel attacks.
+Implementers of Falcon need to be aware that Falcon signing is highly susceptible to side-channel attacks, unless constant-time 64-bit floating-point operations are used. This requirement is extremely platform-dependent, as noted in NIST's report.
 
-Falcon's signing operations require constant-time, 64-bit floating point operations to avoid catastrophic side channel vulnerabilities. Doing this correctly is very difficult and is also platform-dependent to an extreme degree, as NIST's report noted. Providing a masked implementation of Falcon also seems impossible, per the authors at the RWPQC 2023 symposium.
-
-The performance characteristics of Dilithium and Falcon may differ based on the specific implementation and hardware platform. Generally, Dilithium is known for its relatively fast signature generation, while Falcon can provide more efficient signature verification. The choice may depend on whether the application requires more frequent signature generation or signature verification. For further clarity, please refer to the tables in sections {{RecSecurity}} and {{Comparisons}}.
+The performance characteristics of Dilithium and Falcon may differ based on the specific implementation and hardware platform. Generally, Dilithium is known for its relatively fast signature generation, while Falcon can provide more efficient signature verification. The choice may depend on whether the application requires more frequent signature generation or signature verification (See {{LIBOQS}}). For further clarity on the sizes and security levels, please refer to the tables in sections {{RecSecurity}} and {{Comparisons}}.
 
 SPHINCS+ [SPHINCS] utilizes the concept of stateless hash-based signatures, where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). This property eliminates the need for maintaining state information during the signing process. SPHINCS+ was designed to sign up to 2^64 messages and it offers three security levels. The parameters for each of the security levels were chosen to provide 128 bits of security, 192 bits of security, and 256 bits of security. SPHINCS+ offers smaller key sizes, larger signature sizes, slower signature generation, and slower verification when compared to Dilithium and Falcon. SPHINCS+ does not introduce a new hardness assumption beyond those inherent to the underlying hash functions. It builds upon established foundations in cryptography, making it a reliable and robust digital signature scheme for a post-quantum world. The advantages and disadvantages of SPHINCS+ over other signature algorithms is disussed in Section 3.1 of {{?I-D.draft-ietf-cose-sphincs-plus}}.
 
@@ -504,7 +484,7 @@ The number of tree layers in XMSS^MT provides a trade-off between signature size
 XMSS and HSS/LMS can be applied in various scenarios where digital signatures are required, such as software updates.
 
 
-## Hash-then-Sign Versus Sign-then-Hash
+## Hash-then-Sign
 
 Within the hash-then-sign paradigm, the message is hashed before signing it. By pre-hashing, the onus of resistance to existential forgeries becomes heavily reliant on the collision-resistance of the hash function in use. The hash-then-sign paradigm has the ability to improve performance by reducing the size of signed messages, making the signature size predictable and manageable. As a corollary, hashing remains mandatory even for short messages and assigns a further computational requirement onto the verifier.  This makes the performance of hash-then-sign schemes more consistent, but not necessarily more efficient. Using a hash function to produce a fixed-size digest of a message ensures that the signature is compatible with a wide range of systems and protocols, regardless of the specific message size or format. Crucially for hardware security modules, Hash-then-Sign also significantly reduces the amount of data that needs to be transmitted and processed by a hardware security module. Consider scenarios such as a networked HSM located in a different data center from the calling application or a smart card connected over a USB interface. In these cases, streaming a message that is megabytes or gigabytes long can result in notable network latency, on-device signing delays, or even depletion of available on-device memory.
 
