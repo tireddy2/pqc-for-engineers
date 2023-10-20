@@ -355,13 +355,13 @@ where pk is public key, sk is secret key, ct is the ciphertext representing an e
                            | pk        |
                            |---------->|
                            |           | +-----------------------+
-                           |           |-| ss, enc = Encaps(pk)  |
+                           |           |-| ss, ct = Encaps(pk)   |
                            |           | +-----------------------+
                            |           |
-                           |       enc |
+                           |       ct  |
                            |<----------|
 +------------------------+ |           |
-| ss = decaps(enc, sk)   |-|           |
+| ss = decaps(ct, sk)    |-|           |
 +------------------------+ |           |
                            |           |
 ~~~~~
@@ -413,22 +413,22 @@ Another important property of Diffie-Hellman is that in addition to being a NIKE
                            |pk1        |
                            |---------->|
                            |           | +--------------------------+
-                           |           |-| ss1, enc1 = Encaps(pk1)  |
+                           |           |-| ss1, ct1 = Encaps(pk1)   |
                            |           | | sk2, pk2 = KeyGen()      |
                            |           | +--------------------------+
                            |           |
-                           |   enc1,pk2|
+                           |    ct1,pk2|
                            |<----------|
 +------------------------+ |           |
-| ss1 = Decaps(enc1, sk1)|-|           |
-| ss2, enc2 = Encaps(pk2)| |           |
+| ss1 = Decaps(ct1, sk1) |-|           |
+| ss2, ct2 = Encaps(pk2) | |           |
 | ss = Combiner(ss1, ss2)| |           |
 +------------------------+ |           |
                            |           |
-                           |enc2       |
+                           |ct2        |
                            |---------->|
                            |           | +--------------------------+
-                           |           |-| ss2 = Decaps(enc2, sk2)  |
+                           |           |-| ss2 = Decaps(ct2, sk2)   |
                            |           | | ss = Combiner(ss1, ss2)  |
                            |           | +--------------------------+
 ~~~~~
