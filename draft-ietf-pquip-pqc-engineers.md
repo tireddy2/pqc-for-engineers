@@ -495,7 +495,7 @@ In the case of Dilithium, it internally incorporates the necessary hash operatio
 
 # Recommendations for Security / Performance Tradeoffs {#RecSecurity}
 
-The table below denotes the 5 security levels provided by NIST required for PQC algorithms. Users can leverage the appropriate algorithm based on the security level required for their use case. The security levels are defined as requiring computational resources comparable to or greater than an attack on AES and SHA2/SHA3 algorithms, i.e., exhaustive key recovery for AES and optimal collision search for SHA2/SHA3. This information is a re-print of information provided in the NIST PQC project {NIST} as of time of writing (July 2023).
+The table below denotes the 5 security levels provided by NIST required for PQC algorithms. Users can leverage the appropriate algorithm based on the security level required for their use case. The security levels are defined as requiring computational resources comparable to or greater than an attack on AES (128, 192 and 256) and SHA2/SHA3 algorithms, i.e., exhaustive key recovery for AES and optimal collision search for SHA2/SHA3. This information is a re-print of information provided in the NIST PQC project {NIST} as of time of writing (July 2023).
 
 | PQ Security Level |            AES/SHA(2/3) hardness                |                   PQC Algorithm                            |
 | ----------------- | ----------------------------------------------- | ---------------------------------------------------------- |
@@ -572,7 +572,7 @@ The PQ/T Hybrid Confidentiality property can be used to protect from a "Harvest 
 1. Concatenate hybrid key agreement scheme: The final shared secret that will be used as an input of the key derivation function is the result of the concatenation of the secrets established with each key agreement scheme. For example, in {{?I-D.ietf-tls-hybrid-design}}, the client uses the TLS supported groups extension to advertise support for a PQ/T hybrid scheme, and the server can select this group if it supports the scheme. The hybrid-aware client and server establish a hybrid secret by concatenating the two shared secrets, which is used as the shared secret in the existing TLS 1.3 key schedule.
 2. Cascade hybrid key agreement scheme: The final shared secret is computed by applying as many iterations of the key derivation function as the number of key agreement schemes composing the hybrid key agreement scheme. For example, {{?RFC9370}} extends the Internet Key Exchange Protocol Version 2 (IKEv2) to allow one or more PQC algorithms in addition to the traditional algorithm to derive the final IKE SA keys using the cascade method as explained in Section 2.2.2 of {{?RFC9370}}.
 
-Various instantiations of these two types of hybrid key agreement schemes have been and continue to be explored. One must be careful when selecting which hybrid scheme to use.  For example, some schemes guarantee IND-CCA2 security as long as at least one of the component algorithms is IND-CCA2 secure, whereas other schemes only guarantee IND-CPA security.
+Various instantiations of these two types of hybrid key agreement schemes have been explored and will be discussed further. One must be careful when selecting which hybrid scheme to use.  The chosen schemes at IETF are IND-CCA2 robust, that is IND-CCA2 security is guaranteed for the scheme as long as at least one of the component algorithms is IND-CCA2 secure.
 
 ## PQ/T Hybrid Authentication 
 
