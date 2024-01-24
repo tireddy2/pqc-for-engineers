@@ -619,7 +619,7 @@ Post-quantum algorithms selected for standardization are relatively new and they
 
 ## KEMs vs DH
 
-KEMs do not necessarily commit to their ciphertexts as part of generation of their shared secret, unlike the computations over material shared on the wire in Diffie-Hellman, where a change in the DH public key means the shared secret computed from there will also change. Protocols that that KEMs commit to the ciphertext may find themselves disappointed, as did protocols that designed around earlier drafts of Kyber, that did commit to the ciphertext, vs ML-KEM, which does _not_. Beware of assuming any properties of cryptographic primitives that they are not targeting, and if you are trying to hybridize KEMs with DH, or migrating directly to KEMs from DH, be sure to explicitly commit to ciphertexts (and probably public keys too) as part of your protocol, do not assume the KEM will do this for you.
+KEMs do not necessarily commit to their ciphertexts as part of generation of their shared secret, unlike the computations over material shared on the wire in Diffie-Hellman, where a change in the DH public key means the shared secret computed from there will also change. Protocols that the KEMs commit to the ciphertext may find themselves disappointed, as did protocols that designed around earlier drafts of Kyber, that did commit to the ciphertext, vs ML-KEM, which does _not_. Beware of assuming any properties of cryptographic primitives that they are not targeting, and if you are trying to hybridize KEMs with DH, or migrating directly to KEMs from DH, be sure to explicitly commit to ciphertexts (and probably public keys too) as part of your protocol, do not assume the KEM will do this for you.
 
 # Further Reading & Resources
 
