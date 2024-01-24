@@ -657,4 +657,4 @@ In particular, the authors would like to acknowledge the contributions to this d
 # Acknowledgements
 {:numbered="false"}
 
-This document leverages text from https://github.com/paulehoffman/post-quantum-for-engineers/blob/main/pqc-for-engineers.md. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Panos Kampanakis, Ben S3, Sofia Celi, Melchior Aelmans, and Falko Strenzke for the discussion, review and comments.
+This document leverages text from https://github.com/paulehoffman/post-quantum-for-engineers/blob/main/pqc-for-engineers.md. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Panos Kampanakis, Ben S3, Sofia Celi, Melchior Aelmans, Falko Strenzke, Deirdre Connolly, and Daniel Van Geest for the discussion, review and comments.
