@@ -211,9 +211,9 @@ The editors actively encourage contributions to this document. Please consider w
 
 Any asymmetric cryptographic algorithm based on integer factorization, finite field discrete logarithms or elliptic curve discrete logarithms will be vulnerable to attacks using Shor's Algorithm on a sufficiently large general-purpose quantum computer, known as a CRQC. This document focuses on the principal functions of asymmetric cryptography:
 
-* Key Agreement and Key Transport:  Key Agreement schemes, typically referred to as Diffie-Hellman (DH) or Elliptic Curve Diffie-Hellman (ECDH), as well as Key Transport, typically using RSA Encryption, are used to establish a shared cryptographic key for secure communication. They are one of the mechanisms that can be replaced by PQC, as this is based on public key cryptography and is therefore vulnerable to the Shor's algorithm. An CRQC can employ Shor's algorithm to efficiently find the prime factors of a large public key (in case of RSA), which in turn can be exploited to derive the private key. In the case of Diffie-Hellman, a CRQC has the potential to calculate the exponent or discrete logarithm of the (short or long-term) Diffie-Hellman public key. This, in turn, would reveal the precise secret required to derive the session key.
+* Key Agreement and Key Transport:  Key Agreement schemes, typically referred to as Diffie-Hellman (DH) or Elliptic Curve Diffie-Hellman (ECDH), as well as Key Transport, typically using RSA Encryption, are used to establish a shared cryptographic key for secure communication. They are one of the mechanisms that can be replaced by PQC, as this is based on public key cryptography and is therefore vulnerable to the Shor's algorithm. A CRQC can employ Shor's algorithm to efficiently find the prime factors of a large public key (in case of RSA), which in turn can be exploited to derive the private key. In the case of Diffie-Hellman, a CRQC has the potential to calculate the exponent or discrete logarithm of the (short or long-term) Diffie-Hellman public key. This, in turn, would reveal the precise secret required to derive the session key.
 
-* Digital Signatures: Digital Signature schemes are used to authenticate the identity of a sender, detect unauthorized modifications to data and underpin trust in a system. Similar to Key Agreement, signatures also depend on public-private key pair based on the same mathematics as for Key Agreement and Key Transport, and hence a break in public key cryptography will also affect traditional digital signatures, hence the importance of developing post quantum digital signatures.
+* Digital Signatures: Digital Signature schemes are used to authenticate the identity of a sender, detect unauthorized modifications to data and underpin trust in a system. Similar to Key Agreement, signatures also depend on a public-private key pair based on the same mathematics as for Key Agreement and Key Transport, and hence a break in public key cryptography will also affect traditional digital signatures, hence the importance of developing post-quantum digital signatures.
 
 # Invariants of Post-Quantum Cryptography
 
@@ -257,7 +257,7 @@ When considering the security risks associated with the ability of a quantum com
 
 ## Symmetric cryptography {#symmetric}
 
-Grover's algorithm is a quantum search algorithm that provides a theoretical quadratic speedup for searching an unstructured database, compared to classical algorithms. If we consider the mapping of hash values to their corresponding hash inputs (also known as pre-image), or of ciphertext blocks to the corresponding plaintext blocks, as an unstructured database, then Grover’s algorithm theoretically requires doubling the key sizes of the symmetric algorithms that are currently deployed today to achieve quantum resistance. This is because Grover’s algorithm reduces the amount of operations to break 128-bit symmetric cryptography to 2^{64} quantum operations, which might sound computationally feasible. However, 2^{64} operations performed in parallel are feasible for modern classical computers, but 2^{64} quantum operations performed serially in a quantum computer are not. Grover's algorithm is highly non-parallelizable and even if one deploys 2^c computational units in parallel to brute-force a key using Grover's algorithm, it will complete in time proportional to 2^{(128−c)/2}, or, put simply, using 256 quantum computers will only reduce runtime by 1/16, 1024 quantum computers will only reduce runtime by 1/32 and so forth ​(see {{NIST}} and {{Cloudflare}}​).  Therefore, while Grover's attack suggests that we should double the sizes of symmetric keys, the current consensus among experts is that the current key sizes remain secure in practice.
+Grover's algorithm is a quantum search algorithm that provides a theoretical quadratic speedup for searching an unstructured database, compared to classical algorithms. If we consider the mapping of hash values to their corresponding hash inputs (also known as pre-image), or of ciphertext blocks to the corresponding plaintext blocks, as an unstructured database, then Grover’s algorithm theoretically requires doubling the key sizes of the symmetric algorithms that are currently deployed today to achieve quantum resistance. This is because Grover’s algorithm reduces the amount of operations to break 128-bit symmetric cryptography to 2^{64} quantum operations, which might sound computationally feasible. However, 2^{64} operations performed in parallel are feasible for modern classical computers, but 2^{64} quantum operations performed serially in a quantum computer are not. Grover's algorithm is highly non-parallelizable and even if one deploys 2^c computational units in parallel to brute-force a key using Grover's algorithm, it will complete in time proportional to 2^{(128−c)/2}, or, put simply, using 256 quantum computers will only reduce runtime by a factor of 16, 1024 quantum computers will only reduce runtime by a factor of 32 and so forth ​(see {{NIST}} and {{Cloudflare}}​).  Therefore, while Grover's attack suggests that we should double the sizes of symmetric keys, the current consensus among experts is that the current key sizes remain secure in practice.
 
 For unstructured data such as symmetric encrypted data or cryptographic hashes, although CRQCs can search for specific solutions across all possible input combinations (e.g., Grover's Algorithm), no quantum algorithm is known to break the underlying security properties of these classes of algorithms.
 
@@ -295,7 +295,7 @@ For authentication, it is often the case that signatures have a very short lifet
 ~~~~~
 {: #Mosca title="Mosca model"}
 
-These challenges are illustrated nicely by the so called Mosca model discussed in ​{{Threat-Report}}. In the {{Mosca}}, "x" denotes the time that our systems and data need to remain secure, "y" the number of years to fully migrate to a PQC infrastructure and "z" the time until a CRQC that can break current cryptography is available. The model assumes either that encrypted data can be intercepted and stored before the migration is completed in "y" years,  or that signatures will still be relied upon for "x" years after their creation. This data remains vulnerable for the complete "x" years of their lifetime, thus the sum "x+y" gives us an estimate of the full timeframe that data remain insecure​. The model essentially asks how are we preparing our IT systems during those "y" years (or in other words, how can one minimize those "y" years) to minimize the transition phase to a PQC infrastructure and hence minimize the risks of data being exposed in the future.
+These challenges are illustrated nicely by the so-called Mosca model discussed in ​{{Threat-Report}}. In the {{Mosca}}, "x" denotes the time that our systems and data need to remain secure, "y" the number of years to fully migrate to a PQC infrastructure and "z" the time until a CRQC that can break current cryptography is available. The model assumes either that encrypted data can be intercepted and stored before the migration is completed in "y" years,  or that signatures will still be relied upon for "x" years after their creation. This data remains vulnerable for the complete "x" years of their lifetime, thus the sum "x+y" gives us an estimate of the full timeframe that data remain insecure. The model essentially asks how are we preparing our IT systems during those "y" years (or in other words, how can one minimize those "y" years) to minimize the transition phase to a PQC infrastructure and hence minimize the risks of data being exposed in the future.
 
 Finally, other factors that could accelerate the introduction of a CRQC should not be under-estimated, like for example faster-than-expected advances in quantum computing and more efficient versions of Shor’s algorithm requiring fewer qubits. Innovation often comes in waves, so it is to the industry’s benefit to remain vigilant and prepare as early as possible. Bear in mind also that while we track advances from public research institutions such as universities and companies that publish their results, there is also a great deal of large-budget quantum research being conducted privately by various national interests. Therefore, the true state of quantum computer advancement is likely several years ahead of the publicly available research.
 
@@ -317,7 +317,7 @@ It is noteworthy that lattice-based encryption schemes require a rounding step d
 
 ## Hash-Based Public-Key Cryptography {#hash-based}
 
-Hash based PKC has been around since the 70s, developed by Lamport and Merkle which creates a digital signature algorithm and its security is mathematically based on the security of the selected cryptographic hash function. Many variants of "hash-based signatures (HBS)" have been developed since the 70s including the recent XMSS {{!RFC8391}}, HSS/LMS {{!RFC8554}} or BPQS schemes. Unlike digital signature techniques, most hash-based signature schemes are stateful, which means that signing necessitates the update and careful tracking of the secret key; producing multiple signatures using the same secret key state results in loss of security and ultimately signature forgery attacks against that key.
+Hash based PKC has been around since the 1970s, when it was developed by Lamport and Merkle. It is used to create digital signature algorithms and its security is mathematically based on the security of the selected cryptographic hash function. Many variants of hash-based signatures (HBS) have been developed since the 70s including the recent XMSS {{!RFC8391}}, HSS/LMS {{!RFC8554}} or BPQS schemes. Unlike digital signature techniques, most hash-based signature schemes are stateful, which means that signing necessitates the update and careful tracking of the secret key. Producing multiple signatures using the same secret key state results in loss of security and ultimately signature forgery attacks against that key.
 
 The SPHINCS algorithm on the other hand leverages the HORST (Hash to Obtain Random Subset with Trees) technique and remains the only hash based signature scheme that is stateless.
 
@@ -325,7 +325,7 @@ SPHINCS+ is an advancement on SPHINCS which reduces the signature sizes in SPHIN
 
 ## Code-Based Public-Key Cryptography {#code-based}
 
-This area of cryptography stemmed in the 1970s and 80s based on the seminal work of McEliece and Niederreiter which focuses on the study of cryptosystems based on error-correcting codes. Some popular error correcting codes include the Goppa codes (used in McEliece cryptosystems), encoding and decoding syndrome codes used in Hamming Quasi-Cyclic (HQC) or Quasi-cyclic Moderate density parity check (QC-MDPC) codes.
+This area of cryptography started in the 1970s and 80s based on the seminal work of McEliece and Niederreiter which focuses on the study of cryptosystems based on error-correcting codes. Some popular error correcting codes include the Goppa codes (used in McEliece cryptosystems), encoding and decoding syndrome codes used in Hamming Quasi-Cyclic (HQC) or Quasi-cyclic Moderate density parity check (QC-MDPC) codes.
 
 Examples include all the NIST Round 4 (unbroken) finalists: Classic McEliece, HQC, BIKE.
 
@@ -450,7 +450,7 @@ HPKE (Hybrid Public Key Encryption) {{?RFC9180}} deals with a variant of KEM whi
 
 ## What is a Post-quantum Signature
 
-Any digital signature scheme that provides a construction defining security under post quantum setting falls under this category of PQ signatures.
+Any digital signature scheme that provides a construction defining security under post-quantum setting falls under this category of PQ signatures.
 
 ## Security property
 
@@ -495,15 +495,15 @@ In the case of Dilithium, it internally incorporates the necessary hash operatio
 
 # Recommendations for Security / Performance Tradeoffs {#RecSecurity}
 
-The table below denotes the 5 security levels provided by NIST required for PQC algorithms. Users can leverage the appropriate algorithm based on the security level required for their use case. The security is defined as a function of resources required to break AES and SHA2/SHA3 algorithms, i.e., exhaustive key recovery for AES and optimal collision search for SHA2/SHA3. This information is a re-print of information provided in the NIST PQC project {NIST} as of time of writing (July 2023).
+The table below denotes the 5 security levels provided by NIST required for PQC algorithms. Users can leverage the appropriate algorithm based on the security level required for their use case. The security levels are defined as requiring computational resources comparable to or greater than an attack on AES and SHA2/SHA3 algorithms, i.e., exhaustive key recovery for AES and optimal collision search for SHA2/SHA3. This information is a re-print of information provided in the NIST PQC project {NIST} as of time of writing (July 2023).
 
-| PQ Security Level |            AES/SHA(2/3) hardness                                            |                   PQC Algorithm                            |
-| ----------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------- |
-|         1         | Atleast as hard as to break AES-128 (exhaustive key recovery)               |          Kyber512, Falcon512, Sphincs+SHA-256 128f/s       |
-|         2         | Atleast as hard as to break SHA-256/SHA3-256 (collision search)             |                       Dilithium2                           |
-|         3         | Atleast as hard as to break AES-192 (exhaustive key recovery)               |         Kyber768, Dilithium3, Sphincs+SHA-256 192f/s       |
-|         4         | Atleast as hard as to break SHA-384/SHA3-384 (collision search)             |                   No algorithm tested at this level        |
-|         5         | Atleast as hard as to break AES-256 (exhaustive key recovery)               |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA-256 256f/s|
+| PQ Security Level |            AES/SHA(2/3) hardness                |                   PQC Algorithm                            |
+| ----------------- | ----------------------------------------------- | ---------------------------------------------------------- |
+|         1         | AES-128 (exhaustive key recovery)               |          Kyber512, Falcon512, Sphincs+SHA-256 128f/s       |
+|         2         | SHA-256/SHA3-256 (collision search)             |                       Dilithium2                           |
+|         3         | AES-192 (exhaustive key recovery)               |         Kyber768, Dilithium3, Sphincs+SHA-256 192f/s       |
+|         4         | SHA-384/SHA3-384 (collision search)             |                   No algorithm tested at this level        |
+|         5         | AES-256 (exhaustive key recovery)               |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA-256 256f/s|
 
 Please note the Sphincs+SHA-256 x"f/s" in the above table denotes whether its the Sphincs+ fast (f) version or small (s) version for "x" bit AES security level. Refer to {{?I-D.ietf-lamps-cms-sphincs-plus-02}} for further details on Sphincs+ algorithms.
 
@@ -531,7 +531,7 @@ The following table discusses the impact of performance on different security le
 
 # Comparing PQC KEMs/Signatures vs Traditional KEMs (KEXs)/Signatures {#Comparisons}
 
-In this section, we provide two tables for comparison of different KEMs and Signatures respectively, in the traditional and Post scenarios. These tables will focus on the secret key sizes, public key sizes, and ciphertext/signature sizes for the PQC algorithms and their traditional counterparts of similar security levels.
+In this section, we provide two tables for comparison of different KEMs and Signatures respectively, in the traditional and post-quantum scenarios. These tables will focus on the secret key sizes, public key sizes, and ciphertext/signature sizes for the PQC algorithms and their traditional counterparts of similar security levels.
 
 The first table compares traditional vs. PQC KEMs in terms of security, public, private key sizes, and ciphertext sizes.
 
@@ -555,7 +555,9 @@ The next table compares traditional vs. PQC Signature schemes in terms of securi
 |          3        |            Dilithium3      |       1952                  |          4000                |            3293                      |
 |          5        |            Falcon1024      |       1793                  |          2305                |            1280                      |
 
-As one can clearly observe from the above tables, leveraging a PQC KEM/Signature significantly increases the key sizes and the ciphertext/signature sizes as well as compared to traditional KEM(KEX)/Signatures. But the PQC algorithms do provide the additional security level in case there is an attack from a CRQC, whereas schemes based on prime factorization or discrete logarithm problems (finite field or elliptic curves) would provide no level of security at all against such attacks. As an example, IKEv2 uses UDP as the transport for its messages. One challenge with integrating PQC key exchange into the initial IKEv2 exchange is that IKE fragmentation cannot be utilized. To address this issue, {{!RFC9242}} introduces a solution by defining a new exchange called the 'Intermediate Exchange' which can be fragmented using the IKE fragmentation mechanism. This Intermediate Exchange can carry out the PQC key exchange after the initial IKEv2 exchange and before the IKE_AUTH exchange.
+As one can clearly observe from the above tables, leveraging a PQC KEM/Signature significantly increases the key sizes and the ciphertext/signature sizes compared to traditional KEM(KEX)/Signatures. But the PQC algorithms do provide the additional security level in case there is an attack from a CRQC, whereas schemes based on prime factorization or discrete logarithm problems (finite field or elliptic curves) would provide no level of security at all against such attacks.
+
+These increased key and signatures sizes could introduce problems in protocols. As an example, IKEv2 uses UDP as the transport for its messages. One challenge with integrating PQC key exchange into the initial IKEv2 exchange is that IKE fragmentation cannot be utilized. To address this issue, {{!RFC9242}} introduces a solution by defining a new exchange called the 'Intermediate Exchange' which can be fragmented using the IKE fragmentation mechanism. {{!RFC9370}} then uses this Intermediate Exchange to carry out the PQC key exchange after the initial IKEv2 exchange and before the IKE_AUTH exchange.
 
 # Post-Quantum and Traditional Hybrid Schemes
 
@@ -569,6 +571,8 @@ The PQ/T Hybrid Confidentiality property can be used to protect from a "Harvest 
 
 1. Concatenate hybrid key agreement scheme: The final shared secret that will be used as an input of the key derivation function is the result of the concatenation of the secrets established with each key agreement scheme. For example, in {{?I-D.ietf-tls-hybrid-design}}, the client uses the TLS supported groups extension to advertise support for a PQ/T hybrid scheme, and the server can select this group if it supports the scheme. The hybrid-aware client and server establish a hybrid secret by concatenating the two shared secrets, which is used as the shared secret in the existing TLS 1.3 key schedule.
 2. Cascade hybrid key agreement scheme: The final shared secret is computed by applying as many iterations of the key derivation function as the number of key agreement schemes composing the hybrid key agreement scheme. For example, {{?RFC9370}} extends the Internet Key Exchange Protocol Version 2 (IKEv2) to allow one or more PQC algorithms in addition to the traditional algorithm to derive the final IKE SA keys using the cascade method as explained in Section 2.2.2 of {{?RFC9370}}.
+
+Various instantiations of these two types of hybrid key agreement schemes have been and continue to be explored. One must be careful when selecting which hybrid scheme to use.  For example, some schemes guarantee IND-CCA2 security as long as at least one of the component algorithms is IND-CCA2 secure, whereas other schemes only guarantee IND-CPA security.
 
 ## PQ/T Hybrid Authentication 
 
@@ -649,4 +653,4 @@ In particular, the authors would like to acknowledge the contributions to this d
 # Acknowledgements
 {:numbered="false"}
 
-It leverages text from https://github.com/paulehoffman/post-quantum-for-engineers/blob/main/pqc-for-engineers.md. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Panos Kampanakis, Ben S3, Sofia Celi, Melchior Aelmans, and Falko Strenzke for the discussion, review and comments.
+This document leverages text from https://github.com/paulehoffman/post-quantum-for-engineers/blob/main/pqc-for-engineers.md. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Panos Kampanakis, Ben S3, Sofia Celi, Melchior Aelmans, and Falko Strenzke for the discussion, review and comments.
