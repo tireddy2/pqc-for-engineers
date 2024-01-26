@@ -177,6 +177,10 @@ informative:
      title: "Recommendation for Key-Derivation Methods in Key-Establishment Schemes"
      target: https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Cr2.pdf
      date: false
+  Lyu09:
+      title: "V. Lyubashevsky, “Fiat-Shamir With Aborts: Applications to Lattice and Factoring-Based Signatures“, ASIACRYPT 2009"
+      target: https://www.iacr.org/archive/asiacrypt2009/59120596/59120596.pdf
+      date: false
 
 --- abstract
 
@@ -460,7 +464,9 @@ Understanding EUF-CMA security is essential for individual involved in designing
 
 ## Details of FALCON, Dilithium, and SPHINCS+ {#sig-scheme}
 
-Dilithium [Dilithium] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem (MLWE)). The design of the algorithm is based on the "Fiat Shamir with Aborts" method that leverages rejection sampling to render lattice based FS schemes compact and secure. Additionally, Dilithium offers both deterministic and randomized signing. Security properties of Dilithium are discussed in Section 9 of {{?I-D.ietf-lamps-dilithium-certificates}}.
+Dilithium [Dilithium] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem (MLWE)). The design of the algorithm is based on the "Fiat-Shamir with Aborts" {{Lyu09}} framework introduced by Lyubashevsky, that leverages rejection sampling to render lattice based FS schemes compact and secure. Dilithium uses uniform distribution over small integers for computing coefficients in error vectors, which makes the scheme easier to implement.
+
+Dilithium offers both deterministic and randomized signing and is instantiated with 3 parameter sets providing different security levels. Security properties of Dilithium are discussed in Section 9 of {{?I-D.ietf-lamps-dilithium-certificates}}.
 
 Falcon [Falcon] is based on the GPV hash-and-sign lattice-based signature framework introduced by Gentry, Peikert and Vaikuntanathan, which is a framework that requires a class of lattices and a trapdoor sampler technique.
 
