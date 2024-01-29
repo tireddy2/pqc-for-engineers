@@ -349,7 +349,7 @@ where pk is public key, sk is secret key, ct is the ciphertext representing an e
                       | Client  | | Server  |
                       +---------+ +---------+
   +----------------------+ |           |
-  | sk, pk = kemKeyGen()   |-|         |
+  | sk, pk = kemKeyGen() |-|           |
   +----------------------+ |           |
                            |           |
                            | pk        |
@@ -361,7 +361,7 @@ where pk is public key, sk is secret key, ct is the ciphertext representing an e
                            |       ct  |
                            |<----------|
 +------------------------+ |           |
-| ss = kemDecaps(ct, sk)   |-|         |
+| ss = kemDecaps(ct, sk) |-|           |
 +------------------------+ |           |
                            |           |
 ~~~~~
