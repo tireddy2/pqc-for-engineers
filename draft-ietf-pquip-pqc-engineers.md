@@ -557,7 +557,7 @@ The next table compares traditional vs. PQC Signature schemes in terms of securi
 
 As one can clearly observe from the above tables, leveraging a PQC KEM/Signature significantly increases the key sizes and the ciphertext/signature sizes compared to traditional KEM(KEX)/Signatures. But the PQC algorithms do provide the additional security level in case there is an attack from a CRQC, whereas schemes based on prime factorization or discrete logarithm problems (finite field or elliptic curves) would provide no level of security at all against such attacks.
 
-These increased key and signatures sizes could introduce problems in protocols. As an example, IKEv2 uses UDP as the transport for its messages. One challenge with integrating PQC key exchange into the initial IKEv2 exchange is that IKE fragmentation cannot be utilized. To address this issue, {{!RFC9242}} introduces a solution by defining a new exchange called the 'Intermediate Exchange' which can be fragmented using the IKE fragmentation mechanism. {{!RFC9370}} then uses this Intermediate Exchange to carry out the PQC key exchange after the initial IKEv2 exchange and before the IKE_AUTH exchange.
+These increased key and signatures sizes could introduce problems in protocols. As an example, IKEv2 uses UDP as the transport for its messages. One challenge with integrating PQC key exchange into the initial IKEv2 exchange is that IKE fragmentation cannot be utilized. To address this issue, {{!RFC9242}} introduces a solution by defining a new exchange called the 'Intermediate Exchange' which can be fragmented using the IKE fragmentation mechanism. {{!RFC9370}} then uses this Intermediate Exchange to carry out the PQC key exchange after the initial IKEv2 exchange and before the IKE_AUTH exchange. As another example, the increased key and signature sizes causes protocol key exchange messages to span more network packets which means higher total loss probability per packet. In lossy network conditions this may increase the latency of the key exchange.
 
 # Post-Quantum and Traditional Hybrid Schemes
 
@@ -574,7 +574,7 @@ The PQ/T Hybrid Confidentiality property can be used to protect from a "Harvest 
 
 Various instantiations of these two types of hybrid key agreement schemes have been explored and will be discussed further. One must be careful when selecting which hybrid scheme to use.  The chosen schemes at IETF are IND-CCA2 robust, that is IND-CCA2 security is guaranteed for the scheme as long as at least one of the component algorithms is IND-CCA2 secure.
 
-## PQ/T Hybrid Authentication 
+## PQ/T Hybrid Authentication
 
 The PQ/T Hybrid Authentication property can be utilized in scenarios where an on-path attacker possesses network devices equipped with CRQCs, capable of breaking traditional authentication protocols. This property ensures authentication through a PQ/T hybrid scheme or a PQ/T hybrid protocol, as long as at least one component algorithm remains secure to provide the intended security level. For instance, a PQ/T hybrid certificate can be employed to facilitate a PQ/T hybrid authentication protocol. However, a PQ/T hybrid authentication protocol does not need to use a PQ/T hybrid certificate {{?I-D.ounsworth-pq-composite-keys}}; separate certificates could be used for individual component algorithms {{?I-D.ietf-lamps-cert-binding-for-multi-auth}}.
 
