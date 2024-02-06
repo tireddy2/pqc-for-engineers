@@ -177,6 +177,10 @@ informative:
      title: "Recommendation for Key-Derivation Methods in Key-Establishment Schemes"
      target: https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Cr2.pdf
      date: false
+  SP-1800-38C:
+      title: "Migration to Post-Quantum Cryptography Quantum Readiness: Quantum-Resistant Cryptography Technology Interoperability and Performance Report"
+      target: https://www.nccoe.nist.gov/sites/default/files/2023-12/pqc-migration-nist-sp-1800-38c-preliminary-draft.pdf
+      date: false
 
 --- abstract
 
@@ -557,7 +561,7 @@ The next table compares traditional vs. PQC Signature schemes in terms of securi
 
 As one can clearly observe from the above tables, leveraging a PQC KEM/Signature significantly increases the key sizes and the ciphertext/signature sizes compared to traditional KEM(KEX)/Signatures. But the PQC algorithms do provide the additional security level in case there is an attack from a CRQC, whereas schemes based on prime factorization or discrete logarithm problems (finite field or elliptic curves) would provide no level of security at all against such attacks.
 
-These increased key and signatures sizes could introduce problems in protocols. As an example, IKEv2 uses UDP as the transport for its messages. One challenge with integrating PQC key exchange into the initial IKEv2 exchange is that IKE fragmentation cannot be utilized. To address this issue, {{!RFC9242}} introduces a solution by defining a new exchange called the 'Intermediate Exchange' which can be fragmented using the IKE fragmentation mechanism. {{!RFC9370}} then uses this Intermediate Exchange to carry out the PQC key exchange after the initial IKEv2 exchange and before the IKE_AUTH exchange. As another example, the increased key and signature sizes causes protocol key exchange messages to span more network packets which means higher total loss probability per packet. In lossy network conditions this may increase the latency of the key exchange.
+These increased key and signatures sizes could introduce problems in protocols. As an example, IKEv2 uses UDP as the transport for its messages. One challenge with integrating PQC key exchange into the initial IKEv2 exchange is that IKE fragmentation cannot be utilized. To address this issue, {{!RFC9242}} introduces a solution by defining a new exchange called the 'Intermediate Exchange' which can be fragmented using the IKE fragmentation mechanism. {{!RFC9370}} then uses this Intermediate Exchange to carry out the PQC key exchange after the initial IKEv2 exchange and before the IKE_AUTH exchange. As another example, {{SP-1800-38C}} section 6.3.3, shows that because the increased key and signature sizes causes protocol key exchange messages to span more network packets, this results in a higher total loss probability per packet. In lossy network conditions this may increase the latency of the key exchange.
 
 # Post-Quantum and Traditional Hybrid Schemes
 
