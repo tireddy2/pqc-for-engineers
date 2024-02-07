@@ -491,8 +491,7 @@ Multi-Tree XMSS and LMS can be used for signing a potentially large but fixed nu
 
 The number of tree layers in XMSS^MT provides a trade-off between signature size on the one side and key generation and signing speed on the other side. Increasing the number of layers reduces key generation time exponentially and signing time linearly at the cost of increasing the signature size linearly.
 
-XMSS and HSS/LMS can be applied in various scenarios where digital signatures are required, such as software updates.
-
+Due to the complexities described above, the XMSS and LMS are not a suitable replacement for classical signature schemes like RSA or ECDSA. Applications that expect a long lifetime of a signature, like firmware update or secure boot, are typical use cases where those schemes can be succesfully applied.
 
 ## Hash-then-Sign
 
