@@ -493,6 +493,18 @@ The number of tree layers in XMSS^MT provides a trade-off between signature size
 
 Due to the complexities described above, the XMSS and LMS are not a suitable replacement for classical signature schemes like RSA or ECDSA. Applications that expect a long lifetime of a signature, like firmware update or secure boot, are typical use cases where those schemes can be succesfully applied.
 
+### LMS scheme - key and signature sizes
+The LMS scheme is characterized by four distinct parameter sets - underlying hash function (SHA2-256 or SHAKE-256), the length of the digest (24 or 32 bytes), LMS tree height - parameter that controls a maximal number of signatures that the private key can produce (possible values are 5,10,15,20,25) and the width of the Winternitz coefficients (see {{?RFC8554}}, section 4.1) that can be used to trade-off signing time for signature size (possible values are 1,2,4,8). Parameters can be mixed, providinging 80 possible parametrizations of the scheme.
+
+The public (PK) and private (SK) key size depends on the length of the digest (M). The signature size depends on the Winternitz parameter (W), the LMS tree height (H), and the length of the digest. The tables below provides sizes key and signature sizes for parameterization with the digest size M=32 of the scheme.
+
+| PK | SK | W |  H=5 | H=10 | H=15 | H=20 | H=25 |
+|----|----|---|------|------|------|------|------|
+| 56 | 52 | 1 | 8684 | 8844 | 9004 | 9164 | 9324 |
+| 56 | 52 | 2 | 4460 | 4620 | 4780 | 4940 | 5100 |
+| 56 | 52 | 4 | 2348 | 2508 | 2668 | 2828 | 2988 |
+| 56 | 52 | 8 | 1292 | 1452 | 1612 | 1772 | 1932 |
+
 ## Hash-then-Sign
 
 Within the hash-then-sign paradigm, the message is hashed before signing it. By pre-hashing, the onus of resistance to existential forgeries becomes heavily reliant on the collision-resistance of the hash function in use. The hash-then-sign paradigm has the ability to improve performance by reducing the size of signed messages, making the signature size predictable and manageable. As a corollary, hashing remains mandatory even for short messages and assigns a further computational requirement onto the verifier.  This makes the performance of hash-then-sign schemes more consistent, but not necessarily more efficient. Using a hash function to produce a fixed-size digest of a message ensures that the signature is compatible with a wide range of systems and protocols, regardless of the specific message size or format. Crucially for hardware security modules, Hash-then-Sign also significantly reduces the amount of data that needs to be transmitted and processed by a hardware security module. Consider scenarios such as a networked HSM located in a different data center from the calling application or a smart card connected over a USB interface. In these cases, streaming a message that is megabytes or gigabytes long can result in notable network latency, on-device signing delays, or even depletion of available on-device memory.
