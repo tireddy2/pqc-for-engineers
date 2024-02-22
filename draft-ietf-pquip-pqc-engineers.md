@@ -487,18 +487,14 @@ XMSS and HSS/LMS can be applied in various scenarios where digital signatures ar
 ### LMS scheme - key and signature sizes
 The LMS scheme is characterized by four distinct parameter sets - underlying hash function (SHA2-256 or SHAKE-256), the length of the digest (24 or 32 bytes), LMS tree height - parameter that controls a maximal number of signatures that the private key can produce (possible values are 5,10,15,20,25) and the width of the Winternitz coefficients (see {{?RFC8554}}, section 4.1) that can be used to trade-off signing time for signature size (possible values are 1,2,4,8). Parameters can be mixed, providinging 80 possible parametrizations of the scheme.
 
-The public (PK) and private (SK) key size depends on the length of the digest (M). The signature size depends on the Winternitz parameter (W), the LMS tree height (H), and the length of the digest. The tables below provides sizes key and signature sizes for all parameterization of the scheme.
+The public (PK) and private (SK) key size depends on the length of the digest (M). The signature size depends on the Winternitz parameter (W), the LMS tree height (H), and the length of the digest. The tables below provides sizes key and signature sizes for parameterization with the digest size M=32 of the scheme.
 
-| M  | PK | SK | W |  H=5 | H=10 | H=15 | H=20 | H=25 |
-|----|----|----|---|------|------|------|------|------|
-| 24 | 48 | 44 | 1 | 4956 | 5076 | 5196 | 5316 | 5436 |
-| 24 | 48 | 44 | 2 | 2580 | 2700 | 2820 | 2940 | 3060 |
-| 24 | 48 | 44 | 4 | 1380 | 1500 | 1620 | 1740 | 1860 |
-| 24 | 48 | 44 | 8 | 780  | 900  | 1020 | 1140 | 1260 |
-| 32 | 56 | 52 | 1 | 8684 | 8844 | 9004 | 9164 | 9324 |
-| 32 | 56 | 52 | 2 | 4460 | 4620 | 4780 | 4940 | 5100 |
-| 32 | 56 | 52 | 4 | 2348 | 2508 | 2668 | 2828 | 2988 |
-| 32 | 56 | 52 | 8 | 1292 | 1452 | 1612 | 1772 | 1932 |
+| PK | SK | W |  H=5 | H=10 | H=15 | H=20 | H=25 |
+|----|----|---|------|------|------|------|------|
+| 56 | 52 | 1 | 8684 | 8844 | 9004 | 9164 | 9324 |
+| 56 | 52 | 2 | 4460 | 4620 | 4780 | 4940 | 5100 |
+| 56 | 52 | 4 | 2348 | 2508 | 2668 | 2828 | 2988 |
+| 56 | 52 | 8 | 1292 | 1452 | 1612 | 1772 | 1932 |
 
 ## Hash-then-Sign
 
