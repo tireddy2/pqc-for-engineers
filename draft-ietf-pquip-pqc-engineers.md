@@ -494,9 +494,9 @@ The number of tree layers in XMSS^MT provides a trade-off between signature size
 Due to the complexities described above, the XMSS and LMS are not a suitable replacement for classical signature schemes like RSA or ECDSA. Applications that expect a long lifetime of a signature, like firmware update or secure boot, are typical use cases where those schemes can be succesfully applied.
 
 ### LMS scheme - key and signature sizes
-The LMS scheme is characterized by four distinct parameter sets - underlying hash function (SHA2-256 or SHAKE-256), the length of the digest (24 or 32 bytes), LMS tree height - parameter that controls a maximal number of signatures that the private key can produce (possible values are 5,10,15,20,25) and the width of the Winternitz coefficients (see {{?RFC8554}}, section 4.1) that can be used to trade-off signing time for signature size (possible values are 1,2,4,8). Parameters can be mixed, providinging 80 possible parametrizations of the scheme.
+The LMS scheme is characterized by four distinct parameter sets - underlying hash function (SHA2-256 or SHAKE-256), the length of the digest (24 or 32 bytes), LMS tree height - parameter that controls a maximal number of signatures that the private key can produce (possible values are 5,10,15,20,25) and the width of the Winternitz coefficients (see {{?RFC8554}}, section 4.1) that can be used to trade-off signing time for signature size (possible values are 1,2,4,8). Parameters can be mixed, providing 80 possible parametrizations of the scheme.
 
-The public (PK) and private (SK) key size depends on the length of the digest (M). The signature size depends on the Winternitz parameter (W), the LMS tree height (H), and the length of the digest. The tables below provides sizes key and signature sizes for parameterization with the digest size M=32 of the scheme.
+The public (PK) and private (SK) key size depends on the length of the digest (M). The signature size depends on the Winternitz parameter (W), the LMS tree height (H), and the length of the digest. The tables below provides key and signature sizes for parameterization with the digest size M=32 of the scheme.
 
 | PK | SK | W |  H=5 | H=10 | H=15 | H=20 | H=25 |
 |----|----|---|------|------|------|------|------|
