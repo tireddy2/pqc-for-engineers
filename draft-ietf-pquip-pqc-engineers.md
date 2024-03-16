@@ -85,10 +85,6 @@ informative:
      title: "FIPS-204: Module-Lattice-Based Digital Signature Standard"
      target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.ipd.pdf
      date: false
-  SPHINCS:
-     title: "FIPS-205: Stateless Hash-Based Digital Signature Standard"
-     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.205.ipd.pdf
-     date: false
   FN-DSA:
      title: "Fast Fourier lattice-based compact signatures over NTRU"
      target: https://falcon-sign.info/
@@ -450,7 +446,7 @@ Here, `Combiner(ss1, ss2)`, often referred to as a KEM Combiner is a cryptograph
 
 ## Security property
 
-* IND-CCA2 : IND-CCA2 (INDistinguishability under adaptive Chosen-Ciphertext Attack) is an advanced security notion for encryption schemes. It ensures the confidentiality of the plaintext, resistance against chosen-ciphertext attacks, and prevents the adversary from forging valid ciphertexts (given access to the public key). An appropriate definition of IND-CCA2 security for KEMs can be found in [CS01] and [BHK09]. ML-KEM and Classic McEliece provides IND-CCA2 security.
+* IND-CCA2 : IND-CCA2 (INDistinguishability under adaptive Chosen-Ciphertext Attack) is an advanced security notion for encryption schemes. It ensures the confidentiality of the plaintext, resistance against chosen-ciphertext attacks, and prevents the adversary from forging valid ciphertexts (given access to the public key). An appropriate definition of IND-CCA2 security for KEMs can be found in [CS01] and [BHK09]. ML-KEM [ML-KEM] and Classic McEliece provides IND-CCA2 security.
 
 Understanding IND-CCA2 security is essential for individuals involved in designing or implementing cryptographic systems and protocols to evaluate the strength of the algorithm, assess its suitability for specific use cases, and ensure that data confidentiality and security requirements are met. Understanding IND-CCA2 security is generally not necessary for developers migrating to using an IETF-vetted key establishment method (KEM) within a given protocol or flow. IETF specification authors should include all security concerns in the 'Security Considerations' section of the relevant RFC and not rely on implementers being deep experts in cryptographic theory.
 
