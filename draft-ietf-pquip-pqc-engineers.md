@@ -3,7 +3,7 @@ title: "Post-Quantum Cryptography for Engineers"
 abbrev: "PQC for Engineers"
 category: info
 
-docname: draft-ietf-pquip-pqc-engineers-03
+docname: draft-ietf-pquip-pqc-engineers-latest
 submissiontype: IETF
 number:
 date:
@@ -77,17 +77,17 @@ informative:
      title: "NIST’s pleasant post-quantum surprise"
      target: https://blog.cloudflare.com/nist-post-quantum-surprise/
      date: false
-  Falcon:
+  ML-KEM:
+     title: "FIPS-203: Module-Lattice-based Key-Encapsulation Mechanism Standard"
+     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.ipd.pdf
+     date: false
+  ML-DSA:
+     title: "FIPS-204: Module-Lattice-Based Digital Signature Standard"
+     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.ipd.pdf
+     date: false
+  FN-DSA:
      title: "Fast Fourier lattice-based compact signatures over NTRU"
      target: https://falcon-sign.info/
-     date: false
-  Dilithium:
-     title: "Cryptographic Suite for Algebraic Lattices (CRYSTALS) - Dilithium"
-     target: https://pq-crystals.org/dilithium/index.shtml
-     date: false
-  SPHINCS:
-     title: "SPHINCS+"
-     target: https://sphincs.org/index.html
      date: false
   RSA:
      title: "A Method for Obtaining Digital Signatures and Public-Key Cryptosystems+"
@@ -239,17 +239,17 @@ These algorithms are not a drop-in replacement for classical asymmetric cryptogr
 
 ### PQC Key Encapsulation Mechanisms (KEMs)
 
-* [CRYSTALS-Kyber](https://pq-crystals.org/kyber/): Kyber is a module learning with errors (MLWE)-based key encapsulation mechanism ({{lattice-based}}).
+* [ML-KEM](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.ipd.pdf): Module-Lattice-based Key-Encapsulation Mechanism Standard (FIPS-203).
 
 ### PQC Signatures
-
-* [CRYSTALS-Dilithium](https://pq-crystals.org/dilithium/): CRYSTALS-Dilithium is a lattice signature scheme ({{lattice-based}} and {{sig-scheme}}).
-* [Falcon](https://falcon-sign.info/): Falcon is a lattice signature scheme ({{lattice-based}} and {{sig-scheme}}).
-* [SPHINCS+](https://sphincs.org/): SPHINCS+ is a stateless hash-based signature scheme ({{hash-based}} and {{sig-scheme}}).
+* [ML-DSA](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.ipd.pdf): Module-Lattice-Based Digital Signature Standard (FIPS-204).
+* [SLH-DSA](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.205.ipd.pdf): Stateless Hash-Based Digital Signature (FIPS-205).
+Standard (FIPS-205).
+* [FN-DSA](https://falcon-sign.info/): FN-DSA is a lattice signature scheme ({{lattice-based}} and {{sig-scheme}}).
 
 ## Candidates advancing to the fourth-round for standardization at NIST
 
-The fourth-round of the NIST process focuses only on KEMs. The goal of that round is to select an alternative algorithm that is based on different hard problem than Kyber.
+The fourth-round of the NIST process focuses only on KEMs. The goal of that round is to select an alternative algorithm that is based on different hard problem than ML-KEM.
 The candidates still advancing for standardization are:
 
 * [Classic McEliece](https://classic.mceliece.org/): Based on the hardness of syndrome decoding of Goppa codes. Goppa codes are a class of error-correcting codes that can correct a certain number of errors in a transmitted message. The decoding problem involves recovering the original message from the received noisy codeword.
@@ -319,7 +319,7 @@ The possibility to implement public-key schemes on lattices is tied to the chara
 
 Lattice-based schemes usually have good performances and average size public keys and signatures (average within the PQC primitives at least, they are still several orders of magnitude larger than RSA or ECC signatures), making them the best available candidates for general-purpose use such as replacing the use of RSA in PKIX certificates.
 
-Examples of such class of algorithms include Kyber, Falcon and Dilithium.
+Examples of such class of algorithms include ML-KEM, FN-DSA and ML-DSA.
 
 It is noteworthy that lattice-based encryption schemes require a rounding step during decryption which has a non-zero probability of "rounding the wrong way" and leading to a decryption failure, meaning that valid encryptions are decrypted incorrectly; as such, an attacker could significantly reduce the security of lattice-based schemes that have a relatively high failure rate. However, for most of the NIST Post-Quantum Proposals, the number of required oracle queries to force a decryption failure is above practical limits, as has been shown in {{LattFail1}}. More recent works have improved upon the results in {{LattFail1}}, showing that the cost of searching for additional failing ciphertexts after one or more have already been found, can be sped up dramatically {{LattFail2}}. Nevertheless, at this point in time (July 2023), the PQC candidates by NIST are considered secure under these attacks and we suggest constant monitoring as cryptanalysis research is ongoing.
 
@@ -329,7 +329,7 @@ Hash based PKC has been around since the 1970s, when it was developed by Lamport
 
 The SPHINCS algorithm on the other hand leverages the HORST (Hash to Obtain Random Subset with Trees) technique and remains the only hash based signature scheme that is stateless.
 
-SPHINCS+ is an advancement on SPHINCS which reduces the signature sizes in SPHINCS and makes it more compact. SPHINCS+ was recently standardized by NIST.
+SLH-DSA is an advancement on SPHINCS which reduces the signature sizes in SPHINCS and makes it more compact. SLH-DSA was recently standardized by NIST.
 
 ## Code-Based Public-Key Cryptography {#code-based}
 
@@ -378,7 +378,7 @@ where pk is public key, sk is secret key, ct is the ciphertext representing an e
 
 ### Authenticated Key Exchange (AKE)
 
-Authenticated Key Exchange with KEMs where both parties contribute a KEM public key to the overall session key is interactive as described in {{?I-D.draft-ietf-lake-edhoc-22}}. However, single-sided KEM, such as when one peer has a KEM key in a certificate and the other peer wants to encrypt for it (as in S/MIME or OpenPGP email), can be achieved using non-interactive HPKE {{RFC9180}}, explained in [hpke]. The following figure illustrates the Diffie-Hellman (DH) Key exchange:
+Authenticated Key Exchange with KEMs where both parties contribute a KEM public key to the overall session key is interactive as described in {{?I-D.draft-ietf-lake-edhoc-22}}. However, single-sided KEM, such as when one peer has a KEM key in a certificate and the other peer wants to encrypt for it (as in S/MIME or OpenPGP email), can be achieved using non-interactive HPKE {{RFC9180}}. The following figure illustrates the Diffie-Hellman (DH) Key exchange:
 
 ~~~~~ aasvg
                       +---------+ +---------+
@@ -446,13 +446,13 @@ Here, `Combiner(ss1, ss2)`, often referred to as a KEM Combiner is a cryptograph
 
 ## Security property
 
-* IND-CCA2 : IND-CCA2 (INDistinguishability under adaptive Chosen-Ciphertext Attack) is an advanced security notion for encryption schemes. It ensures the confidentiality of the plaintext, resistance against chosen-ciphertext attacks, and prevents the adversary from forging valid ciphertexts (given access to the public key). An appropriate definition of IND-CCA2 security for KEMs can be found in [CS01] and [BHK09]. Kyber and Classic McEliece provides IND-CCA2 security.
+* IND-CCA2 : IND-CCA2 (INDistinguishability under adaptive Chosen-Ciphertext Attack) is an advanced security notion for encryption schemes. It ensures the confidentiality of the plaintext, resistance against chosen-ciphertext attacks, and prevents the adversary from forging valid ciphertexts (given access to the public key). An appropriate definition of IND-CCA2 security for KEMs can be found in [CS01] and [BHK09]. ML-KEM [ML-KEM] and Classic McEliece provides IND-CCA2 security.
 
 Understanding IND-CCA2 security is essential for individuals involved in designing or implementing cryptographic systems and protocols to evaluate the strength of the algorithm, assess its suitability for specific use cases, and ensure that data confidentiality and security requirements are met. Understanding IND-CCA2 security is generally not necessary for developers migrating to using an IETF-vetted key establishment method (KEM) within a given protocol or flow. IETF specification authors should include all security concerns in the 'Security Considerations' section of the relevant RFC and not rely on implementers being deep experts in cryptographic theory.
 
 ## HPKE {#hpke}
 
-HPKE (Hybrid Public Key Encryption) {{?RFC9180}} deals with a variant of KEM which is essentially a PKE of arbitrary sized plaintexts for a recipient public key. It works with a combination of KEMs, KDFs and AEAD schemes (Authenticated Encryption with Additional Data). HPKE includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones that authenticate possession of a key encapsulation mechanism (KEM) private key. HPKE can be extended to support hybrid post-quantum KEM {{?I-D.westerbaan-cfrg-hpke-xyber768d00-02}}. Kyber, which is a KEM does not support the static-ephemeral key exchange that allows HPKE based on DH based KEMs and its optional authenticated modes as discussed in Section 1.2 of {{?I-D.westerbaan-cfrg-hpke-xyber768d00-02}}.
+HPKE (Hybrid Public Key Encryption) {{?RFC9180}} deals with a variant of KEM which is essentially a PKE of arbitrary sized plaintexts for a recipient public key. It works with a combination of KEMs, KDFs and AEAD schemes (Authenticated Encryption with Additional Data). HPKE includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones that authenticate possession of a key encapsulation mechanism (KEM) private key. HPKE can be extended to support hybrid post-quantum KEM {{?I-D.westerbaan-cfrg-hpke-xyber768d00-02}}. ML-KEM does not support the static-ephemeral key exchange that allows HPKE based on DH based KEMs and its optional authenticated modes as discussed in Section 1.2 of {{?I-D.westerbaan-cfrg-hpke-xyber768d00-02}}.
 
 # PQC Signatures
 
@@ -462,25 +462,25 @@ Any digital signature scheme that provides a construction defining security unde
 
 ## Security property
 
-* EUF-CMA : EUF-CMA (Existential Unforgeability under Chosen Message Attack) [GMR88] is a security notion for digital signature schemes. It guarantees that an adversary, even with access to a signing oracle, cannot forge a valid signature for an arbitrary message. EUF-CMA provides strong protection against forgery attacks, ensuring the integrity and authenticity of digital signatures by preventing unauthorized modifications or fraudulent signatures. Dilithium, Falcon and SPHINCS+ provide EUF-CMA security.
+* EUF-CMA : EUF-CMA (Existential Unforgeability under Chosen Message Attack) [GMR88] is a security notion for digital signature schemes. It guarantees that an adversary, even with access to a signing oracle, cannot forge a valid signature for an arbitrary message. EUF-CMA provides strong protection against forgery attacks, ensuring the integrity and authenticity of digital signatures by preventing unauthorized modifications or fraudulent signatures. ML-DSA, FN-DSA and SLH-DSA provide EUF-CMA security.
 
 Understanding EUF-CMA security is essential for individual involved in designing or implementing cryptographic systems to ensure the security, reliability, and trustworthiness of digital signature schemes. It allows for informed decision-making, vulnerability analysis, compliance with standards, and designing systems that provide strong protection against forgery attacks. Understanding EUF-CMA security is generally not necessary for developers migrating to using an IETF-vetted post-quantum cryptography (PQC) signature scheme within a given protocol or flow. IETF specification authors should include all security concerns in the 'Security Considerations' section of the relevant RFC and should not assume that implementers are deep experts in cryptographic theory
 
-## Details of FALCON, Dilithium, and SPHINCS+ {#sig-scheme}
+## Details of FN-DSA, ML-DSA, and SLH-DSA+ {#sig-scheme}
 
-Dilithium [Dilithium] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem (MLWE)). The design of the algorithm is based on the "Fiat-Shamir with Aborts" {{Lyu09}} framework introduced by Lyubashevsky, that leverages rejection sampling to render lattice based FS schemes compact and secure. Dilithium uses uniform distribution over small integers for computing coefficients in error vectors, which makes the scheme easier to implement.
+ML-DSA [ML-DSA] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem (MLWE)). The design of the algorithm is based on the "Fiat-Shamir with Aborts" {{Lyu09}} framework introduced by Lyubashevsky, that leverages rejection sampling to render lattice based FS schemes compact and secure. ML-DSA uses uniform distribution over small integers for computing coefficients in error vectors, which makes the scheme easier to implement.
 
-Dilithium offers both deterministic and randomized signing and is instantiated with 3 parameter sets providing different security levels. Security properties of Dilithium are discussed in Section 9 of {{?I-D.ietf-lamps-dilithium-certificates}}.
+ML-DSA offers both deterministic and randomized signing and is instantiated with 3 parameter sets providing different security levels. Security properties of ML-DSA are discussed in Section 9 of {{?I-D.ietf-lamps-dilithium-certificates}}.
 
-Falcon [Falcon] is based on the GPV hash-and-sign lattice-based signature framework introduced by Gentry, Peikert and Vaikuntanathan, which is a framework that requires a class of lattices and a trapdoor sampler technique.
+FN-DSA [FN-DSA] is based on the GPV hash-and-sign lattice-based signature framework introduced by Gentry, Peikert and Vaikuntanathan, which is a framework that requires a class of lattices and a trapdoor sampler technique.
 
-The main design principle of Falcon is compactness, i.e. it was designed in a way that achieves minimal total memory bandwidth requirement (the sum of the signature size plus the public key size). This is possible due to the compactness of NTRU lattices.  Falcon also offers very efficient signing and verification procedures. The main potential downsides of Falcon refer to the non-triviality of its algorithms and the need for floating point arithmetic support in order to support Gaussian-distributed random number sampling where the other lattice schemes use the less efficient but easier to support uniformly-distributed random number sampling.
+The main design principle of FN-DSA is compactness, i.e. it was designed in a way that achieves minimal total memory bandwidth requirement (the sum of the signature size plus the public key size). This is possible due to the compactness of NTRU lattices.  FN-DSA also offers very efficient signing and verification procedures. The main potential downsides of FN-DSA refer to the non-triviality of its algorithms and the need for floating point arithmetic support in order to support Gaussian-distributed random number sampling where the other lattice schemes use the less efficient but easier to support uniformly-distributed random number sampling.
 
-Implementers of Falcon need to be aware that Falcon signing is highly susceptible to side-channel attacks, unless constant-time 64-bit floating-point operations are used. This requirement is extremely platform-dependent, as noted in NIST's report.
+Implementers of FN-DSA need to be aware that FN-DSA signing is highly susceptible to side-channel attacks, unless constant-time 64-bit floating-point operations are used. This requirement is extremely platform-dependent, as noted in NIST's report.
 
-The performance characteristics of Dilithium and Falcon may differ based on the specific implementation and hardware platform. Generally, Dilithium is known for its relatively fast signature generation, while Falcon can provide more efficient signature verification. The choice may depend on whether the application requires more frequent signature generation or signature verification (See {{LIBOQS}}). For further clarity on the sizes and security levels, please refer to the tables in sections {{RecSecurity}} and {{Comparisons}}.
+The performance characteristics of ML-DSA and FN-DSA may differ based on the specific implementation and hardware platform. Generally, ML-DSA is known for its relatively fast signature generation, while FN-DSA can provide more efficient signature verification. The choice may depend on whether the application requires more frequent signature generation or signature verification (See {{LIBOQS}}). For further clarity on the sizes and security levels, please refer to the tables in sections {{RecSecurity}} and {{Comparisons}}.
 
-SPHINCS+ [SPHINCS] utilizes the concept of stateless hash-based signatures, where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). This property eliminates the need for maintaining state information during the signing process. SPHINCS+ was designed to sign up to 2^64 messages and it offers three security levels. The parameters for each of the security levels were chosen to provide 128 bits of security, 192 bits of security, and 256 bits of security. SPHINCS+ offers smaller key sizes, larger signature sizes, slower signature generation, and slower verification when compared to Dilithium and Falcon. SPHINCS+ does not introduce a new hardness assumption beyond those inherent to the underlying hash functions. It builds upon established foundations in cryptography, making it a reliable and robust digital signature scheme for a post-quantum world. The advantages and disadvantages of SPHINCS+ over other signature algorithms is discussed in Section 3.1 of {{?I-D.draft-ietf-cose-sphincs-plus}}.
+SLH-DSA [SLH-DSA] utilizes the concept of stateless hash-based signatures, where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). This property eliminates the need for maintaining state information during the signing process. SLH-DSA was designed to sign up to 2^64 messages and it offers three security levels. The parameters for each of the security levels were chosen to provide 128 bits of security, 192 bits of security, and 256 bits of security. SLH-DSA offers smaller key sizes, larger signature sizes, slower signature generation, and slower verification when compared to ML-DSA and FN-DSA. SLH-DSA does not introduce a new hardness assumption beyond those inherent to the underlying hash functions. It builds upon established foundations in cryptography, making it a reliable and robust digital signature scheme for a post-quantum world. The advantages and disadvantages of SLH-DSA over other signature algorithms is discussed in Section 3.1 of {{?I-D.draft-ietf-cose-sphincs-plus}}.
 
 
 ## Details of XMSS and LMS
@@ -511,7 +511,7 @@ Within the hash-then-sign paradigm, the message is hashed before signing it. By 
 
 Protocols like TLS 1.3 and DNSSEC use the Hash-then-Sign paradigm. In TLS 1.3 {{?RFC8446}} CertificateVerify message, the content that is covered under the signature includes the transcript hash output (Section 4.4.1 of {{?RFC8446}}), while DNSSEC {{?RFC4033}} uses it to provide origin authentication and integrity assurance services for DNS data.
 
-In the case of Dilithium, it internally incorporates the necessary hash operations as part of its signing algorithm. Dilithium directly takes the original message, applies a hash function internally, and then uses the resulting hash value for the signature generation process. In case of SPHINCS+, it internally performs randomized message compression using a keyed hash function that can process arbitrary length messages. In case of Falcon, a hash function is used as part of the signature process, it uses the SHAKE-256 hash function to derive a digest of the message being signed. Therefore, Dilithium, Falcon, and SPHINCS+ offer enhanced security over the traditional Hash-then-Sign paradigm because by incorporating dynamic key material into the message digest, a pre-computed hash collision on the message to be signed no longer yields a signature forgery. Applications requiring the performance and bandwidth benefits of Hash-then-Sign may still pre-hash at the protocol level prior to invoking Dilithium, Falcon, or SPHINCS+, but protocol designers should be aware that doing so re-introduces the weakness that hash collisions directly yield signature forgeries. Signing the full un-digested message is strongly preferred where applications can tolerate it.
+In the case of ML-DSA, it internally incorporates the necessary hash operations as part of its signing algorithm. ML-DSA directly takes the original message, applies a hash function internally, and then uses the resulting hash value for the signature generation process. In case of SLH-DSA, it internally performs randomized message compression using a keyed hash function that can process arbitrary length messages. In case of FN-DSA, a hash function is used as part of the signature process, it uses the SHAKE-256 hash function to derive a digest of the message being signed. Therefore, ML-DSA, FN-DSA, and SLH-DSA offer enhanced security over the traditional Hash-then-Sign paradigm because by incorporating dynamic key material into the message digest, a pre-computed hash collision on the message to be signed no longer yields a signature forgery. Applications requiring the performance and bandwidth benefits of Hash-then-Sign may still pre-hash at the protocol level prior to invoking ML-DSA, FN-DSA, or SLH-DSA, but protocol designers should be aware that doing so re-introduces the weakness that hash collisions directly yield signature forgeries. Signing the full un-digested message is strongly preferred where applications can tolerate it.
 
 
 # Recommendations for Security / Performance Tradeoffs {#RecSecurity}
@@ -520,35 +520,37 @@ The table below denotes the 5 security levels provided by NIST required for PQC 
 
 | PQ Security Level |            AES/SHA(2/3) hardness                |                   PQC Algorithm                            |
 | ----------------- | ----------------------------------------------- | ---------------------------------------------------------- |
-|         1         | AES-128 (exhaustive key recovery)               |          Kyber512, Falcon512, Sphincs+SHA-256 128f/s       |
-|         2         | SHA-256/SHA3-256 (collision search)             |                       Dilithium2                           |
-|         3         | AES-192 (exhaustive key recovery)               |         Kyber768, Dilithium3, Sphincs+SHA-256 192f/s       |
+|         1         | AES-128 (exhaustive key recovery)               |     ML-KEM-512, FN-DSA-512, SLH-DSA-SHA2/SHAKE-128f/s      |
+|         2         | SHA-256/SHA3-256 (collision search)             |                      ML-DSA-44                             |
+|         3         | AES-192 (exhaustive key recovery)               |     ML-KEM-768, ML-DSA-65, SLH-DSA-SHA2/SHAKE-192f/s       |
 |         4         | SHA-384/SHA3-384 (collision search)             |                   No algorithm tested at this level        |
-|         5         | AES-256 (exhaustive key recovery)               |   Kyber1024, Falcon1024, Dilithium5, Sphincs+SHA-256 256f/s|
+|         5         | AES-256 (exhaustive key recovery)               | ML-KEM-1024, FN-DSA-1024, ML-DSA-87, SLH-DSA-SHA2/SHAKE-256f/s |
 
-Please note the Sphincs+SHA-256 x"f/s" in the above table denotes whether its the Sphincs+ fast (f) version or small (s) version for "x" bit AES security level. Refer to {{?I-D.ietf-lamps-cms-sphincs-plus-02}} for further details on Sphincs+ algorithms.
+Please note the SLH-DSA-x-yf/s "f/s" in the above table denotes whether its the SLH-DSA uses SHAKE or SHA-2 as an underlying hash function "x" and whether it is fast (f) version or small (s) version for "y" bit AES security level. Refer to {{?I-D.ietf-lamps-cms-sphincs-plus-02}} for further details on SLH-DSA algorithms.
 
-The following table discusses the signature size differences for similar SPHINCS+ algorithm security levels with the "simple" version but for different categories i.e., (f) for fast verification and (s) for compactness/smaller. Both SHA-256 and SHAKE-256 parametrisation output the same signature sizes, so both have been included.
+The following table discusses the signature size differences for similar SLH-DSA algorithm security levels with the "simple" version but for different categories i.e., (f) for fast verification and (s) for compactness/smaller. Both SHA-256 and SHAKE-256 parametrisation output the same signature sizes, so both have been included.
 
 | PQ Security Level | Algorithm | Public key size (in bytes) | Private key size (in bytes) | Signature size (in bytes) |
 | ------------------ | --------------------------------- | --------------------------- | --------------------------- | ------------------------------------ |
-| 1 | SPHINCS+-{SHA2,SHAKE}-128f | 32 | 64 | 17088 |
-| 1 | SPHINCS+-{SHA2,SHAKE}-128s | 32 | 64 | 7856 |
-| 3 | SPHINCS+-{SHA2,SHAKE}-192f | 48 | 96 | 35664 |
-| 3 | SPHINCS+-{SHA2,SHAKE}-192s | 48 | 96 | 16224 |
-| 5 | SPHINCS+-{SHA2,SHAKE}-256f | 64 | 128 | 49856 |
-| 5 | SPHINCS+-{SHA2,SHAKE}-256s | 64 | 128 | 29792 |
+| 1 | SLH-DSA-{SHA2,SHAKE}-128f | 32 | 64 | 17088 |
+| 1 | SLH-DSA-{SHA2,SHAKE}-128s | 32 | 64 | 7856 |
+| 3 | SLH-DSA-{SHA2,SHAKE}-192f | 48 | 96 | 35664 |
+| 3 | SLH-DSA-{SHA2,SHAKE}-192s | 48 | 96 | 16224 |
+| 5 | SLH-DSA-{SHA2,SHAKE}-256f | 64 | 128 | 49856 |
+| 5 | SLH-DSA-{SHA2,SHAKE}-256s | 64 | 128 | 29792 |
 
 The following table discusses the impact of performance on different security levels in terms of private key sizes, public key sizes and ciphertext/signature sizes.
 
 | PQ Security Level  |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  | Ciphertext/Signature size (in bytes) |
 | ------------------ | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
-|         1          |            Kyber512        |       800                   |          1632                |            768                       |
-|         1          |           Falcon512        |       897                   |          1281                |            666                       |
-|         2          |           Dilithium2       |       1312                  |          2528                |            2420                      |
-|         3          |            Kyber768        |       1184                  |          2400                |            1088                      |
-|         5          |           Falcon1024       |       1793                  |          2305                |            1280                      |
-|         5          |            Kyber1024       |       1568                  |          3168                |            1588                      |
+|         1          |          ML-KEM-512        |       800                   |          1632                |            768                       |
+|         1          |          FN-DSA-512        |       897                   |          1281                |            666                       |
+|         2          |           ML-DSA-44        |       1312                  |          2528                |            2420                      |
+|         3          |          ML-KEM-768        |       1184                  |          2400                |            1088                      |
+|         3          |           ML-DSA-65        |       1952                  |          4000                |            3309                      |
+|         5          |          FN-DSA-1024       |       1793                  |          2305                |            1280                      |
+|         5          |          ML-KEM-1024       |       1568                  |          3168                |            1588                      |
+|         5          |           ML-DSA-87        |       2592                  |          4864                |            4627                      |
 
 # Comparing PQC KEMs/Signatures vs Traditional KEMs (KEXs)/Signatures {#Comparisons}
 
@@ -561,9 +563,9 @@ The first table compares traditional vs. PQC KEMs in terms of security, public, 
 |      Traditional  |        P256_HKDF_SHA-256    |       65                    |          32                  |            65                        |
 |      Traditional  |        P521_HKDF_SHA-512    |       133                   |          66                  |            133                       |
 |      Traditional  |       X25519_HKDF_SHA-256   |       32                    |          32                  |            32                        |
-|          1        |            Kyber512        |       800                   |          1632                |            768                       |
-|          3        |            Kyber768        |       1184                  |          2400                |            1088                      |
-|          5        |            Kyber1024       |       1568                  |          3168                |            1588                      |
+|          1        |           ML-KEM-512        |       800                   |          1632                |            768                       |
+|          3        |           ML-KEM-768        |       1184                  |          2400                |            1088                      |
+|          5        |           ML-KEM-1024       |       1568                  |          3168                |            1568                      |
 
 The next table compares traditional vs. PQC Signature schemes in terms of security, public, private key sizes, and signature sizes.
 
@@ -571,10 +573,11 @@ The next table compares traditional vs. PQC Signature schemes in terms of securi
 | ----------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
 |      Traditional  |              RSA2048       |       256                   |          256                 |            256                       |
 |      Traditional  |               P256         |       64                    |          32                  |            64                        |
-|          1        |            Falcon512       |       897                   |          1281                |            666                       |
-|          2        |            Dilithium2      |       1312                  |          2528                |            768                       |
-|          3        |            Dilithium3      |       1952                  |          4000                |            3293                      |
-|          5        |            Falcon1024      |       1793                  |          2305                |            1280                      |
+|          1        |            FN-DSA-512      |       897                   |          1281                |            666                       |
+|          2        |            ML-DSA-44       |       1312                  |          2528                |            768                       |
+|          3        |            ML-DSA-65       |       1952                  |          4000                |            3293                      |
+|          5        |            FN-DSA-1024     |       1793                  |          2305                |            1280                      |
+|          5        |            ML-DSA-87       |       2592                  |          4864                |            4627                      |
 
 As one can clearly observe from the above tables, leveraging a PQC KEM/Signature significantly increases the key sizes and the ciphertext/signature sizes compared to traditional KEM(KEX)/Signatures. But the PQC algorithms do provide the additional security level in case there is an attack from a CRQC, whereas schemes based on prime factorization or discrete logarithm problems (finite field or elliptic curves) would provide no level of security at all against such attacks.
 
@@ -622,7 +625,7 @@ Many of these points are still being actively explored and discussed, and the co
 ## Cryptanalysis
 
 Classical cryptanalysis exploits weaknesses in algorithm design, mathematical vulnerabilities, or implementation flaws, that are exploitable with classical (i.e., non-quantum) hardware whereas quantum cryptanalysis harnesses the power of CRQCs to solve specific mathematical problems more efficiently. Another form of quantum cryptanalysis is 'quantum side-channel' attacks. In such attacks, a device under threat is directly connected to a quantum computer, which then injects entangled or superimposed data streams to exploit hardware that lacks protection against quantum side-channels. Both pose threats to the security of cryptographic algorithms, including those used in PQC. Developing and adopting new cryptographic algorithms resilient against these threats is crucial for ensuring long-term security in the face of advancing cryptanalysis techniques.
-Recent attacks on the side-channel implementations using deep learning based power analysis have also shown that one needs to be cautious while implementing the required PQC algorithms in hardware. Two of the most recent works include: one attack on Kyber {{KyberSide}} and one attack on Saber {{SaberSide}}. Evolving threat landscape points to the fact that lattice based cryptography is indeed more vulnerable to side-channel attacks as in {{SideCh}}, {{LatticeSide}}. Consequently, there were some mitigation techniques for side channel attacks that have been proposed as in {{Mitigate1}}, {{Mitigate2}}, and {{Mitigate3}}.
+Recent attacks on the side-channel implementations using deep learning based power analysis have also shown that one needs to be cautious while implementing the required PQC algorithms in hardware. Two of the most recent works include: one attack on ML-KEM {{KyberSide}} and one attack on Saber {{SaberSide}}. Evolving threat landscape points to the fact that lattice based cryptography is indeed more vulnerable to side-channel attacks as in {{SideCh}}, {{LatticeSide}}. Consequently, there were some mitigation techniques for side channel attacks that have been proposed as in {{Mitigate1}}, {{Mitigate2}}, and {{Mitigate3}}.
 
 ## Cryptographic Agility
 
