@@ -466,7 +466,7 @@ Any digital signature scheme that provides a construction defining security unde
 
 Understanding EUF-CMA security is essential for individual involved in designing or implementing cryptographic systems to ensure the security, reliability, and trustworthiness of digital signature schemes. It allows for informed decision-making, vulnerability analysis, compliance with standards, and designing systems that provide strong protection against forgery attacks. Understanding EUF-CMA security is generally not necessary for developers migrating to using an IETF-vetted post-quantum cryptography (PQC) signature scheme within a given protocol or flow. IETF specification authors should include all security concerns in the 'Security Considerations' section of the relevant RFC and should not assume that implementers are deep experts in cryptographic theory
 
-## Details of FN-DSA, ML-DSA, and SLH-DSA+ {#sig-scheme}
+## Details of FN-DSA, ML-DSA, and SLH-DSA {#sig-scheme}
 
 ML-DSA [ML-DSA] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness lattice problems over module lattices (i.e., the Module Learning with Errors problem (MLWE)). The design of the algorithm is based on the "Fiat-Shamir with Aborts" {{Lyu09}} framework introduced by Lyubashevsky, that leverages rejection sampling to render lattice based FS schemes compact and secure. ML-DSA uses uniform distribution over small integers for computing coefficients in error vectors, which makes the scheme easier to implement.
 
