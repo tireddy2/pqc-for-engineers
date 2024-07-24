@@ -372,7 +372,6 @@ Examples include all the NIST Round 4 (unbroken) finalists: Classic McEliece, HQ
 
 The hash-based public-key cryptography algorithms are actually part of a larger family of cryptography that takes the observation that symmetric algorithms are not immediately vulnerable to CRQCs (see section {{symmetric}}), and seeks to build a variety of different types of public-key algorithms. Often these are based on the field of Zero Knowledge Proofs, but other constructions are possible.
 
-Examples include the NIST Round 4 candidate Picnic.
 
 there is a branch of PQC research that seeks to build public key cryptosystems out of purely symmetric building blocks.
 
