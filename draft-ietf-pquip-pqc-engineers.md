@@ -358,9 +358,9 @@ It is noteworthy that lattice-based encryption schemes require a rounding step d
 
 Hash based PKC has been around since the 1970s, when it was developed by Lamport and Merkle. It is used to create digital signature algorithms and its security is mathematically based on the security of the selected cryptographic hash function. Many variants of hash-based signatures (HBS) have been developed since the 70s including the recent XMSS {{!RFC8391}}, HSS/LMS {{!RFC8554}} or BPQS schemes. Unlike digital signature techniques, most hash-based signature schemes are stateful, which means that signing necessitates the update and careful tracking of the secret key. Producing multiple signatures using the same secret key state results in loss of security and ultimately signature forgery attacks against that key. This leads to complications and operational complexity where stateful hash-based keys need to have long operational lifetimes. For example consider a 20-year root key; there is an expectation that 20 years is longer than the expected lifetime of the hardware that key is stored on, and therefore the key will need to be migrated to new hardware at some point. This directly conflicts with requirements to never duplicate the private key in order to prevent the possibility of state re-use. At the time of writing, some proprietary solutions exist for solving this problem, but it is generally accepted that long-lived stateful HBS keys require a large amount of operational consideration before deployment.
 
-The SPHINCS algorithm on the other hand leverages the HORST (Hash to Obtain Random Subset with Trees) technique and remains the only hash based signature scheme that is stateless, thus avoiding all the complexities with state management.
+The SLH-DSA algorithm on the other hand leverages the HORST (Hash to Obtain Random Subset with Trees) technique and remains the only hash based signature scheme that is stateless, thus avoiding all the complexities with state management.
 
-SLH-DSA is an advancement on SPHINCS which reduces the signature sizes in SPHINCS and makes it more compact. SLH-DSA was recently standardized by NIST.
+SLH-DSA is an advancement on SLH-DSA which reduces the signature sizes in SLH-DSA and makes it more compact. SLH-DSA was recently standardized by NIST.
 
 ## Code-Based Public-Key Cryptography {#code-based}
 
@@ -396,7 +396,7 @@ where pk is public key, sk is secret key, ct is the ciphertext representing an e
                       | Client  | | Server  |
                       +---------+ +---------+
   +----------------------+ |           |
-  | pk, ss = kemKeyGen() |-|           |
+  | pk, sk = kemKeyGen() |-|           |
   +----------------------+ |           |
                            |           |
                            | pk        |
