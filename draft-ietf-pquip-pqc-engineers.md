@@ -368,13 +368,6 @@ This area of cryptography started in the 1970s and 80s based on the seminal work
 
 Examples include all the NIST Round 4 (unbroken) finalists: Classic McEliece, HQC, BIKE.
 
-## Symmetric-based Public Key Cryptography
-
-The hash-based public-key cryptography algorithms are actually part of a larger family of cryptography that takes the observation that symmetric algorithms are not immediately vulnerable to CRQCs (see section {{symmetric}}), and seeks to build a variety of different types of public-key algorithms. Often these are based on the field of Zero Knowledge Proofs, but other constructions are possible.
-
-
-there is a branch of PQC research that seeks to build public key cryptosystems out of purely symmetric building blocks.
-
 # KEMs {#KEMs}
 
 ## What is a KEM
