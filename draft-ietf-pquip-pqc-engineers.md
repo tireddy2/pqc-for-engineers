@@ -511,7 +511,7 @@ Understanding EUF-CMA security is essential for individuals involved in designin
 
 ## Details of FN-DSA, ML-DSA, and SLH-DSA {#sig-scheme}
 
-ML-DSA [ML-DSA] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness of lattice problems over module lattices (i.e., the Module Learning with Errors problem (MLWE)). The design of the algorithm is based on the "Fiat-Shamir with Aborts" {{Lyu09}} framework introduced by Lyubashevsky, that leverages rejection sampling to render lattice based FS schemes compact and secure. ML-DSA uses uniformly-distributed random number sampling over small integers for computing coefficients in error vectors, which makes the scheme easier to implement compared with FN-DSA [FN-DSA] which uses Guassian-distributed floating point numbers.
+ML-DSA [ML-DSA] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness of lattice problems over module lattices (i.e., the Module Learning with Errors problem (MLWE)). The design of the algorithm is based on the "Fiat-Shamir with Aborts" {{Lyu09}} framework introduced by Lyubashevsky, that leverages rejection sampling to render lattice based FS schemes compact and secure. ML-DSA uses uniformly-distributed random number sampling over small integers for computing coefficients in error vectors, which makes the scheme easier to implement compared with FN-DSA [FN-DSA] which uses Guassian-distributed numbers.
 
 ML-DSA offers both deterministic and randomized signing and is instantiated with 3 parameter sets providing different security levels. Security properties of ML-DSA are discussed in Section 9 of {{?I-D.ietf-lamps-dilithium-certificates}}.
 
