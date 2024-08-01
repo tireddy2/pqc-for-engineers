@@ -245,7 +245,7 @@ Any asymmetric cryptographic algorithm based on integer factorization, finite fi
 
  In the context of PQC, symmetric-key cryptographic algorithms are generally not directly impacted by quantum computing advancements. Symmetric-key cryptography, which includes keyed primitives such as block ciphers (e.g., AES) and message authentication mechanisms (e.g., HMAC-SHA2), rely on secret keys shared between the sender and receiver. Symmetric cryptography also includes hash functions (e.g., SHA-256) that are used for secure message digesting without any shared key material. HMAC is a specific construction that utilizes a cryptographic hash function (such as SHA-2) and a secret key shared between the sender and receiver to produce a message authentication code.
 
-CRQCs, in theory, do not offer substantial advantages in breaking symmetric-key algorithms compared to classical computers meaning that current symmetric algorithms can continue to be used with potentially small increases to key size to stay ahead of quantum-boosted brute-forcing attacks (see {{symmetric}} for more details).
+CRQCs, in theory, do not offer substantial advantages in breaking symmetric-key algorithms compared to classical computers, meaning that current symmetric algorithms can continue to be used with potentially straightforward increases to key size to stay ahead of quantum-boosted brute-forcing attacks (see {{symmetric}} for more details).
 
 # NIST PQC Algorithms
 
@@ -360,7 +360,7 @@ Stateful hashbased signatures with long service lifetimes require additional ope
 
 The SLH-DSA algorithm on the other hand leverages the HORST (Hash to Obtain Random Subset with Trees) technique and remains the only hash based signature scheme that is stateless, thus avoiding all the complexities with state management.
 
-SLH-DSA is an advancement on SLH-DSA which reduces the signature sizes in SLH-DSA and makes it more compact. SLH-DSA was recently standardized by NIST.
+SLH-DSA is an advancement on SPHINCS which reduces the signature sizes in SPHINCS and makes it more compact. SLH-DSA was recently standardized by NIST.
 
 ## Code-Based Public-Key Cryptography {#code-based}
 
@@ -372,7 +372,7 @@ Examples include all the NIST Round 4 (unbroken) finalists: Classic McEliece, HQ
 
 ## What is a KEM
 
-A Key Encapsulation Mechanism (KEM) is a cryptographic technique used for securely exchanging symmetric key material between two parties over an insecure channel. It is commonly used in hybrid encryption schemes, where a combination of asymmetric (public-key) and symmetric encryption is employed. The KEM encapsulation results in a fixed-length symmetric key that can be used with a symmetric algorithm, typically a block cipher, in one of two ways: (1) Derive a Data Encryption Key (DEK) to encrypt the data (2) Derive a Key Encryption Key (KEK) used to wrap a DEK. These techniques are often refered to as "hybrid public key encryption (HPKE)" [?RFC9180] or "KEM-DEM encryption" (beacuse a key encapsulation mechanism is followed by a data encryption) mechanism
+A Key Encapsulation Mechanism (KEM) is a cryptographic technique used for securely exchanging symmetric key material between two parties over an insecure channel. It is commonly used in hybrid encryption schemes, where a combination of asymmetric (public key) and symmetric encryption is employed. The KEM encapsulation results in a fixed-length symmetric key that can be used with a symmetric algorithm, typically a block cipher, in one of two ways: (1) Derive a Data Encryption Key (DEK) to encrypt the data (2) Derive a Key Encryption Key (KEK) used to wrap a DEK. These techniques are often refered to as "hybrid public key encryption (HPKE)" [?RFC9180] mechanism.
 
 The term "encapsulation" is chosen intentionally to indicate that KEM algorithms behave differently at the API level than the Key Agreement or Key Encipherment / Key Transport mechanisms that we are accustomed to using today. Key Agreement schemes imply that both parties contribute a public / private keypair to the exchange, while Key Encipherment / Key Transport schemes imply that the symmetric key material is chosen by one party and "encrypted" or "wrapped" for the other party. KEMs, on the other hand, behave according to the following API:
 
@@ -416,29 +416,63 @@ Authenticated Key Exchange with KEMs where both parties contribute a KEM public 
                       +---------+ +---------+
                       | Client  | | Server  |
                       +---------+ +---------+
-  +----------------------+ |           |
-  | sk1, pk1 = KeyGen()  |-|           |
-  +----------------------+ |           |
-                           |           |
-                           | pk1       |
-                           |---------->|
-                           |           | +------------------------+
-                           |           |-| sk2, pk2 = KeyGen()    |
-                           |           | | ss = KeyEx(pk1, sk2)   |
-                           |           | +------------------------+
-                           |           |
-                           |        pk2|
-                           |<----------|
-+------------------------+ |           |
-| ss = KeyEx(pk2, sk1)   |-|           |
-+------------------------+ |           |
-                           |           |
+  +-----------------------+ |           |
+  | Long-term client key: | |           |
+  |         sk1, pk1      |-|           |
+  +-----------------------+ |           |
+                            |           |
+                            | pk1       |
+                            |---------->|
+                            |           | +------------------------+
+                            |           |-| Long-term server key:  |
+                            |           | |         sk2, pk2       |
+                            |           | | ss = KeyEx(pk1, sk2)   |
+                            |           | +------------------------+
+                            |           |
+                            |        pk2|
+                            |<----------|
++-------------------------+ |           |
+| ss = KeyEx(pk2, sk1)    | |           |
+| encryptContent(ss)      |-|           |
++-------------------------+ |           |
+                            | encrypted |
+                            |   content |
+                            |---------->|
+                            |           | +------------------------+
+                            |           | | decryptContent(ss)     |
+                            |           | +------------------------+
 ~~~~~
 {: #tab-dh-ake title="Diffie-Hellman based Authenticated Key Exchange"}
 
-What's important to note about the sample flow above is that the shared secret `ss` is derived using key material from both the Client and the Server, which classifies it as an Authenticated Key Exchange (AKE). This property is often used in Static-Static DH scenarios where both parties use a long-term key, for example from a certificate or bound to a previous step of a protocol, and thus both parties can authenticate each other's identity with only a single exchange of information because the client can compute `ss = KeyEx(pk2, sk1)` and begin encrypting content without waiting for a response from the Server. Formally, these properties are called non-interactive key exchange (NIKE) and authenticated key exchange (AKE).
+What's important to note about the sample flow above is that the shared secret `ss` is derived using key material from both the Client and the Server, which classifies it as an Authenticated Key Exchange (AKE). There is another property of a key exchange, called Non-Interactive Key Exchange (NIKE) which refers to whether the sender can compute the shared secret `ss` and beging encrypting content without requiring active interaction -- ie an exchange of network messages -- with the recipient. {{tab-dh-ake}} shows a Diffie-Hellman key exchange which is an AKE, since both parties are using long-term keys which can have established trust for example via certificates, but it is not a NIKE since the client needs to wait for the network interaction to receive the receiver's public key `pk2` before it can compute the shared secret `ss` and begin contentn encryption. However, a DH key exchange can be an AKE and a NIKE at the same time if the receiver's public key is known to the sender in advance, and many Internet Protocols rely on this property of DH-based key exchanges.
 
-Many Internet protocols rely on the fact that DH can be both a NIKE and an AKE at the same time. When using Key Encapsulation Mechanisms (KEMs) as the underlying primitive, a flow may be a non-interactive or a authenticated, but not both. Consequently, certain Internet protocols will necessitate redesign to accommodate this distinction, either by introducing extra network round-trips or by making trade-offs in security properties.
+~~~~~ aasvg
+                      +---------+ +---------+
+                      | Client  | | Server  |
+                      +---------+ +---------+
+  +-----------------------+ |           |
+  | Long-term client key: | |           |
+  |         sk1, pk1      |-|           |
+  | Long-term server key: | |           |
+  |         pk2           | |           |
+  | ss = KeyEx(pk2, sk1)  | |           |
+  | encryptContent(ss)    |-|           |
+  +-----------------------+ |           |
+                            |           |
+                            | pk1,      |
+                            | encrypted |
+                            |   content |
+                            |---------->|
+                            |           | +------------------------+
+                            |           |-| Long-term server key:  |
+                            |           | |         sk2, pk2       |
+                            |           | | ss = KeyEx(pk1, sk2)   |
+                            |           | | decryptContent(ss)     |
+                            |           | +------------------------+
+~~~~~
+{: #tab-dh-ake-nike title="Diffie-Hellman based Authenticated Key Exchange and Non-Interactive Key Exchange simultaneously"}
+
+The complication with KEMs is that a KEM `Encaps()` is non-deterministic; it involves randomness chosen by the sender of that KEM. Therefore, in order to perform an AKE, the client must wait for the server to generate the needed randomness and perform `Encaps()` against the client key, which necessarily requires a network round-trip. Therefore a KEM-based protocol can either be an AKE or a NIKE, but cannot be both at the same time. Consequently, certain Internet protocols will necessitate redesign to accommodate this distinction, either by introducing extra network round-trips or by making trade-offs in security properties.
 
 ~~~~~ aasvg
                       +---------+ +---------+
@@ -657,7 +691,7 @@ One last consideration is the pairs of algorithms that can be combined.  A recen
 
 The same considerations apply when using multiple certificates to transport a pair of related keys for the same subject.  Exactly how two certificates should be managed in order to avoid some of the pitfalls mentioned above is still an active area of investigation.  Using two certificates keeps the certificate tooling simple and straightforward, but in the end simply moves the problems with requiring that both certs are intended to be used as a pair, must produce two signatures which must be carried separately, and both must validate, to the certificate management layer, where addressing these concerns in a robust way can be difficult.
 
-An important security note when using particularly hybrid signature keys, but also to a lesser extent hybrid KEM keys, is key re-use. In traditional cryptography, problems can occur with so-called "cross-protocol attacks" when the same key can be used for multiple protocols; for example signing TLS handshakes and signing S/MIME emails, however re-using the same key within the same protocol is generally ok -- for example when your certificate expires, renewing it with the same public key. However, key re-use becomes a large security problem within hybrids. Consider an \{RSA, ML-DSA\} hybrid key where the RSA key also appears within a single-algorithm certificate. In this case, an attacker could perform a "stripping attack" where they take some peice of data signed with the \{RSA, ML-DSA\} key, remove the ML-DSA signature and present the data as if it was intended for the RSA only certificate. This leads to a set of security definitions called "non-separability properties", which refers to how well the signature scheme resists various complexities of downgrade / stripping attacks {{?I-D.draft-hale-pquip-hybrid-signature-spectrums}}
+An important security note when using particularly hybrid signature keys, but also to a lesser extent hybrid KEM keys, is key re-use. In traditional cryptography, problems can occur with so-called "cross-protocol attacks" when the same key can be used for multiple protocols; for example signing TLS handshakes and signing S/MIME emails. While it is not best-practice to re-use keys within the same protocol, for example using the same key for multiple S/MIME certificates for the same user, it is not generally catestrophic for security. However, key re-use becomes a large security problem within hybrids. Consider an \{RSA, ML-DSA\} hybrid key where the RSA key also appears within a single-algorithm certificate. In this case, an attacker could perform a "stripping attack" where they take some peice of data signed with the \{RSA, ML-DSA\} key, remove the ML-DSA signature and present the data as if it was intended for the RSA only certificate. This leads to a set of security definitions called "non-separability properties", which refers to how well the signature scheme resists various complexities of downgrade / stripping attacks {{?I-D.draft-hale-pquip-hybrid-signature-spectrums}}
 
 At least one scheme has been proposed that allows the pair of certificates to exist as a single certificate when being issued and managed, but dynamically split into individual certificates when needed (https://datatracker.ietf.org/doc/draft-bonnell-lamps-chameleon-certs/).
 
