@@ -95,6 +95,10 @@ informative:
      title: "FIPS-204: Module-Lattice-Based Digital Signature Standard"
      target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.ipd.pdf
      date: false
+  SLH-DSA:
+     title: "FIPS-205: Stateless Hash-Based Digital Signature Standard"
+     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.205.ipd.pdf
+     date: false
   FN-DSA:
      title: "Fast Fourier lattice-based compact signatures over NTRU"
      target: https://falcon-sign.info/
@@ -354,7 +358,7 @@ It is noteworthy that lattice-based encryption schemes require a rounding step d
 
 ## Hash-Based Public-Key Cryptography {#hash-based}
 
-Hash based PKC has been around since the 1970s, when it was developed by Lamport and Merkle. It is used to create digital signature algorithms and its security is mathematically based on the security of the selected cryptographic hash function. Many variants of hash-based signatures (HBS) have been developed since the 70s including the recent XMSS {{!RFC8391}}, HSS/LMS {{!RFC8554}} or BPQS schemes. Unlike digital signature techniques, most hash-based signature schemes are stateful, which means that signing necessitates the update and careful tracking of the secret key. Producing multiple signatures using the same secret key state results in loss of security and ultimately signature forgery attacks against that key. 
+Hash based PKC has been around since the 1970s, when it was developed by Lamport and Merkle. It is used to create digital signature algorithms and its security is mathematically based on the security of the selected cryptographic hash function. Many variants of hash-based signatures (HBS) have been developed since the 70s including the recent XMSS {{!RFC8391}}, HSS/LMS {{!RFC8554}} or BPQS schemes. Unlike digital signature techniques, most hash-based signature schemes are stateful, which means that signing necessitates the update and careful tracking of the secret key. Producing multiple signatures using the same secret key state results in loss of security and ultimately signature forgery attacks against that key.
 
 Stateful hashbased signatures with long service lifetimes require additional operational complexity compared with other signature types. For example, consider a 20-year root key; there is an expectation that 20 years is longer than the expected lifetime of the hardware that key is stored on, and therefore the key will need to be migrated to new hardware at some point. Disister-recovery scenarios where the primary node fail without warning can be similarly tricky. This requires careful operational and compliance consideration to ensure that no private key state can be re-used across the migration or disaster recovery event. One approach for avoiding these issues is to only use stateful HBS for short-term use cases that do not require horizontal scaling, for example signing a batch of firmware images and then retiring the signing key.
 
@@ -372,7 +376,7 @@ Examples include all the NIST Round 4 (unbroken) finalists: Classic McEliece, HQ
 
 ## What is a KEM
 
-A Key Encapsulation Mechanism (KEM) is a cryptographic technique used for securely exchanging symmetric key material between two parties over an insecure channel. It is commonly used in hybrid encryption schemes, where a combination of asymmetric (public key) and symmetric encryption is employed. The KEM encapsulation results in a fixed-length symmetric key that can be used with a symmetric algorithm, typically a block cipher, in one of two ways: (1) Derive a Data Encryption Key (DEK) to encrypt the data (2) Derive a Key Encryption Key (KEK) used to wrap a DEK. These techniques are often refered to as "hybrid public key encryption (HPKE)" [?RFC9180] mechanism.
+A Key Encapsulation Mechanism (KEM) is a cryptographic technique used for securely exchanging symmetric key material between two parties over an insecure channel. It is commonly used in hybrid encryption schemes, where a combination of asymmetric (public key) and symmetric encryption is employed. The KEM encapsulation results in a fixed-length symmetric key that can be used with a symmetric algorithm, typically a block cipher, in one of two ways: (1) Derive a Data Encryption Key (DEK) to encrypt the data (2) Derive a Key Encryption Key (KEK) used to wrap a DEK. These techniques are often refered to as "hybrid public key encryption (HPKE)" {{?RFC9180}} mechanism.
 
 The term "encapsulation" is chosen intentionally to indicate that KEM algorithms behave differently at the API level than the Key Agreement or Key Encipherment / Key Transport mechanisms that we are accustomed to using today. Key Agreement schemes imply that both parties contribute a public / private keypair to the exchange, while Key Encipherment / Key Transport schemes imply that the symmetric key material is chosen by one party and "encrypted" or "wrapped" for the other party. KEMs, on the other hand, behave according to the following API:
 
@@ -506,7 +510,7 @@ The complication with KEMs is that a KEM `Encaps()` is non-deterministic; it inv
 ~~~~~
 {: #tab-kem-ake title="KEM based Authenticated Key Exchange"}
 
-Here, `Combiner(ss1, ss2)`, often referred to as a KEM Combiner is a cryptographic construction that takes in two shared secrets and returns a single combined shared secret. The simplest combiner is concatenation `ss1 || ss2`, but combiners can vary in complexity depending on the cryptographic properties required. For example if the combination should preserve IND-CCA2 of either input even if the other is chosen maliciously, then a more complex construct is required. Another consideration for combiner design is so-called "binding properties" introduced in [KEEPINGUP] which may require the ciphertexts and recipient public keys to be included in the combiner.  KEM combiner security analysis becomes more complicated in hyrbid settings where the two KEMs represent different algorithms, for example one is ML-KEM and the other is ECDHE. For a more thorough discussion of KEM combiners, see [KEEPING UP], {{?I-D.draft-ounsworth-cfrg-kem-combiners-04}}, and {{?I-D.draft-connolly-cfrg-xwing-kem-02}}.
+Here, `Combiner(ss1, ss2)`, often referred to as a KEM Combiner is a cryptographic construction that takes in two shared secrets and returns a single combined shared secret. The simplest combiner is concatenation `ss1 || ss2`, but combiners can vary in complexity depending on the cryptographic properties required. For example if the combination should preserve IND-CCA2 of either input even if the other is chosen maliciously, then a more complex construct is required. Another consideration for combiner design is so-called "binding properties" introduced in [KEEPINGUP] which may require the ciphertexts and recipient public keys to be included in the combiner.  KEM combiner security analysis becomes more complicated in hyrbid settings where the two KEMs represent different algorithms, for example one is ML-KEM and the other is ECDHE. For a more thorough discussion of KEM combiners, see [KEEPINGUP], {{?I-D.draft-ounsworth-cfrg-kem-combiners-04}}, and {{?I-D.draft-connolly-cfrg-xwing-kem-02}}.
 
 ## Security properties
 
