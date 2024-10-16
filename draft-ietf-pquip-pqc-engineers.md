@@ -204,10 +204,10 @@ informative:
     target: https://eprint.iacr.org/2023/1933
   NISTFINAL:
     title: "NIST Releases First 3 Finalized Post-Quantum Encryption Standards"
-    target: https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards 
+    target: https://www.nist.gov/news-events/news/2024/08/nist-releases-first-3-finalized-post-quantum-encryption-standards
   ANSSI:
     title: "ANSSI views on the Post-Quantum Cryptography transition"
-    target: https://cyber.gouv.fr/sites/default/files/document/follow_up_position_paper_on_post_quantum_cryptography.pdf  
+    target: https://cyber.gouv.fr/sites/default/files/document/follow_up_position_paper_on_post_quantum_cryptography.pdf
 
 
 --- abstract
@@ -222,7 +222,7 @@ Quantum computing is no longer perceived as a conjecture of computational scienc
 
 Extensive research has produced several "post-quantum cryptographic (PQC) algorithms" (sometimes referred to as "quantum-safe" algorithms) that offer the potential to ensure cryptography's survival in the quantum computing era. However, transitioning to a post-quantum infrastructure is not a straightforward task, and there are numerous challenges to overcome. It requires a combination of engineering efforts, proactive assessment and evaluation of available technologies, and a careful approach to product development. This document aims to provide general guidance to engineers who utilize public-key cryptography in their software. It covers topics such as selecting appropriate PQC algorithms, understanding the differences between PQC Key Encapsulation Mechanisms (KEMs) and traditional Diffie-Hellman and RSA style key exchange, and provides insights into expected key sizes and processing time differences between PQC algorithms and traditional ones. Additionally, it discusses the potential threat to symmetric cryptography from Cryptographically Relevant Quantum Computers (CRQCs).  It is important to remember that asymmetric algorithms (also known as public key algorithms) are largely used for secure communications between organizations or endpoints that may not have previously interacted, so a significant amount of coordination between organizations, and within and between ecosystems needs to be taken into account.  Such transitions are some of the most complicated in the tech industry and will require staged migrations in which upgraded agents need to co-exist and communicate with non-upgraded agents at a scale never before undertaken. It might be worth mentioning that recently National Security Agency (NSA) released an article on Future Quantum-Resistant (QR) Algorithm Requirements for National Security Systems {{CNSA2-0}} based on the need to protect against deployments of CRQCs in the future. German Federal Office for Information Security (BSI) has also released a PQC migration and recommendations document [BSI-PQC] which largely aligns with United States National Institute of Standards and Technology (NIST) and NSA guidance, but does differ on some of the guidance.
 
-It is important to note that CRQCs pose a threat to both symmetric and asymmetric cryptographic schemes. However, the threat to asymmetric cryptography is significantly greater due to Shor's algorithm, which can break widely-used public key schemes like RSA and ECC. Symmetric cryptography and hash functions also face some risk from Grover's algorithm, although the impact is less severe and can typically be mitigated by doubling key lengths. It is crucial for the reader to understand that when the word "PQC" is mentioned in the document, it means Asymmetric Cryptography (or Public key Cryptography) and not any algorithms from the Symmetric side based on stream, block ciphers, hash functions, MACs, etc, which are less vulnerable to quantum computers. This document does not cover such topics as when traditional algorithms might become vulnerable (for that, see documents such as [QC-DNS] and others).  It also does not cover unrelated technologies like Quantum Key Distribution or Quantum Key Generation, which use quantum hardware to exploit quantum effects to protect communications and generate keys, respectively.  Post-quantum cryptography is based on conventional (i.e., non-quantum) math and software and can be run on any general purpose computer. 
+It is important to note that CRQCs pose a threat to both symmetric and asymmetric cryptographic schemes. However, the threat to asymmetric cryptography is significantly greater due to Shor's algorithm, which can break widely-used public key schemes like RSA and ECC. Symmetric cryptography and hash functions also face some risk from Grover's algorithm, although the impact is less severe and can typically be mitigated by doubling key lengths. It is crucial for the reader to understand that when the word "PQC" is mentioned in the document, it means Asymmetric Cryptography (or Public key Cryptography) and not any algorithms from the Symmetric side based on stream, block ciphers, hash functions, MACs, etc, which are less vulnerable to quantum computers. This document does not cover such topics as when traditional algorithms might become vulnerable (for that, see documents such as [QC-DNS] and others).  It also does not cover unrelated technologies like Quantum Key Distribution or Quantum Key Generation, which use quantum hardware to exploit quantum effects to protect communications and generate keys, respectively.  Post-quantum cryptography is based on conventional (i.e., non-quantum) math and software and can be run on any general purpose computer.
 
 Please note: This document does not go into the deep mathematics or technical specification of the PQC algorithms, but rather provides an overview to engineers on the current threat landscape and the relevant algorithms designed to help prevent those threats.  Also, the cryptographic and algorithmic guidance given in this document should be taken as non-authoritative if it conflicts with emerging and evolving guidance from the IRTF's Cryptographic Forum Research Group (CFRG).
 
@@ -235,8 +235,6 @@ While there is ongoing discussion about whether to use the term 'Post-Quantum' o
 Post-Quantum Cryptography (PQC) sometimes referred to as quantum-proof, quantum-safe, or quantum-resistant, is the development of cryptographic algorithms designed to secure communication and data in a world where quantum computers are powerful enough to break traditional cryptographic systems, such as RSA and ECC. These algorithms are intended to be resistant to attacks by quantum computers, which use quantum-mechanical phenomena to solve mathematical problems that are infeasible for classical computers.
 
 # Threat of CRQCs on Cryptography
-
-Post-quantum cryptography or quantum-safe cryptography refers to cryptographic algorithms that are secure against cryptographic attacks from both CRQCs and classic computers.
 
 When considering the security risks associated with the ability of a quantum computer to attack traditional cryptography, it is important to distinguish between the impact on symmetric algorithms and public-key ones. Dr. Peter Shor and Dr. Lov Grover developed two algorithms that changed the way the world thinks of security under the presence of a CRQC.
 
@@ -278,7 +276,7 @@ Any asymmetric cryptographic algorithm based on integer factorization, finite fi
 
 In the context of PQC, symmetric-key cryptographic algorithms are generally not directly impacted by quantum computing advancements. Symmetric-key cryptography, which includes keyed primitives such as block ciphers (e.g., AES) and message authentication mechanisms (e.g., HMAC-SHA2), rely on secret keys shared between the sender and receiver. Symmetric cryptography also includes hash functions (e.g., SHA-256) that are used for secure message digesting without any shared key material. HMAC is a specific construction that utilizes a cryptographic hash function (such as SHA-2) and a secret key shared between the sender and receiver to produce a message authentication code.
 
-CRQCs, in theory, do not offer substantial advantages in breaking symmetric-key algorithms compared to classical computers, meaning that current symmetric algorithms can continue to be used with potentially straightforward increases to key size to stay ahead of quantum-boosted brute-forcing attacks (see {{symmetric}} for more details). Furthermore, for compliance purposes, such as meeting the standards of CNSA 2.0 (Commercial National Security Algorithm Suite 2.0) {{CNSA2-0}}, AES-256 must be used to ensure the highest level of security against both classical and quantum threats. 
+CRQCs, in theory, do not offer substantial advantages in breaking symmetric-key algorithms compared to classical computers, meaning that current symmetric algorithms can continue to be used with potentially straightforward increases to key size to stay ahead of quantum-boosted brute-forcing attacks (see {{symmetric}} for more details). Furthermore, for compliance purposes, such as meeting the standards of CNSA 2.0 (Commercial National Security Algorithm Suite 2.0) {{CNSA2-0}}, AES-256 must be used to ensure the highest level of security against both classical and quantum threats.
 
 # NIST PQC Algorithms
 
@@ -679,7 +677,7 @@ The frequency and duration of system upgrades and the time when CRQCs will becom
 
 ## Hybrid Cryptographic Algorithm Combinations: Considerations and Approaches
 
-### Hybrid Cryptographic Combinations 
+### Hybrid Cryptographic Combinations
 
 It is also possible to use more than two algorithms together in a hybrid scheme, with various methods for combining them. For post-quantum transition purposes, the combination of a post-quantum algorithm with a classical algorithm is the most straightforward. The use of multiple post-quantum algorithms with different mathematical bases has also been considered. Combining algorithms in a way that requires both to be used together ensures stronger security, while combinations that do not require both will sacrifice security but offer other benefits like backwards compatibility and crypto agility. Including a traditional key alongside a post-quantum key often has minimal bandwidth impact.
 
@@ -691,7 +689,7 @@ One last consideration is the pairs of algorithms that can be combined.  A recen
 
 The same considerations apply when using multiple certificates to transport a pair of related keys for the same subject.  Exactly how two certificates should be managed in order to avoid some of the pitfalls mentioned above is still an active area of investigation.  Using two certificates keeps the certificate tooling simple and straightforward, but in the end simply moves the problems with requiring that both certs are intended to be used as a pair, must produce two signatures which must be carried separately, and both must validate, to the certificate management layer, where addressing these concerns in a robust way can be difficult.
 
-At least one scheme has been proposed that allows the pair of certificates to exist as a single certificate when being issued and managed, but dynamically split into individual certificates when needed ({{?I-D.draft-bonnell-lamps-chameleon-certs}}.   
+At least one scheme has been proposed that allows the pair of certificates to exist as a single certificate when being issued and managed, but dynamically split into individual certificates when needed ({{?I-D.draft-bonnell-lamps-chameleon-certs}}.
 
 ### Key Reuse in Hybrid Schemes
 
@@ -701,7 +699,7 @@ An important security note when using particularly hybrid signature keys, but al
 
 Another potential application of hybrids bears mentioning, even though it is not directly PQC-related. That is using hybrids to navigate inter-jurisdictional cryptographic connections. Traditional cryptography is already fragmented by jurisdiction, consider that while most jurisdictions support Elliptic Curve Diffie-Hellman, those in the United States will prefer the NIST curves while those in Germany will prefer the brainpool curves. China, Russia, and other jurisdictions have their own national cryptography standards. This situation of fragmented global cryptography standards is unlikely to improve with PQC. If "and" mode hybrids become standardized for the reasons mentioned above, then one could imagine leveraging them to create "ciphersuites" in which a single cryptographic operation simultaneously satisfies the cryptographic requirements of both endpoints.
 
-### Future Directions and Ongoing Research 
+### Future Directions and Ongoing Research
 Many aspects of hybrid cryptography are still under investigation. LAMPS WG at IETF is actively exploring the security properties of these combinations, and future standards will reflect the evolving consensus on these issues.
 
 # Security Considerations
