@@ -308,39 +308,6 @@ The candidates still advancing for standardization are:
 * [HQC](http://pqc-hqc.org/): Based on the hardness of syndrome decoding of Quasi-cyclic concatenated Reed Muller Reed Solomon (RMRS) codes in the Hamming metric. Reed Muller (RM) codes are a class of block error correcting codes used especially in wireless and deep space communications. Reed Solomon (RS) are a class of block error correcting codes that are used to detect and correct multiple bit errors.
 * [SIKE](https://sike.org/) (Broken): Supersingular Isogeny Key Encapsulation (SIKE) is a specific realization of the SIDH (Supersingular Isogeny Diffie-Hellman) protocol. Recently, a [mathematical attack](https://eprint.iacr.org/2022/975.pdf) based on the "glue-and-split" theorem from 1997 from Ernst Kani was found against the underlying chosen starting curve and torsion information. In practical terms, this attack allows for the efficient recovery of the private key. NIST announced that SIKE was no longer under consideration, but the authors of SIKE had asked for it to remain in the list so that people are aware that it is broken.  While SIKE is broken, Isogenies in general remain an active area of cryptographic research due to their very attractive bandwidth usage, and we may yet see more cryptographic primitives in the future from this research area.
 
-
-# Threat of CRQCs on Cryptography
-
-Post-quantum cryptography or quantum-safe cryptography refers to cryptographic algorithms that are secure against cryptographic attacks from both CRQCs and classic computers.
-
-When considering the security risks associated with the ability of a quantum computer to attack traditional cryptography, it is important to distinguish between the impact on symmetric algorithms and public-key ones. Dr. Peter Shor and Dr. Lov Grover developed two algorithms that changed the way the world thinks of security in the presence of a CRQC.
-
-It is also worth discussing the term "quantum adversary". Quantum computers are, by their nature, hybrids of classical and quantum computational units. For example, Shor's algorithm consists of a combination of quantum and classical computational steps. Thus, the term "quantum adversary" should be thought of as "quantum-enhanced adversary," meaning they have access to both classical and quantum computational techniques.
-
-Despite the fact that large-scale quantum computers do not yet exist to experiment on, the theoretical properties of quantum computation are very well understood. This allows us to reason today about the upper limits of quantum-enhanced computation, and indeed to design cryptographic algorithms that are resistant to any conceivable form of quantum cryptanalysis.
-
-## Symmetric cryptography {#symmetric}
-
-For unstructured data such as symmetric encrypted data or cryptographic hashes, although CRQCs can search for specific solutions across all possible input combinations (e.g., Grover's Algorithm), no quantum algorithm is known to break the underlying security properties of these classes of algorithms.
-
-Grover's algorithm is a quantum search algorithm that provides a theoretical quadratic speedup for searching an unstructured database, compared to classical search algorithms. If we consider the mapping of hash values to their corresponding hash inputs (also known as pre-image), or of ciphertext blocks to the corresponding plaintext blocks, as an unstructured database, then Grover’s algorithm theoretically requires doubling the key sizes of the symmetric algorithms that are currently deployed today to counter the quadratic speedup and maintain current security levels. This is because Grover’s algorithm reduces the amount of operations to break 128-bit symmetric cryptography to 2^{64} quantum operations, which might sound computationally feasible. However, 2^{64} operations performed in parallel are feasible for modern classical computers, but 2^{64} quantum operations performed serially in a quantum computer are not. Grover's algorithm is highly non-parallelizable and even if one deploys 2^c computational units in parallel to brute-force a key using Grover's algorithm, it will complete in time proportional to 2^{(128−c)/2}, or, put simply, using 256 quantum computers will only reduce runtime by a factor of 16, 1024 quantum computers will only reduce runtime by a factor of 32 and so forth ​(see {{NIST}} and {{Cloudflare}}​).  Therefore, while Grover's attack suggests that we should double the sizes of symmetric keys, the current consensus among experts is that the current key sizes remain secure in practice.
-
-How can someone be sure that an improved algorithm won’t outperform Grover's algorithm at some point in time? Christof Zalka has shown that Grover's algorithm (and in particular its non-parallel nature) achieves the best possible complexity for unstructured search {{Grover-search}}.
-
-Finally, in their evaluation criteria for PQC, NIST is assessing the security levels of proposed post-quantum algorithms by comparing them against the equivalent classical and quantum security of AES-128, 192, and 256. This indicates that NIST is confident in the stable security properties of AES, even in the presence of both classical and quantum attacks. As a result, 128-bit algorithms can be considered quantum-safe for the foreseeable future.
-
-## Asymmetric cryptography
-
-“Shor’s algorithm” on the other hand, efficiently solves the integer factorization problem (and the related discrete logarithm problem), which offer the foundations of the vast majority of public-key cryptography that the world uses today. This implies that, if a CRQC is developed, today’s public-key cryptography algorithms (e.g., RSA, Diffie-Hellman and Elliptic Curve Cryptography, as well as less commonly-used variants such as ElGamal and Schnorr signatures) and protocols would need to be replaced by algorithms and protocols that can offer cryptanalytic resistance against CRQCs. Note that Shor’s algorithm cannot run solely on a classic computer, it needs a CRQC.
-
-For example, to provide some context, one would need 20 million noisy qubits to break RSA-2048 in 8 hours {{RSAShor}}{{RSA8HRS}} or 4099 stable (or logical) qubits to break it {{RSA10SC}}.
-
-For structured data such as public keys and signatures, instead, CRQCs can fully solve the underlying hard problems used in classic cryptography (see Shor's Algorithm). Because an increase of the size of the key-pair would not provide a secure solution short of RSA keys that are many gigabytes in size {{PQRSA}}, a complete replacement of the algorithm is needed. Therefore, post-quantum public-key cryptography must rely on problems that are different from the ones used in classic public-key cryptography (i.e., the integer factorization problem, the finite-field discrete logarithm problem, and the elliptic-curve discrete logarithm problem).
-
-## Quantum side-channel attacks
-
-The field of cryptographic side-channel attacks potentially stands to gain a boost in attacker power once cryptanalytic techniques can be enhanced with quantum computation techniques. While a full discussion of quantum side-channel techniques is beyond the scope of this document, implementers of cryptographic hardware should be aware that current best-practices for side-channel resistance may not be sufficient against quantum adversaries.
-
 # Timeline for transition {#timeline}
 
 The timeline, and driving motivation for transition differs slightly between data confidentiality (e.g., encryption) and data authentication (e.g., signature) use-cases.
@@ -624,7 +591,7 @@ In the case of ML-DSA, it internally incorporates the necessary hash operations 
 
 # Recommendations for Security / Performance Tradeoffs {#RecSecurity}
 
-The table below denotes the 5 security levels provided by NIST for PQC algorithms. Neither NIST nor the IETF make any specific recommendations about which security level to use. In general, protocols will include algorithm choices at multiple levels so that users can choose the level appropriate to their policies and data classification, similar to how organizations today choose which size of RSA key to use. The security levels are defined as requiring computational resources comparable to or greater than an attack on AES (128, 192 and 256) and SHA2/SHA3 algorithms, i.e., exhaustive key recovery for AES and optimal collision search for SHA2/SHA3. This information is a re-print of information provided in the NIST PQC project {{?NIST}} as of time of writing (July 2023).
+The table below denotes the 5 security levels provided by NIST for PQC algorithms. Neither NIST nor the IETF make any specific recommendations about which security level to use. In general, protocols will include algorithm choices at multiple levels so that users can choose the level appropriate to their policies and data classification, similar to how organizations today choose which size of RSA key to use. The security levels are defined as requiring computational resources comparable to or greater than an attack on AES (128, 192 and 256) and SHA2/SHA3 algorithms, i.e., exhaustive key recovery for AES and optimal collision search for SHA2/SHA3. This information is a re-print of information provided in the NIST PQC project {{NIST}} as of time of writing (July 2023).
 
 | PQ Security Level |            AES/SHA(2/3) hardness                |                   PQC Algorithm                            |
 | ----------------- | ----------------------------------------------- | ---------------------------------------------------------- |
