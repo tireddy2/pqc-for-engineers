@@ -223,7 +223,7 @@ informative:
 
 --- abstract
 
-The advent of a cryptographically relevant quantum computer (CRQC) would render state-of-the-art, traditional public-key algorithms deployed today obsolete, as the mathematical assumptions underpinning their security would no longer hold. To address this, protocols and infrastructure must transition to post-quantum algorithms, which are designed to resist both traditional and quantum attacks. This document explains why engineers need to be aware of and understand post-quantum cryptography, detailing the impact of CRQCs on existing systems and the challenges involved in transitioning to post-quantum algorithms. Unlike previous cryptographic updates, this shift may require significant protocol redesign due to the unique properties of post-quantum algorithms.
+The advent of a cryptographically relevant quantum computer (CRQC) would render state-of-the-art, traditional public-key algorithms deployed today obsolete, as the mathematical assumptions underpinning their security would no longer hold. To address this, protocols and infrastructure must transition to post-quantum algorithms, which are designed to resist both traditional and quantum attacks. This document explains why engineers need to be aware of and understand post-quantum cryptography (PQC), detailing the impact of CRQCs on existing systems and the challenges involved in transitioning to post-quantum algorithms. Unlike previous cryptographic updates, this shift may require significant protocol redesign due to the unique properties of post-quantum algorithms.
 
 --- middle
 
@@ -297,7 +297,7 @@ Any asymmetric cryptographic algorithm based on integer factorization, finite fi
 
 * Content Encryption: Content encryption typically refers to the encryption of the data using symmetric key algorithms, such as AES, to ensure confidentiality. The threat to symmetric cryptography is discussed in {{symmetric}}.
 
-# Invariants of Post-Quantum Cryptography: Necessitating Compliance Adjustments
+# Invariants of PQC: Necessitating Compliance Adjustments
 
 In the context of PQC, symmetric-key cryptographic algorithms are generally not directly impacted by quantum computing advancements. Symmetric-key cryptography, which includes keyed primitives such as block ciphers (e.g., AES) and message authentication mechanisms (e.g., HMAC-SHA2), rely on secret keys shared between the sender and receiver. Symmetric cryptography also includes hash functions (e.g., SHA-256) that are used for secure message digesting without any shared key material. HMAC is a specific construction that utilizes a cryptographic hash function (such as SHA-2) and a secret key shared between the sender and receiver to produce a message authentication code.
 
@@ -355,9 +355,9 @@ Finally, other factors that could accelerate the introduction of a CRQC should n
 
 Organizations should also consider carefully and honestly what their migration timeline "y" actually is. If you think only of the time between receiving a patch from your technology vendor, and rolling that patch out, then "y" might seem as short as a few weeks. However, this represents the minority of migration cases; more often, a PQC migration will involve at least some amount of hardware replacement. For example, performance-sensitive applications will need CPUs with PQC hardware acceleration. Security-sensitive applications will need PQC TPMs, TEEs, Secure Enclaves, and other cryptographic co-processors. Smartcard applications will require replacement of the cards as well as of the readers which can come in many form-factors: tap-for-entry door and turnstile readers, PIN pad machines, laptops with built-in smartcard readers, and many others. Included in "y" is not only the deployment time, but also preparation time: integration, testing, auditing, and re-certification of cryptographic environments. Consider also upstream effects that contribute to "y", including lead-times for your vendors to produce PQC-ready products, which may itself include auditing and certification delays, time for regulating bodies to adopt PQC policies, time for auditors to become familiar with the new requirements, etc. If you measure the full migration time "y" from when your vendors begin implementing PQC functionality, to when you switch off your last non-PQC-capable device, then "y" can be quite long; likely measured in years or decades for even most moderately-sized organizations.
 
-# Post-quantum cryptography categories
+# PQC categories
 
-The current set of problems used in post-quantum cryptography can be currently grouped into three different categories: lattice-based, hash-based and code-based.
+The current set of problems used in PQC can be currently grouped into three different categories: lattice-based, hash-based and code-based.
 
 ## Lattice-Based Public-Key Cryptography {#lattice-based}
 
@@ -559,7 +559,7 @@ Any digital signature scheme that provides a construction defining security unde
 
 EUF-CMA (Existential Unforgeability under Chosen Message Attack) {{GMR88}} is a security notion for digital signature schemes. It guarantees that an adversary, even with access to a signing oracle, cannot forge a valid signature for an arbitrary message. EUF-CMA provides strong protection against forgery attacks, ensuring the integrity and authenticity of digital signatures by preventing unauthorized modifications or fraudulent signatures. ML-DSA, FN-DSA and SLH-DSA provide EUF-CMA security.
 
-Understanding EUF-CMA security is essential for individuals involved in designing or implementing cryptographic systems in order to ensure the security, reliability, and trustworthiness of digital signature schemes. It allows for informed decision-making, vulnerability analysis, compliance with standards, and designing systems that provide strong protection against forgery attacks. Understanding EUF-CMA security is generally not necessary for developers migrating to using an IETF-vetted post-quantum cryptography (PQC) signature scheme within a given protocol or flow. EUF-CMA is considered the highest bar that a public key signature algorithm can meet, and therefore is suitable for all uses. IETF specification authors should include all security concerns in the 'Security Considerations' section of the relevant RFC and should not assume that implementers are experts in cryptographic theory.
+Understanding EUF-CMA security is essential for individuals involved in designing or implementing cryptographic systems in order to ensure the security, reliability, and trustworthiness of digital signature schemes. It allows for informed decision-making, vulnerability analysis, compliance with standards, and designing systems that provide strong protection against forgery attacks. Understanding EUF-CMA security is generally not necessary for developers migrating to using an IETF-vetted PQC signature scheme within a given protocol or flow. EUF-CMA is considered the highest bar that a public key signature algorithm can meet, and therefore is suitable for all uses. IETF specification authors should include all security concerns in the 'Security Considerations' section of the relevant RFC and should not assume that implementers are experts in cryptographic theory.
 
 ## Details of FN-DSA, ML-DSA, and SLH-DSA {#sig-scheme}
 
