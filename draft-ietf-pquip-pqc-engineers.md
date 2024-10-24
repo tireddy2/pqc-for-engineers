@@ -263,7 +263,7 @@ It is also worth some discussion of the term "quantum adversary". Quantum comput
 
 Despite the fact that large-scale quantum computers do not yet exist to experiment on, the theoretical properties of quantum computation are very well understood. This allows us to reason today about the upper limits of quantum-enhanced computation, and indeed to design cryptographic algorithms that are resistant to any conceivable for of quantum cryptanalysis.
 
-## Symmetric cryptography {#symmetric}
+## Symmetric Cryptography {#symmetric}
 
 For unstructured data such as symmetric encrypted data or cryptographic hashes, although CRQCs can search for specific solutions across all possible input combinations (e.g., Grover's Algorithm), no quantum algorithm is known to break the underlying security properties of these classes of algorithms.
 
@@ -273,7 +273,7 @@ How can someone be sure that an improved algorithm won’t outperform Grover's a
 
 Finally, in their evaluation criteria for PQC, NIST is assessing the security levels of proposed post-quantum algorithms by comparing them against the equivalent classical and quantum security of AES-128, 192, and 256. This indicates that NIST is confident in the stable security properties of AES, even in the presence of both classical and quantum attacks. As a result, 128-bit algorithms can be considered quantum-safe for the foreseeable future. The National Agency for the Security of Information Systems (ANSSI), on the other hand, advocates for a more cautious approach and recommends the use of AES-256 {{ANSSI}}.
 
-## Asymmetric cryptography
+## Asymmetric Cryptography
 
 “Shor’s algorithm” on the other side, efficiently solves the integer factorization problem (and the related discrete logarithm problem), which offer the foundations of the vast majority of public-key cryptography that the world uses today. This implies that, if a CRQC is developed, today’s public-key cryptography algorithms (e.g., RSA, Diffie-Hellman and Elliptic Curve Cryptography, as well as less commonly-used variants such as ElGamal and Schnorr signatures) and protocols would need to be replaced by algorithms and protocols that can offer cryptanalytic resistance against CRQCs. Note that Shor’s algorithm cannot run solely on a classic computer, it needs a CRQC.
 
@@ -281,7 +281,7 @@ For example, to provide some context, one would need 20 million noisy qubits to 
 
 For structured data such as public keys and signatures, instead, CRQCs can fully solve the underlying hard problems used in traditional cryptography (see Shor's Algorithm). Because an increase of the size of the key-pair would not provide a secure solution short of RSA keys that are many gigabytes in size {{PQRSA}}, a complete replacement of the algorithm is needed. Therefore, post-quantum public-key cryptography must rely on problems that are different from the ones used in traditional public-key cryptography (i.e., the integer factorization problem, the finite-field discrete logarithm problem, and the elliptic-curve discrete logarithm problem).
 
-## Quantum side-channel attacks
+## Quantum Side-channel Attacks
 
 The field of cryptographic side-channel attacks potentially stands to gain a boost in attacker power once cryptanalytic techniques can be enhanced with quantum computation techniques. While a full discussion of quantum side-channel techniques is beyond the scope of this document, implementers of cryptographic hardware should be aware that current best-practices for side-channel resistance may not be sufficient against quantum adversaries.
 
@@ -307,7 +307,7 @@ CRQCs, in theory, do not offer substantial advantages in breaking symmetric-key 
 
 The first three final NIST PQC algorithms ({{NISTFINAL}}) are not a drop-in replacement for traditional asymmetric cryptographic algorithms. For instance, RSA {{RSA}} and ECC {{?RFC6090}} can be used as both a key encapsulation method (KEM) and as a signature scheme, whereas there is currently no post-quantum algorithm that can perform both functions. When upgrading protocols, it is important to replace the existing use of traditional algorithms with either a PQC KEM or a PQC signature method, depending on how the traditional algorithm was previously being used. Additionally, KEMs, as described in Section 10, present a different API than either key agreement or key transport primitives. As a result, they may require protocol-level or application-level changes in order to be incorporated.
 
-## NIST candidates selected for standardization
+## NIST Candidates Selected for Standardization
 
 ### PQC Key Encapsulation Mechanisms (KEMs)
 
@@ -318,7 +318,7 @@ The first three final NIST PQC algorithms ({{NISTFINAL}}) are not a drop-in repl
 * {{SLH-DSA}}: Stateless Hash-Based Digital Signature (FIPS-205).
 * {{FN-DSA}}: FN-DSA is a lattice signature scheme ({{lattice-based}} and {{sig-scheme}}).
 
-## Candidates advancing to the fourth-round for standardization at NIST
+## Candidates Advancing to the Fourth Round for Standardization at NIST
 
 The fourth-round of the NIST process focuses only on KEMs. The goal of that round is to select an alternative algorithm that is based on different hard problem than ML-KEM.
 The candidates still advancing for standardization are:
@@ -328,7 +328,7 @@ The candidates still advancing for standardization are:
 * {{HQC}}: Based on the hardness of syndrome decoding of Quasi-cyclic concatenated Reed Muller Reed Solomon (RMRS) codes in the Hamming metric. Reed Muller (RM) codes are a class of block error correcting codes used especially in wireless and deep space communications. Reed Solomon (RS) are a class of block error correcting codes that are used to detect and correct multiple bit errors.
 * {{SIKE}} (Broken): Supersingular Isogeny Key Encapsulation (SIKE) is a specific realization of the SIDH (Supersingular Isogeny Diffie-Hellman) protocol. Recently, a mathematical attack (&lt;https://eprint.iacr.org/2022/975.pdf&gt;) based on the "glue-and-split" theorem from 1997 from Ernst Kani was found against the underlying chosen starting curve and torsion information. In practical terms, this attack allows for the efficient recovery of the private key. NIST announced that SIKE was no longer under consideration, but the authors of SIKE had asked for it to remain in the list so that people are aware that it is broken.  While SIKE is broken, Isogenies in general remain an active area of cryptographic research due to their very attractive bandwidth usage, and we may yet see more cryptographic primitives in the future from this research area.
 
-# Timeline for transition {#timeline}
+# Timeline for Transition {#timeline}
 
 The timeline, and driving motivation for transition differs slightly between data confidentiality (e.g., encryption) and data authentication (e.g., signature) use-cases.
 
@@ -355,7 +355,7 @@ Finally, other factors that could accelerate the introduction of a CRQC should n
 
 Organizations should also consider carefully and honestly what their migration timeline "y" actually is. If you think only of the time between receiving a patch from your technology vendor, and rolling that patch out, then "y" might seem as short as a few weeks. However, this represents the minority of migration cases; more often, a PQC migration will involve at least some amount of hardware replacement. For example, performance-sensitive applications will need CPUs with PQC hardware acceleration. Security-sensitive applications will need PQC TPMs, TEEs, Secure Enclaves, and other cryptographic co-processors. Smartcard applications will require replacement of the cards as well as of the readers which can come in many form-factors: tap-for-entry door and turnstile readers, PIN pad machines, laptops with built-in smartcard readers, and many others. Included in "y" is not only the deployment time, but also preparation time: integration, testing, auditing, and re-certification of cryptographic environments. Consider also upstream effects that contribute to "y", including lead-times for your vendors to produce PQC-ready products, which may itself include auditing and certification delays, time for regulating bodies to adopt PQC policies, time for auditors to become familiar with the new requirements, etc. If you measure the full migration time "y" from when your vendors begin implementing PQC functionality, to when you switch off your last non-PQC-capable device, then "y" can be quite long; likely measured in years or decades for even most moderately-sized organizations.
 
-# PQC categories
+# PQC Categories
 
 The current set of problems used in PQC can be currently grouped into three different categories: lattice-based, hash-based and code-based.
 
@@ -388,8 +388,6 @@ This area of cryptography started in the 1970s and 80s based on the seminal work
 Examples include all the NIST Round 4 (unbroken) finalists: Classic McEliece, HQC, BIKE.
 
 # KEMs {#KEMs}
-
-## What is a KEM
 
 A Key Encapsulation Mechanism (KEM) is a cryptographic technique used for securely exchanging symmetric key material between two parties over an insecure channel. It is commonly used in hybrid encryption schemes, where a combination of asymmetric (public key) and symmetric encryption is employed. The KEM encapsulation results in a fixed-length symmetric key that can be used with a symmetric algorithm, typically a block cipher, in one of two ways: (1) Derive a Data Encryption Key (DEK) to encrypt the data, or (2) Derive a Key Encryption Key (KEK) used to wrap a DEK. These techniques are often referred to as "hybrid public key encryption (HPKE)" {{?RFC9180}} mechanism.
 
@@ -527,7 +525,7 @@ The complication with KEMs is that a KEM `Encaps()` is non-deterministic; it inv
 
 Here, `Combiner(ss1, ss2)`, often referred to as a KEM Combiner, is a cryptographic construction that takes in two shared secrets and returns a single combined shared secret. The simplest combiner is concatenation `ss1 || ss2`, but combiners can vary in complexity depending on the cryptographic properties required. For example, if the combination should preserve IND-CCA2 of either input even if the other is chosen maliciously, then a more complex construct is required. Another consideration for combiner design is so-called "binding properties" introduced in {{KEEPINGUP}}, which may require the ciphertexts and recipient public keys to be included in the combiner.  KEM combiner security analysis becomes more complicated in hybrid settings where the two KEMs represent different algorithms, for example, where one is ML-KEM and the other is ECDHE. For a more thorough discussion of KEM combiners, see {{KEEPINGUP}}, {{?I-D.draft-ounsworth-cfrg-kem-combiners-04}}, and {{?I-D.draft-connolly-cfrg-xwing-kem-02}}.
 
-## Security properties
+## Security Properties of KEMs
 
 ### IND-CCA2
 
@@ -549,11 +547,9 @@ HPKE (Hybrid Public Key Encryption) {{?RFC9180}} is a specific instantiation of 
 
 # PQC Signatures
 
-## What is a Post-quantum Signature
-
 Any digital signature scheme that provides a construction defining security under a post-quantum setting falls under this category of PQ signatures.
 
-## Security properties
+## Security Properties of PQC Signatures
 
 ### EUF-CMA
 
@@ -588,7 +584,8 @@ The number of tree layers in XMSS^MT provides a trade-off between signature size
 
 Due to the complexities described above, the XMSS and LMS are not a suitable replacement for traditional signature schemes like RSA or ECDSA. Applications that expect a long lifetime of a signature, like firmware update or secure boot, are typical use cases where those schemes can be successfully applied.
 
-### LMS scheme - key and signature sizes
+### LMS Acheme - Key and Signature Sizes
+
 The LMS scheme is characterized by four distinct parameter sets - the underlying hash function (SHA2-256 or SHAKE-256), the length of the digest (24 or 32 bytes), LMS tree height - parameter that controls a maximal number of signatures that the private key can produce (possible values are 5,10,15,20,25), and the width of the Winternitz coefficients (see {{?RFC8554}}, section 4.1) that can be used to trade-off signing time for signature size (possible values are 1,2,4,8). Parameters can be mixed, providing 80 possible parametrizations of the scheme.
 
 The public (PK) and private (SK) key size depends on the length of the digest (M). The signature size depends on the Winternitz parameter (W), the LMS tree height (H), and the length of the digest. The table below provides key and signature sizes for parameterization with the digest size M=32 of the scheme.
