@@ -294,29 +294,28 @@ CRQCs, in theory, do not offer substantial advantages in breaking symmetric-key 
 
 # NIST PQC Algorithms
 
-The first three final NIST PQC algorithms ({{NISTFINAL}}) are not a drop-in replacement for traditional asymmetric cryptographic algorithms. For instance, RSA [RSA] and ECC {{?RFC6090}} can be used as both a key encapsulation method (KEM) and as a signature scheme, whereas there is currently no post-quantum algorithm that can perform both functions. When upgrading protocols, it is important to replace the existing use of traditional algorithms with either a PQC KEM or a PQC signature method, depending on how the traditional algorithm was previously being used. Additionally, KEMs, as described in Section 10, present a different API than either key agreement or key transport primitives. As a result, they may require protocol-level or application-level changes in order to be incorporated.
+The first three final NIST PQC algorithms ({{NISTFINAL}}) are not a drop-in replacement for traditional asymmetric cryptographic algorithms. For instance, RSA {{RSA}} and ECC {{?RFC6090}} can be used as both a key encapsulation method (KEM) and as a signature scheme, whereas there is currently no post-quantum algorithm that can perform both functions. When upgrading protocols, it is important to replace the existing use of traditional algorithms with either a PQC KEM or a PQC signature method, depending on how the traditional algorithm was previously being used. Additionally, KEMs, as described in Section 10, present a different API than either key agreement or key transport primitives. As a result, they may require protocol-level or application-level changes in order to be incorporated.
 
 ## NIST candidates selected for standardization
 
 ### PQC Key Encapsulation Mechanisms (KEMs)
 
-* [ML-KEM](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.ipd.pdf): Module-Lattice-based Key-Encapsulation Mechanism Standard (FIPS-203).
+* {{ML-KEM}}: Module-Lattice-based Key-Encapsulation Mechanism Standard (FIPS-203).
 
 ### PQC Signatures
-* [ML-DSA](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.ipd.pdf): Module-Lattice-Based Digital Signature Standard (FIPS-204).
-* [SLH-DSA](https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.205.ipd.pdf): Stateless Hash-Based Digital Signature (FIPS-205).
-Standard (FIPS-205).
-* [FN-DSA](https://falcon-sign.info/): FN-DSA is a lattice signature scheme ({{lattice-based}} and {{sig-scheme}}).
+* {{ML-DSA}}: Module-Lattice-Based Digital Signature Standard (FIPS-204).
+* {{SLH-DSA}}: Stateless Hash-Based Digital Signature (FIPS-205).
+* {{FN-DSA}}: FN-DSA is a lattice signature scheme ({{lattice-based}} and {{sig-scheme}}).
 
 ## Candidates advancing to the fourth-round for standardization at NIST
 
 The fourth-round of the NIST process focuses only on KEMs. The goal of that round is to select an alternative algorithm that is based on different hard problem than ML-KEM.
 The candidates still advancing for standardization are:
 
-* [Classic McEliece](https://classic.mceliece.org/): Based on the hardness of syndrome decoding of Goppa codes. Goppa codes are a class of error-correcting codes that can correct a certain number of errors in a transmitted message. The decoding problem involves recovering the original message from the received noisy codeword.
-* [BIKE](https://bikesuite.org/): Based on the the hardness of syndrome decoding of QC-MDPC codes. Quasi-Cyclic Moderate Density Parity Check (QC-MDPC) code are a class of error correcting codes that leverages bit flipping technique to efficiently correct errors.
-* [HQC](http://pqc-hqc.org/): Based on the hardness of syndrome decoding of Quasi-cyclic concatenated Reed Muller Reed Solomon (RMRS) codes in the Hamming metric. Reed Muller (RM) codes are a class of block error correcting codes used especially in wireless and deep space communications. Reed Solomon (RS) are a class of block error correcting codes that are used to detect and correct multiple bit errors.
-* [SIKE](https://sike.org/) (Broken): Supersingular Isogeny Key Encapsulation (SIKE) is a specific realization of the SIDH (Supersingular Isogeny Diffie-Hellman) protocol. Recently, a [mathematical attack](https://eprint.iacr.org/2022/975.pdf) based on the "glue-and-split" theorem from 1997 from Ernst Kani was found against the underlying chosen starting curve and torsion information. In practical terms, this attack allows for the efficient recovery of the private key. NIST announced that SIKE was no longer under consideration, but the authors of SIKE had asked for it to remain in the list so that people are aware that it is broken.  While SIKE is broken, Isogenies in general remain an active area of cryptographic research due to their very attractive bandwidth usage, and we may yet see more cryptographic primitives in the future from this research area.
+* {{Classic McEliece}}: Based on the hardness of syndrome decoding of Goppa codes. Goppa codes are a class of error-correcting codes that can correct a certain number of errors in a transmitted message. The decoding problem involves recovering the original message from the received noisy codeword.
+* {{BIKE}}: Based on the the hardness of syndrome decoding of QC-MDPC codes. Quasi-Cyclic Moderate Density Parity Check (QC-MDPC) code are a class of error correcting codes that leverages bit flipping technique to efficiently correct errors.
+* {{HQC}}: Based on the hardness of syndrome decoding of Quasi-cyclic concatenated Reed Muller Reed Solomon (RMRS) codes in the Hamming metric. Reed Muller (RM) codes are a class of block error correcting codes used especially in wireless and deep space communications. Reed Solomon (RS) are a class of block error correcting codes that are used to detect and correct multiple bit errors.
+* {{SIKE}} (Broken): Supersingular Isogeny Key Encapsulation (SIKE) is a specific realization of the SIDH (Supersingular Isogeny Diffie-Hellman) protocol. Recently, a mathematical attack (&lt;https://eprint.iacr.org/2022/975.pdf&gt;) based on the "glue-and-split" theorem from 1997 from Ernst Kani was found against the underlying chosen starting curve and torsion information. In practical terms, this attack allows for the efficient recovery of the private key. NIST announced that SIKE was no longer under consideration, but the authors of SIKE had asked for it to remain in the list so that people are aware that it is broken.  While SIKE is broken, Isogenies in general remain an active area of cryptographic research due to their very attractive bandwidth usage, and we may yet see more cryptographic primitives in the future from this research area.
 
 # Timeline for transition {#timeline}
 
@@ -745,17 +744,15 @@ The ciphertext generated by a KEM is not necessarily directly linked to the shar
 
 # Further Reading & Resources
 
-## Reading List
-(A reading list. [Serious Cryptography](https://nostarch.com/seriouscrypto). Pointers to PQC sites with good explanations. List of reasonable Wikipedia pages.)
+A good book on modern cryptography is Serious Cryptography, 2nd Edition, by Jean-Philippe Aumasson, ISBN 9781718503847.
 
-## Developer Resources
+The Open Quantum Safe (OQS) project (&lt;https://openquantumsafe.org/&gt;) is an open-source project that aims to support the transition to quantum-resistant cryptography.
 
-- [Open Quantum Safe](https://openquantumsafe.org/) and corresponding [github](https://github.com/open-quantum-safe)
-- [PQUIP WG list of PQC-related protocol work within the IETF](https://github.com/ietf-wg-pquip/state-of-protocols-and-pqc)
+The IETF's PQUIP Working group maintains a list of PQC-related protocol work within the IETF (&lt;https://github.com/ietf-wg-pquip/state-of-protocols-and-pqc&gt;).
 
 # Acknowledgements
 {:numbered="false"}
 
-This document leverages text from https://github.com/paulehoffman/post-quantum-for-engineers/blob/main/pqc-for-engineers.md. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Panos Kampanakis, Ben S3, Sofia Celi, Melchior Aelmans, Falko Strenzke, Deirdre Connolly, and Daniel Van Geest for the discussion, review and comments.
+This document leverages text from an earlier draft by Paul Hoffman. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Panos Kampanakis, Ben S3, Sofia Celi, Melchior Aelmans, Falko Strenzke, Deirdre Connolly, and Daniel Van Geest for the discussion, review and comments.
 
 In particular, the authors would like to acknowledge the contributions to this document by Kris Kwiatkowski.
