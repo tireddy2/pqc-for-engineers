@@ -208,7 +208,18 @@ informative:
   ANSSI:
     title: "ANSSI views on the Post-Quantum Cryptography transition"
     target: https://cyber.gouv.fr/sites/default/files/document/follow_up_position_paper_on_post_quantum_cryptography.pdf
-
+  HQC:
+    title: "HQC"
+    target: http://pqc-hqc.org/
+  BIKE:
+    title: "BIKE"
+    target: http://pqc-hqc.org/
+  ClassicMcEliece:
+    title: "Classic McEliece"
+    target: https://classic.mceliece.org/
+  SIKE:
+    title: "SIKE – Supersingular Isogeny Key Encapsulation"
+    target: https://sike.org/
 
 --- abstract
 
@@ -312,7 +323,7 @@ The first three final NIST PQC algorithms ({{NISTFINAL}}) are not a drop-in repl
 The fourth-round of the NIST process focuses only on KEMs. The goal of that round is to select an alternative algorithm that is based on different hard problem than ML-KEM.
 The candidates still advancing for standardization are:
 
-* {{Classic McEliece}}: Based on the hardness of syndrome decoding of Goppa codes. Goppa codes are a class of error-correcting codes that can correct a certain number of errors in a transmitted message. The decoding problem involves recovering the original message from the received noisy codeword.
+* {{ClassicMcEliece}}: Based on the hardness of syndrome decoding of Goppa codes. Goppa codes are a class of error-correcting codes that can correct a certain number of errors in a transmitted message. The decoding problem involves recovering the original message from the received noisy codeword.
 * {{BIKE}}: Based on the the hardness of syndrome decoding of QC-MDPC codes. Quasi-Cyclic Moderate Density Parity Check (QC-MDPC) code are a class of error correcting codes that leverages bit flipping technique to efficiently correct errors.
 * {{HQC}}: Based on the hardness of syndrome decoding of Quasi-cyclic concatenated Reed Muller Reed Solomon (RMRS) codes in the Hamming metric. Reed Muller (RM) codes are a class of block error correcting codes used especially in wireless and deep space communications. Reed Solomon (RS) are a class of block error correcting codes that are used to detect and correct multiple bit errors.
 * {{SIKE}} (Broken): Supersingular Isogeny Key Encapsulation (SIKE) is a specific realization of the SIDH (Supersingular Isogeny Diffie-Hellman) protocol. Recently, a mathematical attack (&lt;https://eprint.iacr.org/2022/975.pdf&gt;) based on the "glue-and-split" theorem from 1997 from Ernst Kani was found against the underlying chosen starting curve and torsion information. In practical terms, this attack allows for the efficient recovery of the private key. NIST announced that SIKE was no longer under consideration, but the authors of SIKE had asked for it to remain in the list so that people are aware that it is broken.  While SIKE is broken, Isogenies in general remain an active area of cryptographic research due to their very attractive bandwidth usage, and we may yet see more cryptographic primitives in the future from this research area.
@@ -384,7 +395,7 @@ A Key Encapsulation Mechanism (KEM) is a cryptographic technique used for secure
 
 The term "encapsulation" is chosen intentionally to indicate that KEM algorithms behave differently at the API level from the Key Agreement or Key Encipherment / Key Transport mechanisms that we are accustomed to using today. Key Agreement schemes imply that both parties contribute a public / private keypair to the exchange, while Key Encipherment / Key Transport schemes imply that the symmetric key material is chosen by one party and "encrypted" or "wrapped" for the other party. KEMs, on the other hand, behave according to the following API:
 
-KEM relies on the following primitives [PQCAPI]:
+KEM relies on the following primitives {{PQCAPI}}:
 
 * def kemKeyGen() -> (pk, sk)
 * def kemEncaps(pk) -> (ss, ct)
@@ -514,19 +525,19 @@ The complication with KEMs is that a KEM `Encaps()` is non-deterministic; it inv
 ~~~~~
 {: #tab-kem-ake title="KEM based Authenticated Key Exchange"}
 
-Here, `Combiner(ss1, ss2)`, often referred to as a KEM Combiner, is a cryptographic construction that takes in two shared secrets and returns a single combined shared secret. The simplest combiner is concatenation `ss1 || ss2`, but combiners can vary in complexity depending on the cryptographic properties required. For example, if the combination should preserve IND-CCA2 of either input even if the other is chosen maliciously, then a more complex construct is required. Another consideration for combiner design is so-called "binding properties" introduced in [KEEPINGUP], which may require the ciphertexts and recipient public keys to be included in the combiner.  KEM combiner security analysis becomes more complicated in hybrid settings where the two KEMs represent different algorithms, for example, where one is ML-KEM and the other is ECDHE. For a more thorough discussion of KEM combiners, see [KEEPINGUP], {{?I-D.draft-ounsworth-cfrg-kem-combiners-04}}, and {{?I-D.draft-connolly-cfrg-xwing-kem-02}}.
+Here, `Combiner(ss1, ss2)`, often referred to as a KEM Combiner, is a cryptographic construction that takes in two shared secrets and returns a single combined shared secret. The simplest combiner is concatenation `ss1 || ss2`, but combiners can vary in complexity depending on the cryptographic properties required. For example, if the combination should preserve IND-CCA2 of either input even if the other is chosen maliciously, then a more complex construct is required. Another consideration for combiner design is so-called "binding properties" introduced in {{KEEPINGUP}}, which may require the ciphertexts and recipient public keys to be included in the combiner.  KEM combiner security analysis becomes more complicated in hybrid settings where the two KEMs represent different algorithms, for example, where one is ML-KEM and the other is ECDHE. For a more thorough discussion of KEM combiners, see {{KEEPINGUP}}, {{?I-D.draft-ounsworth-cfrg-kem-combiners-04}}, and {{?I-D.draft-connolly-cfrg-xwing-kem-02}}.
 
 ## Security properties
 
 ### IND-CCA2
 
-IND-CCA2 (INDistinguishability under adaptive Chosen-Ciphertext Attack) is an advanced security notion for encryption schemes. It ensures the confidentiality of the plaintext and resistance against chosen-ciphertext attacks. An appropriate definition of IND-CCA2 security for KEMs can be found in [CS01] and [BHK09]. ML-KEM [ML-KEM] and Classic McEliece provide IND-CCA2 security.
+IND-CCA2 (INDistinguishability under adaptive Chosen-Ciphertext Attack) is an advanced security notion for encryption schemes. It ensures the confidentiality of the plaintext and resistance against chosen-ciphertext attacks. An appropriate definition of IND-CCA2 security for KEMs can be found in {{CS01}} and {{BHK09}}. ML-KEM {{ML-KEM}} and Classic McEliece provide IND-CCA2 security.
 
 Understanding IND-CCA2 security is essential for individuals involved in designing or implementing cryptographic systems and protocols in order to evaluate the strength of the algorithm, assess its suitability for specific use cases, and ensure that data confidentiality and security requirements are met. Understanding IND-CCA2 security is generally not necessary for developers migrating to using an IETF-vetted key establishment method (KEM) within a given protocol or flow. IND-CCA2 is considered the highest bar that a public key encryption mechanism can meet, and therefore is suitable for all uses. IETF specification authors should include all security concerns in the 'Security Considerations' section of the relevant RFC and not rely on implementers being experts in cryptographic theory.
 
 ### Binding
 
-KEMs also have an orthogonal set of properties to consider when designing protocols around them: binding [KEEPINGUP]. This can be "ciphertext binding", "public key binding", "context binding", or any other property that is important to not be substituted between KEM invocations. In general, a KEM is considered to bind a certain value if substitution of that value by an attacker will necessarily result in a different shared secret being derived. As an example, if an attacker can construct two different ciphertexts which will decapsulate to the same shared secret; or can construct a ciphertext which will decapsulate to the same shared secret under two different public keys, or can substitute whole KEM exchanges from one session into another, then the construction is not ciphertext binding, public key binding, or context binding respectively. Similarly, protocol designers may wish to bind protocol state information such as a transaction ID or nonce so that attempts to replay ciphertexts from one session inside a different session will be blocked at the cryptographic level because the server derives a different shared secret and is thus is unable to decrypt the content.
+KEMs also have an orthogonal set of properties to consider when designing protocols around them: binding {{KEEPINGUP}}. This can be "ciphertext binding", "public key binding", "context binding", or any other property that is important to not be substituted between KEM invocations. In general, a KEM is considered to bind a certain value if substitution of that value by an attacker will necessarily result in a different shared secret being derived. As an example, if an attacker can construct two different ciphertexts which will decapsulate to the same shared secret; or can construct a ciphertext which will decapsulate to the same shared secret under two different public keys, or can substitute whole KEM exchanges from one session into another, then the construction is not ciphertext binding, public key binding, or context binding respectively. Similarly, protocol designers may wish to bind protocol state information such as a transaction ID or nonce so that attempts to replay ciphertexts from one session inside a different session will be blocked at the cryptographic level because the server derives a different shared secret and is thus is unable to decrypt the content.
 
 The solution to binding is generally achieved at the protocol design level: it is recommended not to use the KEM output shared secret directly. Even though modern KEMs such as ML-KEM produce full-entropy shared secrets, it is still advisable for binding reasons to pass it through a key derivation function (KDF) and also include all values that you wish to bind; then finally you will have a shared secret that is safe to use at the protocol level.
 
@@ -546,17 +557,17 @@ Any digital signature scheme that provides a construction defining security unde
 
 ### EUF-CMA
 
-EUF-CMA (Existential Unforgeability under Chosen Message Attack) [GMR88] is a security notion for digital signature schemes. It guarantees that an adversary, even with access to a signing oracle, cannot forge a valid signature for an arbitrary message. EUF-CMA provides strong protection against forgery attacks, ensuring the integrity and authenticity of digital signatures by preventing unauthorized modifications or fraudulent signatures. ML-DSA, FN-DSA and SLH-DSA provide EUF-CMA security.
+EUF-CMA (Existential Unforgeability under Chosen Message Attack) {{GMR88}} is a security notion for digital signature schemes. It guarantees that an adversary, even with access to a signing oracle, cannot forge a valid signature for an arbitrary message. EUF-CMA provides strong protection against forgery attacks, ensuring the integrity and authenticity of digital signatures by preventing unauthorized modifications or fraudulent signatures. ML-DSA, FN-DSA and SLH-DSA provide EUF-CMA security.
 
 Understanding EUF-CMA security is essential for individuals involved in designing or implementing cryptographic systems in order to ensure the security, reliability, and trustworthiness of digital signature schemes. It allows for informed decision-making, vulnerability analysis, compliance with standards, and designing systems that provide strong protection against forgery attacks. Understanding EUF-CMA security is generally not necessary for developers migrating to using an IETF-vetted post-quantum cryptography (PQC) signature scheme within a given protocol or flow. EUF-CMA is considered the highest bar that a public key signature algorithm can meet, and therefore is suitable for all uses. IETF specification authors should include all security concerns in the 'Security Considerations' section of the relevant RFC and should not assume that implementers are experts in cryptographic theory.
 
 ## Details of FN-DSA, ML-DSA, and SLH-DSA {#sig-scheme}
 
-ML-DSA [ML-DSA] is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness of lattice problems over module lattices (i.e., the Module Learning with Errors problem (MLWE)). The design of the algorithm is based on the "Fiat-Shamir with Aborts" {{Lyu09}} framework introduced by Lyubashevsky, that leverages rejection sampling to render lattice based FS schemes compact and secure. ML-DSA uses uniformly-distributed random number sampling over small integers for computing coefficients in error vectors, which makes the scheme easier to implement compared with FN-DSA [FN-DSA] which uses Guassian-distributed numbers.
+ML-DSA {{ML-DSA}} is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness of lattice problems over module lattices (i.e., the Module Learning with Errors problem (MLWE)). The design of the algorithm is based on the "Fiat-Shamir with Aborts" {{Lyu09}} framework introduced by Lyubashevsky, that leverages rejection sampling to render lattice based FS schemes compact and secure. ML-DSA uses uniformly-distributed random number sampling over small integers for computing coefficients in error vectors, which makes the scheme easier to implement compared with FN-DSA {{FN-DSA}} which uses Guassian-distributed numbers.
 
 ML-DSA offers both deterministic and randomized signing and is instantiated with 3 parameter sets providing different security levels. Security properties of ML-DSA are discussed in Section 9 of {{?I-D.ietf-lamps-dilithium-certificates}}.
 
-FN-DSA [FN-DSA] is based on the GPV hash-and-sign lattice-based signature framework introduced by Gentry, Peikert, and Vaikuntanathan, which is a framework that requires a certain class of lattices and a trapdoor sampler technique.
+FN-DSA {{FN-DSA}} is based on the GPV hash-and-sign lattice-based signature framework introduced by Gentry, Peikert, and Vaikuntanathan, which is a framework that requires a certain class of lattices and a trapdoor sampler technique.
 
 The main design principle of FN-DSA is compactness, i.e., it was designed in a way that achieves minimal total memory bandwidth requirement (the sum of the signature size plus the public key size). This is possible due to the compactness of NTRU lattices.  FN-DSA also offers very efficient signing and verification procedures. The main potential downsides of FN-DSA refer to the non-triviality of its algorithms and the need for floating point arithmetic support in order to support Gaussian-distributed random number sampling where the other lattice schemes use the less efficient but easier to support uniformly-distributed random number sampling.
 
@@ -564,7 +575,7 @@ Implementers of FN-DSA need to be aware that FN-DSA signing is highly susceptibl
 
 The performance characteristics of ML-DSA and FN-DSA may differ based on the specific implementation and hardware platform. Generally, ML-DSA is known for its relatively fast signature generation, while FN-DSA can provide more efficient signature verification. The choice may depend on whether the application requires more frequent signature generation or signature verification (See {{LIBOQS}}). For further clarity on the sizes and security levels, please refer to the tables in sections {{RecSecurity}} and {{Comparisons}}.
 
-SLH-DSA [SLH-DSA] utilizes the concept of stateless hash-based signatures, where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). This property eliminates the need for maintaining state information during the signing process. SLH-DSA was designed to sign up to 2^64 messages and it offers three security levels. The parameters for each of the security levels were chosen to provide 128 bits of security, 192 bits of security, and 256 bits of security. SLH-DSA offers smaller public key sizes, larger signature sizes, slower signature generation, and slower verification when compared to ML-DSA and FN-DSA. SLH-DSA does not introduce a new hardness assumption beyond those inherent to the underlying hash functions. It builds upon established foundations in cryptography, making it a reliable and robust digital signature scheme for a post-quantum world. The advantages and disadvantages of SLH-DSA over other signature algorithms is discussed in Section 3.1 of {{?I-D.draft-ietf-cose-sphincs-plus}}.
+SLH-DSA {{SLH-DSA}} utilizes the concept of stateless hash-based signatures, where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). This property eliminates the need for maintaining state information during the signing process. SLH-DSA was designed to sign up to 2^64 messages and it offers three security levels. The parameters for each of the security levels were chosen to provide 128 bits of security, 192 bits of security, and 256 bits of security. SLH-DSA offers smaller public key sizes, larger signature sizes, slower signature generation, and slower verification when compared to ML-DSA and FN-DSA. SLH-DSA does not introduce a new hardness assumption beyond those inherent to the underlying hash functions. It builds upon established foundations in cryptography, making it a reliable and robust digital signature scheme for a post-quantum world. The advantages and disadvantages of SLH-DSA over other signature algorithms is discussed in Section 3.1 of {{?I-D.draft-ietf-cose-sphincs-plus}}.
 
 
 ## Details of XMSS and LMS
