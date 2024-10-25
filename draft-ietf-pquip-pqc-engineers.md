@@ -421,7 +421,7 @@ where pk is public key, sk is secret key, ct is the ciphertext representing an e
 {: #tab-kem-ke title="KEM based Key Exchange"}
 
 
-### Authenticated Key Exchange (AKE)
+## Authenticated Key Exchange (AKE)
 
 Authenticated Key Exchange with KEMs where both parties contribute a KEM public key to the overall session key is interactive as described in {{?I-D.draft-ietf-lake-edhoc-22}}. However, single-sided KEM, such as when one peer has a KEM key in a certificate and the other peer wants to encrypt for it (as in S/MIME or OpenPGP email), can be achieved using non-interactive HPKE {{RFC9180}}. The following figure illustrates the Diffie-Hellman (DH) Key exchange:
 
