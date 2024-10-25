@@ -390,9 +390,14 @@ Examples include all the NIST Round 4 (unbroken) finalists: Classic McEliece, HQ
 
 # KEMs {#KEMs}
 
-A Key Encapsulation Mechanism (KEM) is a cryptographic technique used for securely exchanging symmetric key material between two parties over an insecure channel. It is commonly used in hybrid encryption schemes, where a combination of asymmetric (public key) and symmetric encryption is employed. The KEM encapsulation results in a fixed-length symmetric key that can be used with a symmetric algorithm, typically a block cipher, in one of two ways: (1) Derive a Data Encryption Key (DEK) to encrypt the data, or (2) Derive a Key Encryption Key (KEK) used to wrap a DEK. These techniques are often referred to as "hybrid public key encryption (HPKE)" {{?RFC9180}} mechanism.
+A Key Encapsulation Mechanism (KEM) is a cryptographic technique used for securely exchanging symmetric key material between two parties over an insecure channel. It is commonly used in hybrid encryption schemes, where a combination of asymmetric (public key) and symmetric encryption is employed. The KEM encapsulation results in a fixed-length symmetric key that can be used with a symmetric algorithm, typically a block cipher, in one of two different ways:
 
-The term "encapsulation" is chosen intentionally to indicate that KEM algorithms behave differently at the API level from the key agreement or Key Encipherment / key transport mechanisms that we are accustomed to using today. Key agreement schemes imply that both parties contribute a public / private keypair to the exchange, while Key Encipherment / key transport schemes imply that the symmetric key material is chosen by one party and "encrypted" or "wrapped" for the other party. KEMs, on the other hand, behave according to the following API:
+* Derive a data encryption key (DEK) to encrypt the data
+* Derive a key encryption key (KEK) used to wrap a DEK
+
+These techniques are often referred to as "hybrid public key encryption (HPKE)" {{?RFC9180}} mechanism.
+
+The term "encapsulation" is chosen intentionally to indicate that KEM algorithms behave differently at the API level from the key agreement or key encipherment / key transport mechanisms that we are accustomed to using today. Key agreement schemes imply that both parties contribute a public / private keypair to the exchange, while key encipherment / key transport schemes imply that the symmetric key material is chosen by one party and "encrypted" or "wrapped" for the other party. KEMs, on the other hand, behave according to the following API:
 
 KEM relies on the following primitives {{PQCAPI}}:
 
@@ -400,7 +405,7 @@ KEM relies on the following primitives {{PQCAPI}}:
 * def kemEncaps(pk) -> (ss, ct)
 * def kemDecaps(ct, sk) -> ss
 
-where pk is public key, sk is secret key, ct is the ciphertext representing an encapsulated key, and ss is shared secret.  The following figure illustrates a sample flow of KEM based key exchange:
+where `pk` is public key, `sk` is secret key, `ct` is the ciphertext representing an encapsulated key, and `ss` is shared secret.  The following figure illustrates a sample flow of KEM based key exchange:
 
 ~~~~~ aasvg
                       +---------+ +---------+
@@ -423,12 +428,12 @@ where pk is public key, sk is secret key, ct is the ciphertext representing an e
 +------------------------+ |           |
                            |           |
 ~~~~~
-{: #tab-kem-ke title="KEM based Key Exchange"}
+{: #tab-kem-ke title="KEM based key exchange"}
 
 
-## Authenticated Key Exchange (AKE)
+## Authenticated Key Exchange
 
-Authenticated Key Exchange with KEMs where both parties contribute a KEM public key to the overall session key is interactive as described in {{?I-D.draft-ietf-lake-edhoc-22}}. However, single-sided KEM, such as when one peer has a KEM key in a certificate and the other peer wants to encrypt for it (as in S/MIME or OpenPGP email), can be achieved using non-interactive HPKE {{RFC9180}}. The following figure illustrates the Diffie-Hellman (DH) Key exchange:
+Authenticated key exchange  (AKE) with KEMs where both parties contribute a KEM public key to the overall session key is interactive as described in {{?I-D.draft-ietf-lake-edhoc-22}}. However, single-sided KEM, such as when one peer has a KEM key in a certificate and the other peer wants to encrypt for it (as in S/MIME or OpenPGP email), can be achieved using non-interactive HPKE {{RFC9180}}. The following figure illustrates the Diffie-Hellman (DH) Key exchange:
 
 ~~~~~ aasvg
                       +---------+ +---------+
@@ -460,9 +465,9 @@ Authenticated Key Exchange with KEMs where both parties contribute a KEM public 
                             |           | | decryptContent(ss)     |
                             |           | +------------------------+
 ~~~~~
-{: #tab-dh-ake title="Diffie-Hellman based Authenticated Key Exchange"}
+{: #tab-dh-ake title="Diffie-Hellman based AKE"}
 
-What's important to note about the sample flow above is that the shared secret `ss` is derived using key material from both the Client and the Server, which classifies it as an Authenticated Key Exchange (AKE). There is another property of a key exchange, called Non-Interactive Key Exchange (NIKE) which refers to whether the sender can compute the shared secret `ss` and encrypting content without requiring active interaction -- ie an exchange of network messages -- with the recipient. {{tab-dh-ake}} shows a Diffie-Hellman key exchange which is an AKE, since both parties are using long-term keys which can have established trust (for example, via certificates), but it is not a NIKE, since the client needs to wait for the network interaction to receive the receiver's public key `pk2` before it can compute the shared secret `ss` and begin content encryption. However, a DH key exchange can be an AKE and a NIKE at the same time if the receiver's public key is known to the sender in advance, and many Internet Protocols rely on this property of DH-based key exchanges.
+What's important to note about the sample flow above is that the shared secret `ss` is derived using key material from both the Client and the Server, which classifies it as an AKE. There is another property of a key exchange, called non-interactive key exchange (NIKE) which refers to whether the sender can compute the shared secret `ss` and encrypting content without requiring active interaction -- ie an exchange of network messages -- with the recipient. {{tab-dh-ake}} shows a Diffie-Hellman key exchange which is an AKE, since both parties are using long-term keys which can have established trust (for example, via certificates), but it is not a NIKE, since the client needs to wait for the network interaction to receive the receiver's public key `pk2` before it can compute the shared secret `ss` and begin content encryption. However, a DH key exchange can be an AKE and a NIKE at the same time if the receiver's public key is known to the sender in advance, and many Internet protocols rely on this property of DH-based key exchanges.
 
 ~~~~~ aasvg
                       +---------+ +---------+
@@ -488,7 +493,7 @@ What's important to note about the sample flow above is that the shared secret `
                             |           | | decryptContent(ss)     |
                             |           | +------------------------+
 ~~~~~
-{: #tab-dh-ake-nike title="Diffie-Hellman based Authenticated Key Exchange and Non-Interactive Key Exchange simultaneously"}
+{: #tab-dh-ake-nike title="Diffie-Hellman based AKE and NIKE simultaneously"}
 
 The complication with KEMs is that a KEM `Encaps()` is non-deterministic; it involves randomness chosen by the sender of that KEM. Therefore, in order to perform an AKE, the client must wait for the server to generate the needed randomness and perform `Encaps()` against the client key, which necessarily requires a network round-trip. Therefore, a KEM-based protocol can either be an AKE or a NIKE, but cannot be both at the same time. Consequently, certain Internet protocols will necessitate a redesign to accommodate this distinction, either by introducing extra network round-trips or by making trade-offs in security properties.
 
@@ -522,7 +527,7 @@ The complication with KEMs is that a KEM `Encaps()` is non-deterministic; it inv
                            |           | | ss = Combiner(ss1, ss2)  |
                            |           | +--------------------------+
 ~~~~~
-{: #tab-kem-ake title="KEM based Authenticated Key Exchange"}
+{: #tab-kem-ake title="KEM based AKE"}
 
 Here, `Combiner(ss1, ss2)`, often referred to as a KEM Combiner, is a cryptographic construction that takes in two shared secrets and returns a single combined shared secret. The simplest combiner is concatenation `ss1 || ss2`, but combiners can vary in complexity depending on the cryptographic properties required. For example, if the combination should preserve IND-CCA2 of either input even if the other is chosen maliciously, then a more complex construct is required. Another consideration for combiner design is so-called "binding properties" introduced in {{KEEPINGUP}}, which may require the ciphertexts and recipient public keys to be included in the combiner.  KEM combiner security analysis becomes more complicated in hybrid settings where the two KEMs represent different algorithms, for example, where one is ML-KEM and the other is ECDHE. For a more thorough discussion of KEM combiners, see {{KEEPINGUP}}, {{?I-D.draft-ounsworth-cfrg-kem-combiners-04}}, and {{?I-D.draft-connolly-cfrg-xwing-kem-02}}.
 
@@ -544,7 +549,7 @@ The solution to binding is generally achieved at the protocol design level: it i
 
 Modern cryptography has long used the notion of "hybrid encryption" where an asymmetric algorithm is used to establish a key, and then a symmetric algorithm is used for bulk content encryption.
 
-HPKE (Hybrid Public Key Encryption) {{?RFC9180}} is a specific instantiation of this which works with a combination of KEMs, KDFs and AEAD schemes (Authenticated Encryption with Additional Data). HPKE includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones that authenticate possession of a key encapsulation mechanism (KEM) private key. HPKE can be extended to support hybrid post-quantum KEM {{?I-D.westerbaan-cfrg-hpke-xyber768d00-02}}. ML-KEM does not support the static-ephemeral key exchange that allows HPKE based on DH based KEMs and its optional authenticated modes as discussed in Section 1.2 of {{?I-D.westerbaan-cfrg-hpke-xyber768d00-02}} and section 1.5 of {{?I-D.draft-connolly-cfrg-xwing-kem-02}}.
+HPKE (hybrid public key encryption) {{?RFC9180}} is a specific instantiation of this which works with a combination of KEMs, KDFs and AEAD (authenticated encryption with additional data) schemes. HPKE includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones that authenticate possession of a key encapsulation mechanism (KEM) private key. HPKE can be extended to support hybrid post-quantum KEM {{?I-D.westerbaan-cfrg-hpke-xyber768d00-02}}. ML-KEM does not support the static-ephemeral key exchange that allows HPKE based on DH based KEMs and its optional authenticated modes as discussed in Section 1.2 of {{?I-D.westerbaan-cfrg-hpke-xyber768d00-02}} and section 1.5 of {{?I-D.draft-connolly-cfrg-xwing-kem-02}}.
 
 # PQC Signatures
 
