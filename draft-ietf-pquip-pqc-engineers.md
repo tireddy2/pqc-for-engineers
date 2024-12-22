@@ -89,15 +89,15 @@ informative:
      date: false
   ML-KEM:
      title: "FIPS-203: Module-Lattice-based Key-Encapsulation Mechanism Standard"
-     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.ipd.pdf
+     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.pdf
      date: false
   ML-DSA:
      title: "FIPS-204: Module-Lattice-Based Digital Signature Standard"
-     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.ipd.pdf
+     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.pdf
      date: false
   SLH-DSA:
      title: "FIPS-205: Stateless Hash-Based Digital Signature Standard"
-     target: https://doi.org/10.6028/NIST.FIPS.205
+     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.205.pdf 
      date: false
   FN-DSA:
      title: "Fast Fourier lattice-based compact signatures over NTRU"
