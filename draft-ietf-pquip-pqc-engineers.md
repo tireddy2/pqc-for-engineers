@@ -89,15 +89,15 @@ informative:
      date: false
   ML-KEM:
      title: "FIPS-203: Module-Lattice-based Key-Encapsulation Mechanism Standard"
-     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.ipd.pdf
+     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.pdf
      date: false
   ML-DSA:
      title: "FIPS-204: Module-Lattice-Based Digital Signature Standard"
-     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.ipd.pdf
+     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.pdf
      date: false
   SLH-DSA:
      title: "FIPS-205: Stateless Hash-Based Digital Signature Standard"
-     target: https://doi.org/10.6028/NIST.FIPS.205
+     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.205.pdf 
      date: false
   FN-DSA:
      title: "Fast Fourier lattice-based compact signatures over NTRU"
@@ -371,9 +371,9 @@ The current set of problems used in PQC can be currently grouped into three diff
 
 ## Lattice-Based Public-Key Cryptography {#lattice-based}
 
-Lattice-based public-key cryptography leverages the simple construction of lattices (i.e., a regular collection of points in a Euclidean space that are evenly spaced) to create "trapdoor" problems. These problems are efficient to compute if you possess the secret information but challenging to compute otherwise. Examples of such problems include the shortest vector, closest vector, shortest integer solution, learning with errors, module learning with errors, and learning with rounding problems. All of these problems feature strong proofs for worst-to-average case reduction, effectively relating the hardness of the average case to the worst case.
+Lattice-based public-key cryptography leverages the simple construction of lattices (i.e., a regular collection of points in a Euclidean space that are evenly spaced) to create "trapdoor" problems. These problems are efficient to compute if you possess the secret information but challenging to compute otherwise. Examples of such problems include the shortest vector, closest vector, short integer solution, learning with errors, module learning with errors, and learning with rounding problems. All of these problems feature strong proofs for worst-to-average case reduction, effectively relating the hardness of the average case to the worst case.
 
-The possibility to implement public-key schemes on lattices is tied to the characteristics of the vector basis used for the lattice. In particular, solving any of the mentioned problems can be easy when using "reduced" or "good" bases (i.e., as short as possible and as orthogonal as possible), while it becomes computationally infeasible when using "bad" bases (i.e., long, non-orthogonal vectors). Although the problem might seem trivial, it is computationally hard when considering many dimensions, or when the underlying field is not simple numbers, but high-order polynomials. Therefore, a typical approach is to use "bad" bases for public keys and "good" bases for private keys. The public keys ("bad" bases) let you easily verify signatures by checking, for example, that a vector is the closest or smallest, but do not let you solve the problem (i.e., finding the vector) that would yield the private key. Conversely, private keys (i.e., the "good" bases) can be used for generating the signatures (e.g., finding the specific vector).
+The possibility to implement public-key schemes on lattices is tied to the characteristics of the basis vectors used for the lattice. In particular, solving any of the mentioned problems can be easy when using "reduced" or "good" bases (i.e., as short as possible and as orthogonal as possible), while it becomes computationally infeasible when using "bad" bases (i.e., long, non-orthogonal vectors). Although the problem might seem trivial, it is computationally hard when considering many dimensions, or when the underlying field is not simple numbers, but high-order polynomials. Therefore, a typical approach is to use "bad" bases for public keys and "good" bases for private keys. The public keys ("bad" bases) let you easily verify signatures by checking, for example, that a vector is the closest or smallest, but do not let you solve the problem (i.e., finding the vector) that would yield the private key. Conversely, private keys (i.e., the "good" bases) can be used for generating the signatures (e.g., finding the specific vector).
 
 Lattice-based schemes usually have good performances and average size public keys and signatures (average within the PQC primitives at least; they are still several orders of magnitude larger than e.g., RSA or ECC signatures), making them the best available candidates for general-purpose use such as replacing the use of RSA in PKIX certificates.
 
@@ -558,7 +558,7 @@ The solution to binding is generally achieved at the protocol design level: it i
 
 Modern cryptography has long used the notion of "hybrid encryption" where an asymmetric algorithm is used to establish a key, and then a symmetric algorithm is used for bulk content encryption.
 
-HPKE (hybrid public key encryption) {{?RFC9180}} is a specific instantiation of this which works with a combination of KEMs, KDFs and AEAD (authenticated encryption with additional data) schemes. HPKE includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones that authenticate possession of a key encapsulation mechanism (KEM) private key. HPKE can be extended to support hybrid post-quantum KEM {{?I-D.westerbaan-cfrg-hpke-xyber768d00}}. ML-KEM does not support the static-ephemeral key exchange that allows HPKE based on DH based KEMs and its optional authenticated modes as discussed in Section 1.2 of {{?I-D.westerbaan-cfrg-hpke-xyber768d00}} and section 1.5 of {{?I-D.draft-connolly-cfrg-xwing-kem}}.
+HPKE (hybrid public key encryption) {{?RFC9180}} is a specific instantiation of this which works with a combination of KEMs, KDFs and AEAD (authenticated encryption with additional data) schemes. HPKE includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones that authenticate possession of a key encapsulation mechanism (KEM) private key. HPKE can be extended to support hybrid post-quantum KEM {{?I-D.draft-connolly-cfrg-xwing-kem}}. ML-KEM does not support the static-ephemeral key exchange that allows HPKE based on DH based KEMs and its optional authenticated modes as discussed in section 1.5 of {{?I-D.draft-connolly-cfrg-xwing-kem}}.
 
 # PQC Signatures
 
@@ -566,11 +566,15 @@ Any digital signature scheme that provides a construction defining security unde
 
 ## Security Properties of PQC Signatures
 
-### EUF-CMA
+## EUF-CMA and SUF-CMA
 
-EUF-CMA (existential unforgeability under chosen message attack) {{GMR88}} is a security notion for digital signature schemes. It guarantees that an adversary, even with access to a signing oracle, cannot forge a valid signature for an arbitrary message. EUF-CMA provides strong protection against forgery attacks, ensuring the integrity and authenticity of digital signatures by preventing unauthorized modifications or fraudulent signatures. ML-DSA, FN-DSA and SLH-DSA provide EUF-CMA security.
+EUF-CMA (existential unforgeability under chosen message attack) {{GMR88}} is a security notion for digital signature schemes. It guarantees that an adversary, even with access to a signing oracle, cannot forge a valid signature for an arbitrary message. EUF-CMA provides strong protection against forgery attacks, ensuring the integrity and authenticity of digital signatures by preventing unauthorized modifications or fraudulent signatures. ML-DSA, FN-DSA, and SLH-DSA provide EUF-CMA security.
 
-Understanding EUF-CMA security is essential for designing or implementing cryptographic systems in order to ensure the security, reliability, and trustworthiness of digital signature schemes. It allows for informed decision-making, vulnerability analysis, compliance with standards, and designing systems that provide strong protection against forgery attacks. Understanding EUF-CMA security is generally not necessary for developers migrating to using an IETF-vetted PQC signature scheme within a given protocol or flow. EUF-CMA is considered the highest bar that a public key signature algorithm can meet, and therefore is suitable for all uses. IETF specification authors should include all security concerns in the "Security Considerations" section of the relevant RFC and should not assume that implementers are experts in cryptographic theory.
+SUF-CMA (strong unforgeability under chosen message attack) builds upon EUF-CMA by requiring that an adversary cannot produce a different valid signature for a message that has already been signed by the signing oracle. Like EUF-CMA, SUF-CMA provides robust assurances for digital signature schemes, further enhancing their security posture. ML-DSA, FN-DSA, and SLH-DSA also achieve SUF-CMA security.
+
+Understanding EUF-CMA and SUF-CMA security is essential for designing or implementing cryptographic systems in order to ensure the security, reliability, and robustness of digital signature schemes. These notions allow for informed decision-making, vulnerability analysis, compliance with standards, and designing systems that provide strong protection against forgery attacks. For developers migrating to using an IETF-vetted PQC signature scheme within a given protocol or flow, a deep understanding of EUF-CMA and SUF-CMA security may not be necessary, as the schemes vetted by IETF adhere to these stringent security standards.
+
+EUF-CMA and SUF-CMA are considered the highest bars that a public key signature algorithm can meet, making them suitable for all uses. IETF specification authors should include all security concerns in the "Security Considerations" section of the relevant RFC and should not assume that implementers are experts in cryptographic theory.
 
 ## Details of FN-DSA, ML-DSA, and SLH-DSA {#sig-scheme}
 
@@ -586,8 +590,9 @@ Implementers of FN-DSA need to be aware that FN-DSA signing is highly susceptibl
 
 The performance characteristics of ML-DSA and FN-DSA may differ based on the specific implementation and hardware platform. Generally, ML-DSA is known for its relatively fast signature generation, while FN-DSA can provide more efficient signature verification. The choice may depend on whether the application requires more frequent signature generation or signature verification (See {{LIBOQS}}). For further clarity on the sizes and security levels, please refer to the tables in sections {{RecSecurity}} and {{Comparisons}}.
 
-SLH-DSA {{SLH-DSA}} utilizes the concept of stateless hash-based signatures, where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). This property eliminates the need for maintaining state information during the signing process. SLH-DSA was designed to sign up to 2^64 messages and it offers three security levels. The parameters for each of the security levels were chosen to provide 128 bits of security, 192 bits of security, and 256 bits of security. SLH-DSA offers smaller public key sizes, larger signature sizes, slower signature generation, and slower verification when compared to ML-DSA and FN-DSA. SLH-DSA does not introduce a new hardness assumption beyond those inherent to the underlying hash functions. It builds upon established foundations in cryptography, making it a reliable and robust digital signature scheme for a post-quantum world. The advantages and disadvantages of SLH-DSA over other signature algorithms is discussed in Section 3.1 of {{?I-D.draft-ietf-cose-sphincs-plus}}.
+SLH-DSA {{SLH-DSA}} utilizes the concept of stateless hash-based signatures, where each signature is unique and unrelated to any previous signature (as discussed in {{hash-based}}). This property eliminates the need for maintaining state information during the signing process. SLH-DSA was designed to sign up to 2^64 messages and it offers three security levels. The parameters for each of the security levels were chosen to provide 128 bits of security, 192 bits of security, and 256 bits of security. SLH-DSA offers smaller public key sizes, larger signature sizes, slower signature generation, and slower verification when compared to ML-DSA and FN-DSA. SLH-DSA does not introduce a new hardness assumption beyond those inherent to the underlying hash functions. It builds upon established foundations in cryptography, making it a reliable and robust digital signature scheme for a post-quantum world.
 
+All of these algorithms, ML-DSA, FN-DSA, and SLH-DSA include two signature modes, pure mode, where the entire content is signed directly, and pre-hash mode, where a digest of the content is signed.
 
 ## Details of XMSS and LMS
 
@@ -623,7 +628,6 @@ Note that the vast majority of Internet protocols that sign large messages alrea
 In the case of ML-DSA, it internally incorporates the necessary hash operations as part of its signing algorithm. ML-DSA directly takes the original message, applies a hash function internally, and then uses the resulting hash value for the signature generation process. In the case of SLH-DSA, it internally performs randomized message compression using a keyed hash function that can process arbitrary length messages. In the case of FN-DSA, the SHAKE-256 hash function is used as part of the signature process to derive a digest of the message being signed.
 
 Therefore, ML-DSA, FN-DSA, and SLH-DSA offer enhanced security over the traditional Hash-then-Sign paradigm because by incorporating dynamic key material into the message digest, a pre-computed hash collision on the message to be signed no longer yields a signature forgery. Applications requiring the performance and bandwidth benefits of Hash-then-Sign may still pre-hash at the protocol level prior to invoking ML-DSA, FN-DSA, or SLH-DSA, but protocol designers should be aware that doing so re-introduces the weakness that hash collisions directly yield signature forgeries. Signing the full un-digested message is recommended where applications can tolerate it.
-
 
 # Recommendations for Security / Performance Tradeoffs {#RecSecurity}
 
@@ -713,7 +717,7 @@ Various instantiations of these two types of hybrid key agreement schemes have b
 
 ## PQ/T Hybrid Authentication
 
-The PQ/T hybrid authentication property can be utilized in scenarios where an on-path attacker possesses network devices equipped with CRQCs, capable of breaking traditional authentication protocols, or where an attacker can attack long-lived authenticated data such as CA certificates or signed software images. This property ensures authentication through a PQ/T hybrid scheme or a PQ/T hybrid protocol, as long as at least one component algorithm remains secure to provide the intended security level. For instance, a PQ/T hybrid certificate can be employed to facilitate a PQ/T hybrid authentication protocol. However, a PQ/T hybrid authentication protocol does not need to use a PQ/T hybrid certificate {{?I-D.ounsworth-pq-composite-keys}}; separate certificates could be used for individual component algorithms {{?I-D.ietf-lamps-cert-binding-for-multi-auth}}.
+The PQ/T hybrid authentication property can be utilized in scenarios where an on-path attacker possesses network devices equipped with CRQCs, capable of breaking traditional authentication protocols, or where an attacker can attack long-lived authenticated data such as CA certificates or signed software images. This property ensures authentication through a PQ/T hybrid scheme or a PQ/T hybrid protocol, as long as at least one component algorithm remains secure to provide the intended security level. For instance, a PQ/T hybrid certificate {{?I-D.ietf-pq-composite-keys}} can be employed to facilitate a PQ/T hybrid authentication protocol. However, a PQ/T hybrid authentication protocol does not need to use a PQ/T hybrid certificate; separate certificates could be used for individual component algorithms {{?I-D.ietf-lamps-cert-binding-for-multi-auth}}.
 
 The frequency and duration of system upgrades and the time when CRQCs will become widely available need to be weighed to determine whether and when to support the PQ/T Hybrid Authentication property.
 
@@ -788,6 +792,6 @@ The IETF's PQUIP Working Group {{PQUIP-WG}} maintains a list of PQC-related prot
 # Acknowledgements
 {:numbered="false"}
 
-This document leverages text from an earlier draft by Paul Hoffman. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Panos Kampanakis, Ben S3, Sofia Celi, Melchior Aelmans, Falko Strenzke, Deirdre Connolly, and Daniel Van Geest for the discussion, review and comments.
+This document leverages text from an earlier draft by Paul Hoffman. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Panos Kampanakis, Ben S3, Sofia Celi, Melchior Aelmans, Falko Strenzke, Deirdre Connolly, Hani Ezzadeen, and Daniel Van Geest for the discussion, review and comments.
 
 In particular, the authors would like to acknowledge the contributions to this document by Kris Kwiatkowski.
