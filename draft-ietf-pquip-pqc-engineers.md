@@ -97,7 +97,7 @@ informative:
      date: false
   SLH-DSA:
      title: "FIPS-205: Stateless Hash-Based Digital Signature Standard"
-     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.205.pdf 
+     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.205.pdf
      date: false
   FN-DSA:
      title: "Fast Fourier lattice-based compact signatures over NTRU"
