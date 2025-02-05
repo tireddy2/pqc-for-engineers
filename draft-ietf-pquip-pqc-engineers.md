@@ -258,7 +258,8 @@ CRQCs pose a threat to both symmetric and asymmetric cryptographic schemes. Howe
 
 This document does not go into the deep mathematics or technical specification of the PQC algorithms, but rather provides an overview to engineers on the current threat landscape and the relevant algorithms designed to help prevent those threats. Also, the cryptographic and algorithmic guidance given in this document should be taken as non-authoritative if it conflicts with emerging and evolving guidance from the IRTF's Crypto Forum Research Group (CFRG).
 
-There is ongoing discussion about whether to use the term "post-quantum", "quantum ready", or "quantum resistant", to describe algorithms that resist CRQCs, and a consensus has not yet been reached. It is important to clarify that "post-quantum" refers to algorithms designed to withstand attacks by CRQCs and classical computers alike. These algorithms are based on mathematically hard cryptographic problems that neither CRQCs nor classical computers are expected to break.
+There is ongoing discussion about whether to use the term "post-quantum", "quantum ready", or "quantum resistant", to describe algorithms that resist CRQCs, and a consensus has not yet been reached. It is important to clarify that "post-quantum" refers to algorithms designed to withstand attacks by CRQCs and classical computers alike. These algorithms are based on mathematically hard cryptographic problems that neither CRQCs nor classical computers are expected to break. This document uses any of these terms interchangeably to refer to such
+algorithms.
 
 # Threat of CRQCs on Cryptography
 
