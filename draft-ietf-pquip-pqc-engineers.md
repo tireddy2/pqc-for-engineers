@@ -229,6 +229,12 @@ informative:
   OQS:
     title: Open Quantum Safe Project
     target: https://openquantumsafe.org/
+  NTRU:
+    title: "NTRU"
+    target: https://ntru.org/index.shtml
+  FrodoKEM:
+    title: "FrodoKEM"
+    target: https://frodokem.org/
 
 --- abstract
 
@@ -322,6 +328,7 @@ At time of writing, NIST have standardized three PQC algorithms, with more expec
 ### PQC Key Encapsulation Mechanisms (KEMs)
 
 * {{ML-KEM}}: Module-Lattice-based Key-Encapsulation Mechanism Standard (FIPS-203).
+* {{HQC}}: Based on the hardness of syndrome decoding of Quasi-cyclic concatenated Reed Muller Reed Solomon (RMRS) codes in the Hamming metric. Reed Muller (RM) codes are a class of block error-correcting codes used especially in wireless and deep space communications. Reed Solomon (RS) are a class of block error correcting codes that are used to detect and correct multiple bit errors. This algorithm has been selected but has not been standardized yet.
 
 ### PQC Signatures
 
@@ -329,15 +336,13 @@ At time of writing, NIST have standardized three PQC algorithms, with more expec
 * {{SLH-DSA}}: Stateless Hash-Based Digital Signature (FIPS-205).
 * {{FN-DSA}}: FN-DSA is a lattice signature scheme ({{lattice-based}} and {{sig-scheme}}).
 
-## Candidates Advancing to the Fourth Round for Standardization at NIST
+# ISO Candidates Selected for Standardization
+At the time of writing, ISO has standardized three PQC KEM algorithms, which are mentioned in the following subsection.
 
-The fourth-round of the NIST process focuses only on KEMs. The goal of that round is to select an alternative algorithm that is based on different hard problem than ML-KEM.
-The candidates still advancing for standardization are:
-
+## PQC Key Encapsulation Mechanisms (KEMs)
+* {{FrodoKEM}}: Key Encapsulation mechanism based on the hardness on learning with errors in algebraically unstructured lattices.
 * {{ClassicMcEliece}}: Based on the hardness of syndrome decoding of Goppa codes. Goppa codes are a class of error-correcting codes that can correct a certain number of errors in a transmitted message. The decoding problem involves recovering the original message from the received noisy codeword.
-* {{BIKE}}: Based on the hardness of syndrome decoding of Quasi-Cyclic Moderate Density Parity Check (QC-MDPC) codes. QC-MDPC codes are a class of error-correcting codes that leverages bit flipping techniques to efficiently correct errors.
-* {{HQC}}: Based on the hardness of syndrome decoding of Quasi-cyclic concatenated Reed Muller Reed Solomon (RMRS) codes in the Hamming metric. Reed Muller (RM) codes are a class of block error-correcting codes used especially in wireless and deep space communications. Reed Solomon (RS) are a class of block error correcting codes that are used to detect and correct multiple bit errors.
-* {{SIKE}} (Broken): Supersingular Isogeny Key Encapsulation (SIKE) is a specific realization of the SIDH (Supersingular Isogeny Diffie-Hellman) protocol. Recently, a mathematical attack {{SIDH-Attack}} based on the "glue-and-split" theorem from 1997 from Ernst Kani was found against the underlying chosen starting curve and torsion information. In practical terms, this attack allows for the efficient recovery of the private key. NIST announced that SIKE was no longer under consideration, but the authors of SIKE had asked for it to remain in the list so that people are aware that it is broken. While SIKE is broken, isogenies in general remain an active area of cryptographic research due to their very attractive bandwidth usage, and yet more cryptographic primitives in the future may appear from this research area.
+* {{NTRU}}: Key encapsulation mechanism based on the "N-th degree Truncated polynomial Ring Units" (NTRU) lattices. 
 
 # Timeline for Transition {#timeline}
 
