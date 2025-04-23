@@ -328,7 +328,7 @@ At time of writing, NIST have standardized three PQC algorithms, with more expec
 ### PQC Key Encapsulation Mechanisms (KEMs)
 
 * {{ML-KEM}}: Module-Lattice-based Key-Encapsulation Mechanism Standard (FIPS-203).
-* {{HQC}}: Based on the hardness of syndrome decoding of Quasi-cyclic concatenated Reed Muller Reed Solomon (RMRS) codes in the Hamming metric. Reed Muller (RM) codes are a class of block error-correcting codes used especially in wireless and deep space communications. Reed Solomon (RS) are a class of block error correcting codes that are used to detect and correct multiple bit errors. This algorithm has been selected but has not been standardized yet.
+* {{HQC}}: This algorithm is based on the hardness of the syndrome decoding problem for quasi-cyclic concatenated Reed-Muller and Reed-Solomon (RMRS) codes in the Hamming metric. Reed-Muller (RM) codes are a class of block error-correcting codes commonly used in wireless and deep-space communications, while Reed-Solomon (RS) codes are widely used to detect and correct multiple-bit errors. HQC has been selected as part of the NIST post-quantum cryptography project but has not yet been standardized.
 
 ### PQC Signatures
 
