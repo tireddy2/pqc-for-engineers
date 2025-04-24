@@ -235,6 +235,18 @@ informative:
   FrodoKEM:
     title: "FrodoKEM"
     target: https://frodokem.org/
+  CRQCThreat:
+    title: "CRQCThreat"
+    target: https://globalriskinstitute.org/publication/2024-quantum-threat-timeline-report/
+  QuantSide:
+    title: "QuantSide"
+    target: https://arxiv.org/pdf/2304.03315
+  AddSig:
+    title: "AddSig"
+    target: https://csrc.nist.gov/Projects/pqc-dig-sig/standardization
+  BPQS:
+    title: "BPQS"
+    target: https://eprint.iacr.org/2018/658.pdf
 
 --- abstract
 
@@ -246,7 +258,7 @@ The advent of a cryptographically relevant quantum computer (CRQC) would render 
 
 Quantum computing is no longer just a theoretical concept in computational science and physics; it is now an active area of research with practical implications. Considerable research efforts and enormous corporate and government funding for the development of practical quantum computing systems are currently being invested. At the time this document is published, cryptographically relevant quantum computers (CRQCs) that can break widely used public-key cryptographic algorithms are not yet available. However, there is ongoing research and development in the field of quantum computing, with the goal of building more powerful and scalable quantum computers.
 
-One common myth is that quantum computers are faster than conventional CPUs and GPUs in all areas. This is not the case; much as GPUs outperform general-purpose CPUs only on specific types of problems, so too will quantum computers have a niche set of problems on which they excel. Unfortunately for cryptographers, integer factorization and discrete logarithms, the mathematical problems underpinning much of modern cryptography, happen to fall within the niche that quantum computers are expected to excel at. As such, as quantum technology advances, there is the potential for future quantum computers to have a significant impact on current cryptographic systems. Predicting the date of emergence of a CRQC is a challenging task, and there is ongoing uncertainty regarding when they will become practically feasible.
+One common myth is that quantum computers are faster than conventional CPUs and GPUs in all areas. This is not the case; much as GPUs outperform general-purpose CPUs only on specific types of problems, so too will quantum computers have a niche set of problems on which they excel. Unfortunately for cryptographers, integer factorization and discrete logarithms, the mathematical problems underpinning much of classical cryptography, happen to fall within the niche that quantum computers are expected to excel at. As quantum technology advances, there is the potential for future quantum computers to have a significant impact on current cryptographic systems. Predicting the date of emergence of a CRQC is a challenging task, and there is ongoing uncertainty regarding when they will become practically feasible {{CRQCThreat}}.
 
 Extensive research has produced several post-quantum cryptographic (PQC) algorithms that offer the potential to ensure cryptography's survival in the quantum computing era. However, transitioning to a post-quantum infrastructure is not a straightforward task, and there are numerous challenges to overcome. It requires a combination of engineering efforts, proactive assessment and evaluation of available technologies, and a careful approach to product development.
 
@@ -254,13 +266,13 @@ PQC is sometimes referred to as "quantum-proof", "quantum-safe", or "quantum-res
 
 As the threat of CRQCs draws nearer, engineers responsible for designing, maintaining, and securing cryptographic systems must prepare for the significant changes that the existence of CRQCs will bring. Engineers need to understand how to implement post-quantum algorithms in applications, how to evaluate the trade-offs between security and performance, and how to ensure backward compatibility with current systems where needed. This is not merely a one-for-one replacement of algorithms; in many cases, the shift to PQC will involve redesigning protocols and infrastructure to accommodate the significant differences in resource utilization and key sizes between traditional and PQC algorithms.
 
-This document aims to provide general guidance to engineers working on cryptographic libraries, network security, and infrastructure development, where long-term security planning is crucial. The document covers topics such as selecting appropriate PQC algorithms, understanding the differences between PQC key encapsulation mechanisms (KEMs) and traditional Diffie-Hellman and RSA style key exchanges, and provides insights into expected key sizes and processing time differences between PQC and traditional algorithms. Additionally, it discusses the potential threat to symmetric cryptography from CRQCs.
+This document aims to provide general guidance to engineers working on cryptographic libraries, network security, and infrastructure development, where long-term security planning is crucial. The document covers topics such as selecting appropriate PQC algorithms, understanding the differences between PQC key encapsulation mechanisms (KEMs) and traditional Diffie-Hellman and RSA style key exchanges, and provides insights into expected key/ciphertext/signature sizes and processing time differences between PQC and traditional algorithms. Additionally, it discusses the potential threat to symmetric cryptography/hash functions from CRQCs.
 
 It is important to remember that asymmetric algorithms (also known as public key algorithms) are largely used for secure communications between organizations or endpoints that may not have previously interacted, so a significant amount of coordination between organizations, and within and between ecosystems needs to be taken into account. Such transitions are some of the most complicated in the tech industry and will require staged migrations in which upgraded agents need to co-exist and communicate with non-upgraded agents at a scale never before undertaken.
 
 The National Security Agency (NSA) of the United States released an article on future PQC algorithm requirements for US national security systems {{CNSA2-0}} based on the need to protect against deployments of CRQCs in the future. The German Federal Office for Information Security (BSI) has also released a PQC migration and recommendations document {{BSI-PQC}} which largely aligns with United States National Institute of Standards and Technology (NIST) and NSA guidance, but differs on some of the guidance.
 
-CRQCs pose a threat to both symmetric and asymmetric cryptographic schemes. However, the threat to asymmetric cryptography is significantly greater due to Shor's algorithm, which can break widely-used public key schemes like RSA and ECC. Symmetric cryptography and hash functions also face some risk from Grover's algorithm, although the impact is less severe and can typically be mitigated by doubling key lengths. It is crucial for the reader to understand that when the word "PQC" is mentioned in the document, it means asymmetric cryptography (or public key cryptography), and not any symmetric algorithms based on stream ciphers, block ciphers, hash functions, MACs, etc., which are less vulnerable to quantum computers. This document does not cover such topics as when traditional algorithms might become vulnerable (for that, see documents such as {{QC-DNS}} and others). It also does not cover unrelated technologies like quantum key distribution (QKD) or quantum key generation, which use quantum hardware to exploit quantum effects to protect communications and generate keys, respectively. PQC is based on conventional (that is, not quantum) math and software and can be run on any general purpose computer.
+CRQCs pose a threat to both symmetric and asymmetric cryptographic schemes. However, the threat to asymmetric cryptography is significantly greater due to Shor's algorithm, which can break widely-used public key schemes like RSA and ECC. Symmetric cryptography and hash functions also face some risk from Grover's algorithm, although the impact is less severe and can typically be mitigated by doubling key/digest lengths. It is crucial for the reader to understand that when the word "PQC" is mentioned in the document, it means asymmetric cryptography (or public key cryptography), and not any symmetric algorithms based on stream ciphers, block ciphers, hash functions, MACs, etc., which are less vulnerable to quantum computers. This document does not cover such topics as when traditional algorithms might become vulnerable (for that, see documents such as {{QC-DNS}} and others). It also does not cover unrelated technologies like quantum key distribution (QKD) or quantum key generation, which use quantum hardware to exploit quantum effects to protect communications and generate keys, respectively. PQC is based on conventional (that is, not quantum) math and software and can be run on any general purpose computer.
 
 This document does not go into the deep mathematics or technical specification of the PQC algorithms, but rather provides an overview to engineers on the current threat landscape and the relevant algorithms designed to help prevent those threats. Also, the cryptographic and algorithmic guidance given in this document should be taken as non-authoritative if it conflicts with emerging and evolving guidance from the IRTF's Crypto Forum Research Group (CFRG).
 
@@ -273,7 +285,7 @@ When considering the security risks associated with the ability of a quantum com
 
 Quantum computers are, by their nature, hybrids of classical and quantum computational units. For example, Shor's algorithm consists of a combination of quantum and classical computational steps. Thus, the term "quantum adversary" should be thought of as "quantum-enhanced adversary", meaning they have access to both classical and quantum computational techniques.
 
-Despite the fact that large-scale quantum computers do not yet exist to experiment on, the theoretical properties of quantum computation are very well understood. This allows us to reason today about the upper limits of quantum-enhanced computation, and indeed to design cryptographic algorithms that are resistant to any conceivable for of quantum cryptanalysis.
+Despite the fact that large-scale quantum computers do not yet exist to experiment on, the theoretical properties of quantum computation are very well understood. This allows us to reason today about the upper limits of quantum-enhanced computation, and indeed to design cryptographic algorithms that are resistant to any conceivable form of quantum cryptanalysis.
 
 ## Symmetric Cryptography {#symmetric}
 
@@ -293,29 +305,29 @@ Finally, in their evaluation criteria for PQC, NIST is assessing the security le
 
 “Shor’s algorithm” efficiently solves the integer factorization problem (and the related discrete logarithm problem), which underpin the foundations of the vast majority of public-key cryptography that the world uses today. This implies that, if a CRQC is developed, today’s public-key cryptography algorithms (e.g., RSA, Diffie-Hellman and elliptic curve cryptography, as well as less commonly-used variants such as ElGamal and Schnorr signatures) and protocols would need to be replaced by algorithms and protocols that can offer cryptanalytic resistance against CRQCs. Note that Shor’s algorithm cannot run solely on a classical computer, it requires a CRQC.
 
-For example, to provide some context, one would need around 20 million noisy qubits to break RSA-2048 in 8 hours {{RSAShor}} and {{RSA8HRS}} or 4099 stable (or logical) qubits to break it {{RSA10SC}}.
+For example, to provide some context, one would need around 20 million noisy qubits to break RSA-2048 in 8 hours {{RSAShor}} and {{RSA8HRS}} or 4099 stable (or logical) qubits to break it in 10 seconds {{RSA10SC}}.
 
 For structured data such as public keys and signatures, CRQCs can fully solve the underlying hard problems used in traditional cryptography (see Shor's algorithm). Because an increase in the size of the key-pair would not provide a secure solution (short of RSA keys that are many gigabytes in size {{PQRSA}}), a complete replacement of the algorithm is needed. Therefore, post-quantum public-key cryptography must rely on problems that are different from the ones used in traditional public-key cryptography (i.e., the integer factorization problem, the finite-field discrete logarithm problem, and the elliptic-curve discrete logarithm problem).
 
 ## Quantum Side-channel Attacks
 
-The field of cryptographic side-channel attacks potentially stands to gain a boost in attacker power once cryptanalytic techniques can be enhanced with quantum computation techniques. While a full discussion of quantum side-channel techniques is beyond the scope of this document, implementers of cryptographic hardware should be aware that current best-practices for side-channel resistance may not be sufficient against quantum adversaries.
+The field of cryptographic side-channel attacks potentially stands to gain a boost in attacker power once cryptanalytic techniques can be enhanced with quantum computation techniques {{QuantSide}}. While a full discussion of quantum side-channel techniques is beyond the scope of this document, implementers of cryptographic hardware should be aware that current best-practices for side-channel resistance may not be sufficient against quantum adversaries.
 
 # Traditional Cryptographic Primitives that Could Be Replaced by PQC
 
-Any asymmetric cryptographic algorithm based on integer factorization, finite field discrete logarithms or elliptic curve discrete logarithms will be vulnerable to attacks using Shor's algorithm on a sufficiently large general-purpose quantum computer, known as a CRQC. This document focuses on the principal functions of asymmetric cryptography:
+Any asymmetric cryptographic algorithm based on integer factorization, finite field discrete logarithms or elliptic curve discrete logarithms will be vulnerable to attacks using Shor's algorithm on a CRQC. This document focuses on the principal functions of asymmetric cryptography:
 
-* Key agreement and key transport: Key agreement schemes, typically referred to as Diffie-Hellman (DH) or Elliptic Curve Diffie-Hellman (ECDH), as well as key transport, typically using RSA encryption, are used to establish a shared cryptographic key for secure communication. They are one of the mechanisms that can be replaced by PQC, as this is based on public key cryptography and is therefore vulnerable to Shor's algorithm. A CRQC can employ Shor's algorithm to efficiently find the prime factors of a large public key (in case of RSA), which in turn can be exploited to derive the private key. In the case of Diffie-Hellman, a CRQC has the potential to calculate the exponent or discrete logarithm of the (short or long-term) Diffie-Hellman public key. This, in turn, would reveal the secret required to derive the symmetric encryption key.
+* Key agreement and key transport: Key agreement schemes, typically referred to as Diffie-Hellman (DH) or Elliptic Curve Diffie-Hellman (ECDH), as well as key transport, typically using RSA encryption, are used to establish a shared cryptographic key for secure communication. They are one of the mechanisms that can be replaced by PQC, as this is based on existing public key cryptography and is therefore vulnerable to Shor's algorithm. A CRQC can employ Shor's algorithm to efficiently find the prime factors of a large public key (in the case of RSA), which in turn can be exploited to derive the private key. In the case of Diffie-Hellman, a CRQC has the potential to calculate the discrete logarithm of the (short or long-term) Diffie-Hellman public key. This, in turn, would reveal the secret required to derive the symmetric encryption key.
 
-* Digital signatures: Digital signature schemes are used to authenticate the identity of a sender, detect unauthorized modifications to data, and underpin trust in a system. Similar to key agreement, signatures also depend on a public-private key pair based on the same mathematics as for key agreement and key transport, and hence a break in public key cryptography will also affect traditional digital signatures, hence the importance of developing post-quantum digital signatures.
+* Digital signatures: Digital signature schemes are used to authenticate the identity of a sender, detect unauthorized modifications to data, and underpin trust in a system. Similar to key agreement, signatures also depend on a public-private key pair based on the same mathematics as for key agreement and key transport, and hence a break in existing public key cryptography will also affect traditional digital signatures, hence the importance of developing post-quantum digital signatures.
 
-* BBS signatures: BBS (Boneh-Boyen-Shacham) signatures are a privacy-preserving signature scheme that offers zero-knowledge proof-like properties by allowing selective disclosure of specific signed attributes without revealing the entire set of signed data. The security of BBS signatures relies on the hardness of the discrete logarithm problem, making them vulnerable to quantum attacks. A CRQC can break the data authenticity security property of BBS but not the data confidentiality (Section 6.9 of {{?I-D.irtf-cfrg-bbs-signatures}}).
+* BBS signatures: BBS (Boneh-Boyen-Shacham) signatures are a privacy-preserving signature scheme that offers zero-knowledge proof-like properties by allowing selective disclosure of specific signed attributes without revealing the entire set of signed data. The security of BBS signatures relies on the hardness of the discrete logarithm problem, making them vulnerable to Shor's algorithm. A CRQC can break the data authenticity security property of BBS but not the data confidentiality (Section 6.9 of {{?I-D.irtf-cfrg-bbs-signatures}}).
 
 * Content encryption: Content encryption typically refers to the encryption of the data using symmetric key algorithms, such as AES, to ensure confidentiality. The threat to symmetric cryptography is discussed in {{symmetric}}.
 
 # Invariants of PQC: Necessitating Compliance Adjustments
 
-In the context of PQC, symmetric-key cryptographic algorithms are generally not directly impacted by quantum computing advancements. Symmetric-key cryptography, which includes keyed primitives such as block ciphers (e.g., AES) and message authentication mechanisms (e.g., HMAC-SHA2), relies on secret keys shared between the sender and receiver and remains secure even in a post-quantum world. Symmetric cryptography also includes hash functions (e.g., SHA-256) that are used for secure message digesting without any shared key material. HMAC is a specific construction that utilizes a cryptographic hash function (such as SHA-2) and a secret key shared between the sender and receiver to produce a message authentication code.
+In the context of PQC, symmetric-key cryptographic algorithms are generally not directly impacted by quantum computing advancements. Symmetric-key cryptography, which includes keyed primitives such as block ciphers (e.g., AES) and message authentication mechanisms (e.g., HMAC-SHA256), relies on secret keys shared between the sender and receiver and remains secure even in a post-quantum world. Symmetric cryptography also includes hash functions (e.g., SHA-256) that are used for secure message digesting without any shared key material. HMAC is a specific construction that utilizes a cryptographic hash function and a secret key shared between the sender and receiver to produce a message authentication code.
 
 Grover's algorithm does not pose a practical threat to symmetric cryptography (see {{symmetric}} for more details). As a result, CRQCs offer no substantial advantages in breaking symmetric-key algorithms compared to classical computers. However, for compliance purposes, such as meeting the standards of CNSA 2.0 (Commercial National Security Algorithm Suite 2.0) {{CNSA2-0}}, AES-256 must be used to ensure the highest level of security against both traditional and quantum threats.
 
@@ -334,7 +346,7 @@ At time of writing, NIST have standardized three PQC algorithms, with more expec
 
 * {{ML-DSA}}: Module-Lattice-Based Digital Signature Standard (FIPS-204).
 * {{SLH-DSA}}: Stateless Hash-Based Digital Signature (FIPS-205).
-* {{FN-DSA}}: FN-DSA is a lattice signature scheme ({{lattice-based}} and {{sig-scheme}}).
+* {{FN-DSA}}: FN-DSA is a lattice signature scheme (FIPS-206) ({{lattice-based}} and {{sig-scheme}}).
 
 # ISO Candidates Selected for Standardization
 At the time of writing, ISO has standardized three PQC KEM algorithms, which are mentioned in the following subsection.
@@ -375,7 +387,7 @@ Included in "y" is not only the deployment time, but also preparation time: inte
 
 # PQC Categories
 
-The post-quantum cryptographic schemes standardized by NIST, along with the ongoing Round 4 candidates, can be categorized into three main groups: lattice-based, hash-based, and code-based. Other approaches, such as isogeny-based, multivariate-based, and MPC-in-the-Head-based cryptography, are also being explored in research and standardization efforts.
+The post-quantum cryptographic schemes standardized by NIST, along with the ongoing Round 4 candidates, can be categorized into three main groups: lattice-based, hash-based, and code-based. Other approaches, such as isogeny-based, multivariate-based, and MPC-in-the-Head-based cryptography, are also being explored in research and standardization efforts. NIST has been calling for additional digital signature proposals to be considered in the PQC standardization process which has completed two rounds in October, 2024 {{AddSig}}.
 
 ## Lattice-Based Public-Key Cryptography {#lattice-based}
 
@@ -383,25 +395,23 @@ Lattice-based public-key cryptography leverages the simple construction of latti
 
 Lattice-based schemes usually have good performances and average size public keys and signatures (average within the PQC primitives at least; they are still several orders of magnitude larger than e.g., RSA or ECC signatures), making them the best available candidates for general-purpose use such as replacing the use of RSA in PKIX certificates.
 
-Examples of this class of algorithms include ML-KEM, FN-DSA and ML-DSA.
+Examples of this class of algorithms include ML-KEM, FN-DSA, ML-DSA and FrodoKEM.
 
 It is noteworthy that lattice-based encryption schemes require a rounding step during decryption which has a non-zero probability of "rounding the wrong way" and leading to a decryption failure, meaning that valid encryptions are decrypted incorrectly; as such, an attacker could significantly reduce the security of lattice-based schemes that have a relatively high failure rate. However, for most of the NIST PQC proposals, the number of required oracle queries to force a decryption failure is above practical limits, as has been shown in {{LattFail1}}. More recent works have improved upon the results in {{LattFail1}}, showing that the cost of searching for additional failing ciphertexts after one or more have already been found, can be sped up dramatically {{LattFail2}}. Nevertheless, at the time this document is published, the PQC candidates by NIST are considered secure under these attacks and constant monitoring as cryptanalysis research is ongoing.
 
 ## Hash-Based Public-Key Cryptography {#hash-based}
 
-Hash based PKC has been around since the 1970s, when it was developed by Lamport and Merkle. It is used to create digital signature algorithms and its security is mathematically based on the security of the selected cryptographic hash function. Many variants of hash-based signatures (HBS) have been developed since the 70s including the recent XMSS {{?RFC8391}}, HSS/LMS {{?RFC8554}} or BPQS schemes. Unlike many other digital signature techniques, most hash-based signature schemes are stateful, which means that signing necessitates the update and careful tracking of the secret key. Producing multiple signatures using the same secret key state results in loss of security and may ultimately enable signature forgery attacks against that key.
+Hash based PKC has been around since the 1970s, when it was developed by Lamport and Merkle. It is used to create digital signature algorithms and its security is based on the security of the underlying cryptographic hash function. Many variants of hash-based signatures (HBS) have been developed since the 70s including the recent XMSS {{?RFC8391}}, HSS/LMS {{?RFC8554}} or BPQS {{BPQS}} schemes. Unlike many other digital signature techniques, most hash-based signature schemes are stateful, which means that signing necessitates the update and careful tracking of the state of the secret key. Producing multiple signatures using the same secret key state results in loss of security and may ultimately enable signature forgery attacks against that key.
 
 Stateful hash-based signatures with long service lifetimes require additional operational complexity compared with other signature types. For example, consider a 20-year root key; there is an expectation that 20 years is longer than the expected lifetime of the hardware that key is stored on, and therefore the key will need to be migrated to new hardware at some point. Disaster-recovery scenarios where the primary node fails without warning can be similarly tricky. This requires careful operational and compliance consideration to ensure that no private key state can be reused across the migration or disaster recovery event. One approach for avoiding these issues is to only use stateful HBS for short-term use cases that do not require horizontal scaling, for example signing a batch of firmware images and then retiring the signing key.
 
-The SLH-DSA algorithm leverages the HORST (hash to obtain random subset with trees) technique and remains the only hash based signature scheme that is stateless, thus avoiding the complexities associated with state management.
-
-SLH-DSA is an advancement on SPHINCS which reduces the signature sizes in SPHINCS and makes it more compact. SLH-DSA was recently standardized by NIST.
+The SLH-DSA algorithm, which was recently standardized by NIST, leverages the HORST (hash to obtain random subset with trees) technique and remains the only standardized hash based signature scheme that is stateless, thus avoiding the complexities associated with state management. SLH-DSA is an advancement on SPHINCS which reduces the signature sizes in SPHINCS and makes it more compact.
 
 ## Code-Based Public-Key Cryptography {#code-based}
 
 This area of cryptography started in the 1970s and 80s based on the seminal work of McEliece and Niederreiter which focuses on the study of cryptosystems based on error-correcting codes. Some popular error correcting codes include Goppa codes (used in McEliece cryptosystems), encoding and decoding syndrome codes used in Hamming quasi-cyclic (HQC), or quasi-cyclic moderate density parity check (QC-MDPC) codes.
 
-Examples include all the NIST Round 4 (unbroken) finalists: Classic McEliece, HQC, BIKE.
+Examples include all the unbroken NIST Round 4 finalists: Classic McEliece, HQC (selected by NIST for standardization), and BIKE.
 
 # KEMs {#KEMs}
 
