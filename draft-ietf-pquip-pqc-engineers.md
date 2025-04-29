@@ -578,7 +578,7 @@ HPKE (hybrid public key encryption) {{?RFC9180}} is a specific instantiation of 
 
 # PQC Signatures
 
-Any digital signature scheme that provides a construction defining security under a post-quantum setting falls under this category of PQ signatures.
+Any digital signature scheme that provides a construction defining security under a post-quantum setting falls under this category of PQC signatures.
 
 ## Security Properties of PQC Signatures
 
@@ -594,7 +594,7 @@ EUF-CMA and SUF-CMA are considered strong security benchmarks for public key sig
 
 ## Details of FN-DSA, ML-DSA, and SLH-DSA {#sig-scheme}
 
-ML-DSA {{ML-DSA}} is a digital signature algorithm (part of the CRYSTALS suite) based on the hardness of lattice problems over module lattices (i.e., the Module Learning with Errors problem (MLWE)). The design of the algorithm is based on the "Fiat-Shamir with Aborts" {{Lyu09}} framework introduced by Lyubashevsky, that leverages rejection sampling to render lattice-based FS schemes compact and secure. ML-DSA uses uniformly-distributed random number sampling over small integers to compute coefficients in error vectors, which makes the scheme easier to implement compared with FN-DSA {{FN-DSA}} which uses Gaussian-distributed numbers.
+ML-DSA {{ML-DSA}} is a digital signature algorithm based on the hardness of lattice problems over module lattices (i.e., the Module Learning with Errors problem (MLWE)). The design of the algorithm is based on the "Fiat-Shamir with Aborts" {{Lyu09}} framework introduced by Lyubashevsky, that leverages rejection sampling to render lattice-based Fiat-Shamir (FS) schemes compact and secure. ML-DSA uses uniformly-distributed random number sampling over small integers to compute coefficients in error vectors, which makes the scheme easier to implement compared with FN-DSA {{FN-DSA}} which uses Gaussian-distributed numbers, necessitating the need to use floating point arithmetic during signature generation.
 
 ML-DSA offers both deterministic and randomized signing and is instantiated with 3 parameter sets providing different security levels. Security properties of ML-DSA are discussed in Section 9 of {{?I-D.ietf-lamps-dilithium-certificates}}.
 
@@ -612,11 +612,11 @@ All of these algorithms, ML-DSA, FN-DSA, and SLH-DSA include two signature modes
 
 ## Details of XMSS and LMS
 
-The eXtended Merkle Signature Scheme (XMSS) {{?RFC8391}} and Hierarchical Signature Scheme (HSS) / Leighton-Micali Signature (LMS) {{?RFC8554}} are stateful hash-based signature schemes, where the secret key changes over time. In both schemes, reusing a secret key state compromises cryptographic security guarantees.
+The eXtended Merkle Signature Scheme (XMSS) {{?RFC8391}} and Hierarchical Signature Scheme (HSS) / Leighton-Micali Signature (LMS) {{?RFC8554}} are stateful hash-based signature schemes, where the secret key state changes over time. In both schemes, reusing a secret key state compromises cryptographic security guarantees.
 
-Multi-tree XMSS and LMS can be used for signing a potentially large but fixed number of messages and the number of signing operations depends upon the size of the tree. XMSS and LMS provide cryptographic digital signatures without relying on the conjectured hardness of mathematical problems, instead leveraging the properties of cryptographic hash functions. XMSS and HSS use a hierarchical approach with a Merkle tree at each level of the hierarchy. {{?RFC8391}} describes both single-tree and multi-tree variants of XMSS, while {{?RFC8554}} describes the Leighton-Micali One-Time Signature (LM-OTS) system as well as the LMS and HSS N-time signature systems. Comparison of XMSS and LMS is discussed in Section 10 of {{?RFC8554}}.
+XMSS and LMS can be used for signing a potentially large but fixed number of messages and the number of signing operations depends upon the size of the tree. XMSS and LMS provide cryptographic digital signatures without relying on the conjectured hardness of mathematical problems, instead leveraging the properties of cryptographic hash functions. Multi-tree XMSS and LMS (i.e., XMSS-MT and HSS respectively) use a hyper-tree based hierarchical approach with a Merkle tree at each level of the hierarchy. {{?RFC8391}} describes both single-tree and multi-tree variants of XMSS, while {{?RFC8554}} describes the Leighton-Micali One-Time Signature (LM-OTS) system as well as the LMS and HSS N-time signature systems. Comparison of XMSS and LMS is discussed in Section 10 of {{?RFC8554}}.
 
-The number of tree layers in multi-tree XMSS provides a trade-off between signature size on the one side and key generation and signing speed on the other side. Increasing the number of layers reduces key generation time exponentially and signing time linearly at the cost of increasing the signature size linearly.
+The number of tree layers in multi-tree XMSS and HSS provides a trade-off between signature size on the one side and key generation and signing speed on the other side. Increasing the number of layers reduces key generation time exponentially and signing time linearly at the cost of increasing the signature size linearly. HSS allows for customization of each subtree whereas XMSS-MT does not, electing instead to use the same structure for each subtree.
 
 Due to the complexities described above, the XMSS and LMS are not a suitable replacement for traditional signature schemes like RSA or ECDSA. Applications that expect a long lifetime of a signature, like firmware update or secure boot, are typical use cases where those schemes can be successfully applied.
 
@@ -624,7 +624,7 @@ Due to the complexities described above, the XMSS and LMS are not a suitable rep
 
 The LMS scheme is characterized by four distinct parameter sets: the underlying hash function (SHA2-256 or SHAKE-256), the length of the digest (24 or 32 bytes), the LMS tree height parameter that controls a maximal number of signatures that the private key can produce, and the width of the Winternitz coefficients (see {{?RFC8554}}, section 4.1) that can be used to trade-off signing time for signature size. Parameters can be mixed, providing 80 possible parameterizations of the scheme.
 
-The public (PK) and private (SK) key size depends on the length of the digest (M). The signature size depends on the Winternitz parameter (W), the LMS tree height (H), and the length of the digest. The table below provides key and signature sizes for parameterization with the digest size M=32 of the scheme.
+The public (PK) and private (SK) key size depends on the length of the digest (M). The signature size depends on the digest, the Winternitz parameter (W), the LMS tree height (H), and the length of the digest. The table below provides key and signature sizes for parameterization with the digest size M=32 of the scheme.
 
 | PK | SK | W |  H=5 | H=10 | H=15 | H=20 | H=25 |
 |----|----|---|------|------|------|------|------|
@@ -676,12 +676,12 @@ The following table discusses the impact of performance on different security le
 | ------------------ | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
 |         1          |          ML-KEM-512        |       800                   |          1632                |            768                       |
 |         1          |          FN-DSA-512        |       897                   |          1281                |            666                       |
-|         2          |           ML-DSA-44        |       1312                  |          2528                |            2420                      |
+|         2          |           ML-DSA-44        |       1312                  |          2560                |            2420                      |
 |         3          |          ML-KEM-768        |       1184                  |          2400                |            1088                      |
-|         3          |           ML-DSA-65        |       1952                  |          4000                |            3309                      |
+|         3          |           ML-DSA-65        |       1952                  |          4032                |            3309                      |
 |         5          |          FN-DSA-1024       |       1793                  |          2305                |            1280                      |
 |         5          |          ML-KEM-1024       |       1568                  |          3168                |            1588                      |
-|         5          |           ML-DSA-87        |       2592                  |          4864                |            4627                      |
+|         5          |           ML-DSA-87        |       2592                  |          4896                |            4627                      |
 
 
 # Comparing PQC KEMs/Signatures vs Traditional KEMs (KEXs)/Signatures {#Comparisons}
@@ -704,12 +704,12 @@ The next table compares traditional vs. PQC signature schemes in terms of securi
 | PQ Security Level |            Algorithm       | Public key size (in bytes)  | Private key size (in bytes)  |         Signature size (in bytes)    |
 | ----------------- | -------------------------- | --------------------------- | ---------------------------  | ------------------------------------ |
 |      Traditional  |              RSA2048       |       256                   |          256                 |            256                       |
-|      Traditional  |               P256         |       64                    |          32                  |            64                        |
+|      Traditional  |            ECDSA-P256      |       64                    |          32                  |            64                        |
 |          1        |            FN-DSA-512      |       897                   |          1281                |            666                       |
-|          2        |            ML-DSA-44       |       1312                  |          2528                |            768                       |
-|          3        |            ML-DSA-65       |       1952                  |          4000                |            3293                      |
+|          2        |            ML-DSA-44       |       1312                  |          2560                |            2420                      |
+|          3        |            ML-DSA-65       |       1952                  |          4032                |            3309                      |
 |          5        |            FN-DSA-1024     |       1793                  |          2305                |            1280                      |
-|          5        |            ML-DSA-87       |       2592                  |          4864                |            4627                      |
+|          5        |            ML-DSA-87       |       2592                  |          4896                |            4627                      |
 
 As is clear from the above table, PQC KEMs and signature schemes typically have significantly larger keys and ciphertexts/signatures than their traditional counterparts. These increased key and signatures sizes could introduce problems in protocols. As an example, IKEv2 uses UDP as the transport for its messages. One challenge with integrating a PQC KEM into IKEv2 is that IKE fragmentation cannot be utilized in the initial IKE_SA_INIT exchange. To address this issue, {{?RFC9242}} introduces a solution by defining a new exchange called the "Intermediate Exchange" which can be fragmented using the IKE fragmentation mechanism. {{?RFC9370}} then uses this Intermediate Exchange to carry out the PQC key exchange after the initial IKEv2 exchange and before the IKE_AUTH exchange. Another example from {{SP-1800-38C}} section 6.3.3 shows that increased key and signature sizes cause protocol key exchange messages to span more network packets, therefore it results in a higher total loss probability per packet. In lossy network conditions, this may increase the latency of the key exchange.
 
@@ -717,21 +717,21 @@ As is clear from the above table, PQC KEMs and signature schemes typically have 
 
 The migration to PQC is unique in the history of modern digital cryptography in that neither the traditional algorithms nor the post-quantum algorithms are fully trusted to protect data for the required lifetimes. The traditional algorithms, such as RSA and ECDH, will fall to quantum cryptanalysis, while the post-quantum algorithms face uncertainty about the underlying mathematics, compliance issues, unknown vulnerabilities, and hardware and software implementations that have not had sufficient maturing time to rule out traditional cryptanalytic attacks and implementation bugs.
 
-During the transition from traditional to post-quantum algorithms, there may be a desire or a requirement for protocols that use both algorithm types. {{?I-D.ietf-pquip-pqt-hybrid-terminology}} defines the terminology for the post-quantum and traditional hybrid schemes.
+During the transition from traditional to post-quantum algorithms, there may be a desire or a requirement for protocols that use both algorithm types. {{?I-D.ietf-pquip-pqt-hybrid-terminology}} defines the terminology for the post-quantum and traditional (PQ/T) hybrid schemes.
 
 ## PQ/T Hybrid Confidentiality
 
-The PQ/T Hybrid Confidentiality property can be used to protect from a "harvest now, decrypt later" attack described in {{timeline}}, which refers to an attacker collecting encrypted data now and waiting for quantum computers to become powerful enough to break the encryption later. Two types of hybrid key agreement schemes are discussed below:
+The PQ/T Hybrid Confidentiality property can be used to protect from a "harvest now, decrypt later" attack described in {{timeline}}, which refers to an attacker collecting encrypted data now and waiting for quantum computers to become powerful enough to break the encryption later. Two types of hybrid key agreement schemes are discussed below.
 
-* Concatenate hybrid key agreement scheme: The final shared secret that will be used as an input of the key derivation function is the result of the concatenation of the secrets established with each key agreement scheme. For example, in {{?I-D.ietf-tls-hybrid-design}}, the client uses the TLS supported groups extension to advertise support for a PQ/T hybrid scheme, and the server can select this group if it supports the scheme. The hybrid-aware client and server establish a hybrid secret by concatenating the two shared secrets, which is used as the shared secret in the existing TLS 1.3 key schedule.
+* Concatenated hybrid key agreement scheme: The final shared secret that will be used as an input of the key derivation function is the result of the concatenation of the secrets established with each key agreement scheme. For example, in {{?I-D.ietf-tls-hybrid-design}}, the client uses the TLS supported groups extension to advertise support for a PQ/T hybrid scheme, and the server can select this group if it supports the scheme. The hybrid-aware client and server establish a hybrid secret by concatenating the two shared secrets, which is used as the shared secret in the existing TLS 1.3 key schedule.
 
-* Cascade hybrid key agreement scheme: The final shared secret is computed by applying as many iterations of the key derivation function as the number of key agreement schemes composing the hybrid key agreement scheme. For example, {{?RFC9370}} extends the Internet Key Exchange Protocol Version 2 (IKEv2) to allow one or more PQC algorithms in addition to the traditional algorithm to derive the final IKE SA keys using the cascade method as explained in Section 2.2.2 of {{?RFC9370}}.
+* Cascaded hybrid key agreement scheme: The final shared secret is computed by applying as many iterations of the key derivation function as the number of key agreement schemes composing the hybrid key agreement scheme. For example, {{?RFC9370}} extends the Internet Key Exchange Protocol Version 2 (IKEv2) to allow one or more PQC algorithms in addition to the traditional algorithm to derive the final IKE SA keys using the cascade method as explained in Section 2.2.2 of {{?RFC9370}}.
 
 Various instantiations of these two types of hybrid key agreement schemes have been explored. One must be careful when selecting which hybrid scheme to use. The chosen scheme for protocols like TLS 1.3 {{?I-D.ietf-tls-hybrid-design}} has IND-CCA2 robustness, that is IND-CCA2 security is guaranteed for the scheme as long as at least one of the component algorithms is IND-CCA2 secure.
 
 ## PQ/T Hybrid Authentication
 
-The PQ/T hybrid authentication property can be utilized in scenarios where an on-path attacker possesses network devices equipped with CRQCs, capable of breaking traditional authentication protocols, or where an attacker can attack long-lived authenticated data such as CA certificates or signed software images. This property ensures authentication through a PQ/T hybrid scheme or a PQ/T hybrid protocol, as long as at least one component algorithm remains secure to provide the intended security level. For instance, a PQ/T hybrid certificate can be employed to facilitate a PQ/T hybrid authentication protocol. However, a PQ/T hybrid authentication protocol does not need to use a PQ/T hybrid certificate; separate certificates could be used for individual component algorithms {{?I-D.ietf-lamps-cert-binding-for-multi-auth}}. When separate certificates are used, it may be possible for attackers to take them apart or put them together in unexpected ways, including enabling cross-protocol attacks. The exact risks this presents are highly dependent on the protocol and use case, so a full security analysis is needed. Best practices for ensuring that pairs of certificates are only used as intended are discussed in more detail in Sections 12.3.2 and 12.3.3 of this document.
+The PQ/T hybrid authentication property can be utilized in scenarios where an on-path attacker possesses network devices equipped with CRQCs, capable of breaking traditional authentication protocols, or where an attacker can attack long-lived authenticated data such as CA certificates or signed software images. This property ensures authentication through a PQ/T hybrid scheme or a PQ/T hybrid protocol, as long as at least one component algorithm remains secure to provide the intended security level. For example, a PQ/T hybrid certificate can be employed to facilitate a PQ/T hybrid authentication protocol. However, a PQ/T hybrid authentication protocol does not need to use a PQ/T hybrid certificate; separate certificates could be used for individual component algorithms {{?I-D.ietf-lamps-cert-binding-for-multi-auth}}. When separate certificates are used, it may be possible for attackers to take them apart or put them together in unexpected ways, including enabling cross-protocol attacks. The exact risks this presents are highly dependent on the protocol and use case, so a full security analysis is needed. Best practices for ensuring that pairs of certificates are only used as intended are discussed in more detail in Sections 12.3.2 and 12.3.3 of this document.
 
 The frequency and duration of system upgrades and the time when CRQCs will become widely available need to be weighed to determine whether and when to support the PQ/T Hybrid Authentication property.
 
