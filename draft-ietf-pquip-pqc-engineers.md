@@ -237,7 +237,7 @@ informative:
     target: https://frodokem.org/
   CRQCThreat:
     title: "CRQCThreat"
-    target: https://globalriskinstitute.org/publication/2024-quantum-threat-timeline-report/
+    target: https://sam-jaques.appspot.com/quantum_landscape_2024
   QuantSide:
     title: "QuantSide"
     target: https://arxiv.org/pdf/2304.03315
