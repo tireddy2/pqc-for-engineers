@@ -659,7 +659,7 @@ The table below denotes the five security levels provided by NIST for PQC algori
 
 The SLH-DSA-x-yf/s "f/s" in the above table denotes whether SLH-DSA is using SHAKE or SHA-2 as an underlying hash function "x" and whether it is the fast (f) or small (s) version for "y" bit AES security level. Refer to {{?I-D.ietf-lamps-cms-sphincs-plus}} for further details on SLH-DSA algorithms.
 
-The following table discusses the signature size differences for similar SLH-DSA algorithm security levels with the "simple" version but for different categories i.e., (f) for fast verification and (s) for compactness/smaller. Both SHA-256 and SHAKE-256 parameterization output the same signature sizes, so both have been included.
+The following table compares the signature sizes for different SLH-DSA algorithm categories at equivalent security levels, using the "simple" version. The categories include "(f)" for fast signature generation, and "(s)" for smaller signature size and faster verification, although with slower signature generation. Both SHA-256 and SHAKE-256 parameterizations produce the same signature sizes and are therefore included together in the table.
 
 | PQ Security Level | Algorithm | Public key size (in bytes) | Private key size (in bytes) | Signature size (in bytes) |
 | ------------------ | --------------------------------- | --------------------------- | --------------------------- | ------------------------------------ |
