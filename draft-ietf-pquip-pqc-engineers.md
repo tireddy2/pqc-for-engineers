@@ -247,6 +247,9 @@ informative:
   BPQS:
     title: "BPQS"
     target: https://eprint.iacr.org/2018/658.pdf
+  PCI:
+    title: "Payment Card Industry Data Security Standard"
+    target: https://docs-prv.pcisecuritystandards.org/PCI%20DSS/Standard/PCI-DSS-v4_0_1.pdf
 
 --- abstract
 
@@ -787,7 +790,7 @@ Numerous commercial solutions are available for both detecting hard-coded crypto
 
 ## Hybrid Key Exchange and Signatures: Bridging the Gap Between Post-Quantum and Traditional Cryptography
 
-Post-quantum algorithms selected for standardization are relatively new and they have not been subject to the same depth of study as traditional algorithms. PQC implementations will also be new and therefore more likely to contain implementation bugs than the battle-tested crypto implementations that are relied on today. In addition, certain deployments may need to retain traditional algorithms due to regulatory constraints, for example FIPS {{SP-800-56C}} or PCI compliance. Hybrid key exchange is recommended to enhance security against the "harvest now, decrypt later" attack. Additionally, hybrid signatures provide for time to react in the case of the announcement of a devastating attack against any one algorithm, while not fully abandoning traditional cryptosystems.
+Post-quantum algorithms selected for standardization are relatively new and they have not been subject to the same depth of study as traditional algorithms. PQC implementations will also be new and therefore more likely to contain implementation bugs than the battle-tested crypto implementations that are relied on today. In addition, certain deployments may need to retain traditional algorithms due to regulatory constraints, for example FIPS {{SP-800-56C}} or PCI compliance {{PCI}}. Hybrid key exchange is recommended to enhance security against the "harvest now, decrypt later" attack. Additionally, hybrid signatures provide for time to react in the case of the announcement of a devastating attack against any one algorithm, while not fully abandoning traditional cryptosystems.
 
 Hybrid key exchange performs both a classical and a post-quantum key exchange in parallel. It provides security redundancy against potential weaknesses in PQ algorithms, allows for a gradual transition of trust in PQC algorithms, and, in backward-compatible designs, enables gradual adoption without breaking compatibility with existing systems. For instance, in TLS 1.3, a hybrid key exchange can combine a widely supported classical algorithm, such as X25519, with a post-quantum algorithm like ML-KEM. This allows legacy clients to continue using the classical algorithm while enabling upgraded clients to proceed with hybrid key exchange. In contrast, overhead-spreading hybrid designs focus on reducing the PQ overhead. For example, approaches like those described in {{?I-D.hale-mls-combiner}} amortize PQ costs by selectively applying PQ updates in key exchange processes, allowing systems to balance security and efficiency. This strategy ensures a post-quantum secure channel while keeping the overhead manageable, making it particularly suitable for constrained environments.
 
