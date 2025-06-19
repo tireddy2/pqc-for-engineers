@@ -29,8 +29,8 @@ author:
  -
     fullname: Aritra Banerjee
     organization: Nokia
-    city: Munich
-    country: Germany
+    city: London
+    country: United Kingdom
     email: "aritra.banerjee@nokia.com"
  -
     fullname: Tirumaleswar Reddy
