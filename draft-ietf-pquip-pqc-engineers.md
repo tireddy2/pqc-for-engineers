@@ -38,7 +38,7 @@ author:
     city: Bangalore
     region: Karnataka
     country: India
-    email: "kondtir@gmail.com"
+    email: "k.tirumaleswar_reddy@nokia.com"
  -
     fullname: Dimitrios Schoinianakis
     organization: Nokia
@@ -275,12 +275,20 @@ It is important to remember that asymmetric algorithms (also known as public key
 
 The National Security Agency (NSA) of the United States released an article on future PQC algorithm requirements for US national security systems {{CNSA2-0}} based on the need to protect against deployments of CRQCs in the future. The German Federal Office for Information Security (BSI) has also released a PQC migration and recommendations document {{BSI-PQC}} which largely aligns with United States National Institute of Standards and Technology (NIST) and NSA guidance, but differs on some of the guidance.
 
-CRQCs pose a threat to both symmetric and asymmetric cryptographic schemes. However, the threat to asymmetric cryptography is significantly greater due to Shor's algorithm, which can break widely-used public key schemes like RSA and ECC. Symmetric cryptography and hash functions also face a lower risk from Grover's algorithm, although the impact is less severe and can typically be mitigated by doubling key and digest lengths where the risk applies. It is crucial for the reader to understand that when the word "PQC" is mentioned in the document, it means asymmetric cryptography (or public key cryptography), and not any symmetric algorithms based on stream ciphers, block ciphers, hash functions, MACs, etc., which are less vulnerable to quantum computers. This document does not cover such topics as when traditional algorithms might become vulnerable (for that, see documents such as {{QC-DNS}} and others). It also does not cover unrelated technologies like quantum key distribution (QKD) or quantum key generation, which use quantum hardware to exploit quantum effects to protect communications and generate keys, respectively. PQC is based on conventional math (not on quantum mechanics) and software and can be run on any general purpose computer.
+CRQCs pose a threat to both symmetric and asymmetric cryptographic schemes. However, the threat to asymmetric cryptography is significantly greater due to Shor's algorithm, which can break widely-used public key schemes like RSA and ECC. Symmetric cryptography and hash functions face a lower risk from Grover's algorithm, although the impact is less severe and can typically be mitigated by doubling key and digest lengths where the risk applies. It is crucial for the reader to understand that when the word "PQC" is mentioned in the document, it means asymmetric cryptography (or public key cryptography), and not any symmetric algorithms based on stream ciphers, block ciphers, hash functions, MACs, etc., which are less vulnerable to quantum computers. This document does not cover such topics as when traditional algorithms might become vulnerable (for that, see documents such as {{QC-DNS}} and others). It also does not cover unrelated technologies like quantum key distribution (QKD) or quantum key generation, which use quantum hardware to exploit quantum effects to protect communications and generate keys, respectively. PQC is based on conventional math (not on quantum mechanics) and software and can be run on any general purpose computer.
 
 This document does not go into the deep mathematics or technical specification of the PQC algorithms, but rather provides an overview to engineers on the current threat landscape and the relevant algorithms designed to help prevent those threats. Also, the cryptographic and algorithmic guidance given in this document should be taken as non-authoritative if it conflicts with emerging and evolving guidance from the IRTF's Crypto Forum Research Group (CFRG).
 
 There is ongoing discussion about whether to use the term "post-quantum", "quantum ready", or "quantum resistant", to describe algorithms that resist CRQCs, and a consensus has not yet been reached. It is important to clarify that "post-quantum" refers to algorithms designed to withstand attacks by CRQCs and classical computers alike. These algorithms are based on mathematically hard cryptographic problems that neither CRQCs nor classical computers are expected to break. This document uses any of these terms interchangeably to refer to such
 algorithms.
+
+# Relevant Terminologies
+
+Quantum computer: A computer that performs computations using quantum-mechanical phenomena such as superposition and entanglement.
+Physical qubit: The basic physical unit in a quantum computer, which is prone to noise and errors.
+Logical qubit: A fault-tolerant qubit constructed from multiple physical qubits using quantum error correction; it is the effective unit for reliable quantum computation.
+Post-Quantum Cryptography (PQC): Cryptographic algorithms designed to be secure against quantum and classical attacks.
+Cryptographically Relevant Quantum Computer (CRQC): A quantum computer with sufficient "logical qubits" to perform cryptographic attacks (e.g., break RSA/ECC).
 
 # Threat of CRQCs on Cryptography
 
@@ -818,6 +826,6 @@ The IETF's PQUIP Working Group {{PQUIP-WG}} maintains a list of PQC-related prot
 # Acknowledgements
 {:numbered="false"}
 
-This document leverages text from an earlier draft by Paul Hoffman. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Panos Kampanakis, Ben S, Sofia Celi, Melchior Aelmans, Falko Strenzke, Deirdre Connolly, Hani Ezzadeen, Britta Hale, and Daniel Van Geest for the discussion, review and comments.
+This document leverages text from an earlier draft by Paul Hoffman. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Panos Kampanakis, Ben S, Sofia Celi, Melchior Aelmans, Falko Strenzke, Deirdre Connolly, Hani Ezzadeen, Britta Hale, Scott Rose, Hilarie Orman, Thomas Fossati, and Daniel Van Geest for the discussion, review and comments.
 
 In particular, the authors would like to acknowledge the contributions to this document by Kris Kwiatkowski.
