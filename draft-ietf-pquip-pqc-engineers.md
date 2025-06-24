@@ -285,10 +285,15 @@ algorithms.
 # Relevant Terminologies
 
 Quantum computer: A computer that performs computations using quantum-mechanical phenomena such as superposition and entanglement.
+
 Physical qubit: The basic physical unit in a quantum computer, which is prone to noise and errors.
+
 Logical qubit: A fault-tolerant qubit constructed from multiple physical qubits using quantum error correction; it is the effective unit for reliable quantum computation.
+
 Post-Quantum Cryptography (PQC): Cryptographic algorithms designed to be secure against quantum and classical attacks.
+
 Cryptographically Relevant Quantum Computer (CRQC): A quantum computer with sufficient "logical qubits" to perform cryptographic attacks (e.g., break RSA/ECC).
+
 
 # Threat of CRQCs on Cryptography
 
