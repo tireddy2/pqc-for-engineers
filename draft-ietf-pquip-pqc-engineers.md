@@ -282,7 +282,7 @@ This document does not go into the deep mathematics or technical specification o
 There is ongoing discussion about whether to use the term "post-quantum", "quantum ready", or "quantum resistant", to describe algorithms that resist CRQCs, and a consensus has not yet been reached. It is important to clarify that "post-quantum" refers to algorithms designed to withstand attacks by CRQCs and classical computers alike. These algorithms are based on mathematically hard cryptographic problems that neither CRQCs nor classical computers are expected to break. This document uses any of these terms interchangeably to refer to such
 algorithms.
 
-# Relevant Terminologies
+# Terminology
 
 Quantum computer: A computer that performs computations using quantum-mechanical phenomena such as superposition and entanglement.
 
