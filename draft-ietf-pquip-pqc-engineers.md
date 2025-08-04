@@ -325,7 +325,7 @@ Grover's algorithm is highly non-parallelizable and even if one deploys 2^c comp
 
 It would be natural to ask whether future research will develop a superior algorithm that could outperform Grover's algorithm in the general case. However, Christof Zalka has shown that Grover's algorithm achieves the best possible complexity for this type of search, meaning no significantly faster quantum approach is expected {{Grover-search}}
 
-Finally, in their evaluation criteria for PQC, NIST is assessing the security levels of proposed post-quantum algorithms by comparing them against the equivalent traditional and quantum security of AES-128, AES-192, and AES-256. This indicates that NIST is confident in the stable security properties of AES, even in the presence of both traditional and quantum attacks. As a result, 128-bit algorithms can be considered quantum-safe for the foreseeable future. However, for compliance purposes, some organizations, such as the (French) National Agency for the Security of Information Systems (ANSSI), recommend the use of AES-256 {{ANSSI}}.
+Finally, in their evaluation criteria for PQC, NIST is assessing the security levels of proposed post-quantum algorithms by comparing them against the equivalent traditional and quantum security of AES-128, AES-192, and AES-256. This indicates that NIST is confident in the stable security properties of AES, even in the presence of both traditional and quantum attacks. As a result, 128-bit algorithms can be considered quantum-safe for the foreseeable future. However, for compliance purposes, some organizations, such as the French National Agency for the Security of Information Systems (ANSSI), recommend the use of AES-256 {{ANSSI}}.
 
 
 ## Asymmetric Cryptography
@@ -842,6 +842,6 @@ The IETF's PQUIP Working Group {{PQUIP-WG}} maintains a list of PQC-related prot
 # Acknowledgements
 {:numbered="false"}
 
-This document leverages text from an earlier draft by Paul Hoffman. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Panos Kampanakis, Ben S, Sofia Celi, Melchior Aelmans, Falko Strenzke, Deirdre Connolly, Hani Ezzadeen, Britta Hale, Scott Rose, Hilarie Orman, Thomas Fossati, and Daniel Van Geest for the discussion, review and comments.
+This document leverages text from an earlier draft by Paul Hoffman. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Panos Kampanakis, Ben S, Sofia Celi, Melchior Aelmans, Falko Strenzke, Deirdre Connolly, Hani Ezzadeen, Britta Hale, Scott Rose, Hilarie Orman, Thomas Fossati, Dirk Von Hugo and Daniel Van Geest for the discussion, review and comments.
 
 In particular, the authors would like to acknowledge the contributions to this document by Kris Kwiatkowski.
