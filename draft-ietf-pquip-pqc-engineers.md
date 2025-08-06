@@ -169,7 +169,7 @@ informative:
      date: false
   CNSA2-0:
      title: "Announcing the Commercial National Security Algorithm Suite 2.0"
-     target: https://media.defense.gov/2022/Sep/07/2003071834/-1/-1/0/CSA_CNSA_2.0_ALGORITHMS_.PDF
+     target: https://media.defense.gov/2025/May/30/2003728741/-1/-1/0/CSA_CNSA_2.0_ALGORITHMS.PDF
      date: false
   LattFail1:
      title: "Decryption Failure Attacks on IND-CCA Secure Lattice-Based Schemes"
@@ -260,6 +260,7 @@ informative:
 --- abstract
 
 The advent of a cryptographically relevant quantum computer (CRQC) would render state-of-the-art, traditional public-key algorithms deployed today obsolete, as the mathematical assumptions underpinning their security would no longer hold. To address this, protocols and infrastructure must transition to post-quantum algorithms, which are designed to resist both traditional and quantum attacks. This document explains why engineers need to be aware of and understand post-quantum cryptography (PQC), detailing the impact of CRQCs on existing systems and the challenges involved in transitioning to post-quantum algorithms. Unlike previous cryptographic updates, this shift may require significant protocol redesign due to the unique properties of post-quantum algorithms.
+The authors would like to emphasize the fact that words/phrases like "current", "state-of-the art", or "ongoing" denotes the work/research/investigations/deployments/developments happening at the time of publishing this document.
 
 --- middle
 
