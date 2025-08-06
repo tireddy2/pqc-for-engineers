@@ -64,6 +64,8 @@ author:
 
 
 normative:
+   RFC6090:
+   RFC8235:
 
 informative:
 
@@ -269,7 +271,7 @@ Quantum computing is no longer just a theoretical concept in computational scien
 
 One common myth is that quantum computers are faster than conventional CPUs and GPUs in all areas. This is not the case; much as GPUs outperform general-purpose CPUs only on specific types of problems, so will quantum computers, too, have a niche set of problems on which they excel. Unfortunately for cryptographers, integer factorization and discrete logarithms, the mathematical problems underpinning much of classical public key cryptography, happen to fall within the niche that quantum computers are expected to excel at. As quantum technology advances, there is the potential for future quantum computers to have a significant impact on current cryptographic systems. Predicting the date of emergence of a CRQC is a challenging task, and there is ongoing uncertainty regarding when they will become practically feasible {{CRQCThreat}}.
 
-Extensive research has produced several post-quantum cryptographic algorithms that offer the potential to ensure cryptography's survival in the quantum computing era. However, transitioning to a post-quantum infrastructure is not a straightforward task, and there are numerous challenges to overcome. It requires a combination of engineering efforts, proactive assessment and evaluation of available technologies, and a careful approach to product development.
+Extensive research has produced several post-quantum cryptographic algorithms that offer the potential to ensure cryptography's survival in the quantum computing era. However, transitioning to a post-quantum infrastructure is not a straightforward task, and there are numerous challenges to overcome. It requires a combination of engineering efforts, proactive assessment and evaluation of available technologies, and a careful approach to product development and deployment.
 
 PQC is sometimes referred to as "quantum-proof", "quantum-safe", or "quantum-resistant". It is the development of cryptographic algorithms designed to secure communication and data in a world where quantum computers are powerful enough to break traditional cryptographic systems, such as RSA and ECC. PQC algorithms are intended to be resistant to attacks by quantum computers, which use quantum-mechanical phenomena to solve mathematical problems that are infeasible for classical computers.
 
@@ -312,7 +314,7 @@ When considering the security risks associated with the ability of a quantum com
 
 Quantum computers are, by their nature, hybrids of classical and quantum computational units. For example, Shor's algorithm consists of a combination of quantum and classical computational steps. Thus, the term "quantum adversary" should be thought of as "quantum-enhanced adversary", meaning they have access to both classical and quantum computational techniques.
 
-Despite the fact that large-scale quantum computers do not yet exist to experiment on, the theoretical properties of quantum computation are very well understood. This allows us to reason today about the upper limits of quantum-enhanced computation, and indeed to design cryptographic algorithms that are resistant to any conceivable form of quantum cryptanalysis.
+Despite that large-scale quantum computers do not yet exist to experiment on, the theoretical properties of quantum computation are very well understood.  This allows engineers and researchers to reason about the upper limits of quantum-enhanced computation, and indeed to design cryptographic algorithms that are resistant to any conceivable form of quantum cryptanalysis.
 
 ## Symmetric Cryptography {#symmetric}
 
@@ -330,7 +332,7 @@ Finally, in their evaluation criteria for PQC, NIST is assessing the security le
 
 ## Asymmetric Cryptography
 
-“Shor’s algorithm” efficiently solves the integer factorization problem (and the related discrete logarithm problem), which underpin the foundations of the vast majority of public-key cryptography that the world uses today. This implies that, if a CRQC is developed, today’s public-key cryptography algorithms (e.g., RSA, Diffie-Hellman and elliptic curve cryptography, as well as less commonly-used variants such as ElGamal and Schnorr signatures) and protocols would need to be replaced by algorithms and protocols that can offer cryptanalytic resistance against CRQCs. Note that Shor’s algorithm cannot run solely on a classical computer, it requires a CRQC.
+“Shor’s algorithm” efficiently solves the integer factorization problem (and the related discrete logarithm problem), which underpin the foundations of the vast majority of public-key cryptography that the world uses today. This implies that, if a CRQC is developed, today’s public-key cryptography algorithms (e.g., RSA, Diffie-Hellman and elliptic curve cryptography, as well as less commonly-used variants such as ElGamal {{RFC6090}} and Schnorr signatures {{RFC8235}}) and protocols would need to be replaced by algorithms and protocols that can offer cryptanalytic resistance against CRQCs. Note that Shor’s algorithm cannot run solely on a classical computer, it requires a CRQC.
 
 For example, to provide some context, one would need around 20 million noisy qubits to break RSA-2048 in 8 hours {{RSAShor}} and {{RSA8HRS}} or 4099 stable (or logical) qubits to break it in 10 seconds {{RSA10SC}}.
 
