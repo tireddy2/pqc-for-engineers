@@ -169,7 +169,7 @@ informative:
      date: false
   CNSA2-0:
      title: "Announcing the Commercial National Security Algorithm Suite 2.0"
-     target: https://media.defense.gov/2022/Sep/07/2003071834/-1/-1/0/CSA_CNSA_2.0_ALGORITHMS_.PDF
+     target: https://media.defense.gov/2025/May/30/2003728741/-1/-1/0/CSA_CNSA_2.0_ALGORITHMS.PDF
      date: false
   LattFail1:
      title: "Decryption Failure Attacks on IND-CCA Secure Lattice-Based Schemes"
@@ -287,6 +287,8 @@ This document does not go into the deep mathematics or technical specification o
 
 There is ongoing discussion about whether to use the term "post-quantum", "quantum ready", or "quantum resistant", to describe algorithms that resist CRQCs, and a consensus has not yet been reached. It is important to clarify that "post-quantum" refers to algorithms designed to withstand attacks by CRQCs and classical computers alike. These algorithms are based on mathematically hard cryptographic problems that neither CRQCs nor classical computers are expected to break. This document uses any of these terms interchangeably to refer to such
 algorithms.
+
+The terms "current," "state-of-the-art," and "ongoing," as used in this document, refer to work, research, investigations, deployments, or developments that are applicable at the time of publication.
 
 # Terminology
 
