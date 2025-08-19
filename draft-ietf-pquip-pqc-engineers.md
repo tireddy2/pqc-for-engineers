@@ -64,8 +64,49 @@ author:
 
 
 normative:
+  ML-KEM:
+     title: "FIPS-203: Module-Lattice-based Key-Encapsulation Mechanism Standard"
+     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.pdf
+     date: false
+  ML-DSA:
+     title: "FIPS-204: Module-Lattice-Based Digital Signature Standard"
+     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.pdf
+     date: false
+  SLH-DSA:
+     title: "FIPS-205: Stateless Hash-Based Digital Signature Standard"
+     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.205.pdf
+     date: false
+  Shors:
+    title: "Polynomial-time algorithms for prime factorization and discrete logarithms on a quantum computer"
+    target: https://arxiv.org/pdf/quant-ph/9508027
+  Grovers:
+    title: "A fast quantum mechanical algorithm for database search"
+    target: https://dl.acm.org/doi/10.1145/237814.237866
+  RSA:
+     title: "A Method for Obtaining Digital Signatures and Public-Key Cryptosystems+"
+     target: https://dl.acm.org/doi/pdf/10.1145/359340.359342
+     date: false
+  RFC6090:
+  RFC8391:
+  RFC8554:
+  RFC8446:
+  RFC4034:
+  NTRU:
+    title: "NTRU"
+    target: https://ntru.org/index.shtml
+  FrodoKEM:
+    title: "FrodoKEM"
+    target: https://frodokem.org/
+  ClassicMcEliece:
+    title: "Classic McEliece"
+    target: https://classic.mceliece.org/
+  FN-DSA:
+     title: "Fast Fourier lattice-based compact signatures over NTRU"
+     target: https://falcon-sign.info/
+     date: false
    RFC6090:
    RFC8235:
+
 
 informative:
 
@@ -88,26 +129,6 @@ informative:
   Cloudflare:
      title: "NIST’s pleasant post-quantum surprise"
      target: https://blog.cloudflare.com/nist-post-quantum-surprise/
-     date: false
-  ML-KEM:
-     title: "FIPS-203: Module-Lattice-based Key-Encapsulation Mechanism Standard"
-     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.203.pdf
-     date: false
-  ML-DSA:
-     title: "FIPS-204: Module-Lattice-Based Digital Signature Standard"
-     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.204.pdf
-     date: false
-  SLH-DSA:
-     title: "FIPS-205: Stateless Hash-Based Digital Signature Standard"
-     target: https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.205.pdf
-     date: false
-  FN-DSA:
-     title: "Fast Fourier lattice-based compact signatures over NTRU"
-     target: https://falcon-sign.info/
-     date: false
-  RSA:
-     title: "A Method for Obtaining Digital Signatures and Public-Key Cryptosystems+"
-     target: https://dl.acm.org/doi/pdf/10.1145/359340.359342
      date: false
   CS01:
      title: "Design and Analysis of Practical Public-Key Encryption Schemes Secure against Adaptive Chosen Ciphertext Attack"
@@ -216,27 +237,12 @@ informative:
   BIKE:
     title: "BIKE"
     target: http://pqc-hqc.org/
-  ClassicMcEliece:
-    title: "Classic McEliece"
-    target: https://classic.mceliece.org/
-  SIKE:
-    title: "SIKE – Supersingular Isogeny Key Encapsulation"
-    target: https://sike.org/
-  SIDH-Attack:
-    title: "An efficient key recovery attack on SIDH"
-    target: https://eprint.iacr.org/2022/975.pdf
   PQUIP-WG:
     title: Post-Quantum Use In Protocols (pquip) Working Group
     target: https://datatracker.ietf.org/group/pquip/documents/
   OQS:
     title: Open Quantum Safe Project
     target: https://openquantumsafe.org/
-  NTRU:
-    title: "NTRU"
-    target: https://ntru.org/index.shtml
-  FrodoKEM:
-    title: "FrodoKEM"
-    target: https://frodokem.org/
   CRQCThreat:
     title: "CRQCThreat"
     target: https://sam-jaques.appspot.com/quantum_landscape_2024
@@ -252,12 +258,7 @@ informative:
   PCI:
     title: "Payment Card Industry Data Security Standard"
     target: https://docs-prv.pcisecuritystandards.org/PCI%20DSS/Standard/PCI-DSS-v4_0_1.pdf
-  Shors:
-    title: "Polynomial-time algorithms for prime factorization and discrete logarithms on a quantum computer"
-    target: https://arxiv.org/pdf/quant-ph/9508027
-  Grovers:
-    title: "A fast quantum mechanical algorithm for database search"
-    target: https://dl.acm.org/doi/10.1145/237814.237866
+
 
 --- abstract
 
@@ -364,7 +365,7 @@ Grover's algorithm does not pose a practical threat to symmetric cryptography (s
 
 # NIST PQC Algorithms
 
-At time of writing, NIST have standardized three PQC algorithms, with more expected to be standardised in the future ({{NISTFINAL}}). These algorithms are not necessarily drop-in replacements for traditional asymmetric cryptographic algorithms. For instance, RSA {{RSA}} and ECC {{?RFC6090}} can be used as both a key encapsulation method (KEM) and as a signature scheme, whereas there is currently no post-quantum algorithm that can perform both functions. When upgrading protocols, it is important to replace the existing use of traditional algorithms with either a PQC KEM or a PQC signature method, depending on how the traditional algorithm was previously being used. Additionally, KEMs, as described in {{KEMs}}, present a different API than either key agreement or key transport primitives. As a result, they may require protocol-level or application-level changes in order to be incorporated.
+At time of writing, NIST have standardized three PQC algorithms, with more expected to be standardised in the future ({{NISTFINAL}}). These algorithms are not necessarily drop-in replacements for traditional asymmetric cryptographic algorithms. For instance, RSA {{RSA}} and ECC {{RFC6090}} can be used as both a key encapsulation method (KEM) and as a signature scheme, whereas there is currently no post-quantum algorithm that can perform both functions. When upgrading protocols, it is important to replace the existing use of traditional algorithms with either a PQC KEM or a PQC signature method, depending on how the traditional algorithm was previously being used. Additionally, KEMs, as described in {{KEMs}}, present a different API than either key agreement or key transport primitives. As a result, they may require protocol-level or application-level changes in order to be incorporated.
 
 ## NIST Candidates Selected for Standardization
 
@@ -435,7 +436,7 @@ It is noteworthy that lattice-based encryption schemes require a rounding step d
 
 ## Hash-Based Public-Key Cryptography {#hash-based}
 
-Hash based PKC has been around since the 1970s, when it was developed by Lamport and Merkle. It is used to create digital signature algorithms and its security is based on the security of the underlying cryptographic hash function. Many variants of hash-based signatures (HBS) have been developed since the 70s including the recent XMSS {{?RFC8391}}, HSS/LMS {{?RFC8554}} or BPQS {{BPQS}} schemes. Unlike many other digital signature techniques, most hash-based signature schemes are stateful, which means that signing necessitates the update and careful tracking of the state of the secret key. Producing multiple signatures using the same secret key state results in loss of security and may ultimately enable signature forgery attacks against that key.
+Hash based PKC has been around since the 1970s, when it was developed by Lamport and Merkle. It is used to create digital signature algorithms and its security is based on the security of the underlying cryptographic hash function. Many variants of hash-based signatures (HBS) have been developed since the 70s including the recent XMSS {{RFC8391}}, HSS/LMS {{RFC8554}} or BPQS {{BPQS}} schemes. Unlike many other digital signature techniques, most hash-based signature schemes are stateful, which means that signing necessitates the update and careful tracking of the state of the secret key. Producing multiple signatures using the same secret key state results in loss of security and may ultimately enable signature forgery attacks against that key.
 
 Stateful hash-based signatures with long service lifetimes require additional operational complexity compared with other signature types. For example, consider a 20-year root key; there is an expectation that 20 years is longer than the expected lifetime of the hardware that key is stored on, and therefore the key will need to be migrated to new hardware at some point. Disaster-recovery scenarios where the primary node fails without warning can be similarly tricky. This requires careful operational and compliance consideration to ensure that no private key state can be reused across the migration or disaster recovery event. One approach for avoiding these issues is to only use stateful HBS for short-term use cases that do not require horizontal scaling, for example signing a batch of firmware images and then retiring the signing key.
 
@@ -445,7 +446,7 @@ The SLH-DSA algorithm, which was standardized by NIST, leverages the HORST (hash
 
 This area of cryptography started in the 1970s and 80s based on the seminal work of McEliece and Niederreiter which focuses on the study of cryptosystems based on error-correcting codes. Some popular error correcting codes include Goppa codes (used in McEliece cryptosystems), encoding and decoding syndrome codes used in Hamming quasi-cyclic (HQC), or quasi-cyclic moderate density parity check (QC-MDPC) codes.
 
-Examples include all the unbroken NIST Round 4 finalists: Classic McEliece, HQC (selected by NIST for standardization), and BIKE.
+Examples include all the unbroken NIST Round 4 finalists: Classic McEliece, HQC (selected by NIST for standardization), and {{BIKE}}.
 
 # KEMs {#KEMs}
 
@@ -454,7 +455,7 @@ A Key Encapsulation Mechanism (KEM) is a cryptographic technique used for secure
 * Derive a data encryption key (DEK) to encrypt the data
 * Derive a key encryption key (KEK) used to wrap a DEK
 
-These techniques are often referred to as "hybrid public key encryption (HPKE)" {{?RFC9180}} mechanism.
+These techniques are often referred to as "hybrid public key encryption (HPKE)" {{!RFC9180}} mechanism.
 
 The term "encapsulation" is chosen intentionally to indicate that KEM algorithms behave differently at the API level from the key agreement or key encipherment / key transport mechanisms that are in use today. Key agreement schemes imply that both parties contribute a public / private key pair to the exchange, while key encipherment / key transport schemes imply that the symmetric key material is chosen by one party and "encrypted" or "wrapped" for the other party. KEMs, on the other hand, behave according to the following API primitives {{PQCAPI}}:
 
@@ -586,7 +587,7 @@ The complication with KEMs is that a KEM `Encaps()` is non-deterministic; it inv
 ~~~~~
 {: #tab-kem-ake title="KEM based AKE"}
 
-Here, `Combiner(ss1, ss2)`, often referred to as a KEM Combiner, is a cryptographic construction that takes in two shared secrets and returns a single combined shared secret. The simplest combiner is concatenation `ss1 || ss2`, but combiners can vary in complexity depending on the cryptographic properties required. For example, if the combination should preserve IND-CCA2 of either input even if the other is chosen maliciously, then a more complex construct is required. Another consideration for combiner design is so-called "binding properties" introduced in {{KEEPINGUP}}, which may require the ciphertexts and recipient public keys to be included in the combiner. KEM combiner security analysis becomes more complicated in hybrid settings where the two KEMs represent different algorithms, for example, where one is ML-KEM and the other is ECDH. For a more thorough discussion of KEM combiners, see {{KEEPINGUP}}, {{?I-D.draft-ounsworth-cfrg-kem-combiners}}, and {{?I-D.draft-connolly-cfrg-xwing-kem}}.
+Here, `Combiner(ss1, ss2)`, often referred to as a KEM Combiner, is a cryptographic construction that takes in two shared secrets and returns a single combined shared secret. The simplest combiner is concatenation `ss1 || ss2`, but combiners can vary in complexity depending on the cryptographic properties required. For example, if the combination should preserve IND-CCA2 of either input even if the other is chosen maliciously, then a more complex construct is required. Another consideration for combiner design is so-called "binding properties" introduced in {{KEEPINGUP}}, which may require the ciphertexts and recipient public keys to be included in the combiner. KEM combiner security analysis becomes more complicated in hybrid settings where the two KEMs represent different algorithms, for example, where one is ML-KEM and the other is ECDH. For a more thorough discussion of KEM combiners, see {{KEEPINGUP}}, {{?I-D.draft-ounsworth-cfrg-kem-combiners}}, and {{?I-D.irtf-cfrg-hybrid-kems}}.
 
 ## Security Properties of KEMs
 
@@ -606,7 +607,7 @@ The solution to binding is generally achieved at the protocol design level: It i
 
 Modern cryptography has long used the notion of "hybrid encryption" where an asymmetric algorithm is used to establish a key, and then a symmetric algorithm is used for bulk content encryption.
 
-HPKE (hybrid public key encryption) {{?RFC9180}} is a specific instantiation of this which works with a combination of KEMs, KDFs and AEAD (authenticated encryption with additional data) schemes. HPKE includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones that authenticate possession of a key encapsulation mechanism (KEM) private key. HPKE can be extended to support hybrid post-quantum KEM {{?I-D.draft-connolly-cfrg-xwing-kem}}. ML-KEM does not support the static-ephemeral key exchange that allows HPKE based on DH based KEMs and its optional authenticated modes as discussed in section 1.5 of {{?I-D.draft-connolly-cfrg-xwing-kem}}.
+HPKE (hybrid public key encryption) {{RFC9180}} is a specific instantiation of this which works with a combination of KEMs, KDFs and AEAD (authenticated encryption with additional data) schemes. HPKE includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones that authenticate possession of a key encapsulation mechanism (KEM) private key. HPKE can be extended to support hybrid post-quantum KEM {{?I-D.ietf-hpke-pq}}. ML-KEM does not support the static-ephemeral key exchange that allows HPKE based on DH based KEMs and its optional authenticated modes as discussed in section 1.5 of {{?I-D.draft-connolly-cfrg-xwing-kem}}.
 
 # PQC Signatures
 
@@ -628,7 +629,7 @@ EUF-CMA and SUF-CMA are considered strong security benchmarks for public key sig
 
 ML-DSA {{ML-DSA}} is a digital signature algorithm based on the hardness of lattice problems over module lattices (i.e., the Module Learning with Errors problem (MLWE)). The design of the algorithm is based on the "Fiat-Shamir with Aborts" {{Lyu09}} framework introduced by Lyubashevsky, that leverages rejection sampling to render lattice-based Fiat-Shamir (FS) schemes compact and secure. ML-DSA uses uniformly-distributed random number sampling over small integers to compute coefficients in error vectors, which makes the scheme easier to implement compared with FN-DSA {{FN-DSA}} which uses Gaussian-distributed numbers, necessitating the need to use floating point arithmetic during signature generation.
 
-ML-DSA offers both deterministic and randomized signing and is instantiated with 3 parameter sets providing different security levels. Security properties of ML-DSA are discussed in Section 9 of {{?I-D.ietf-lamps-dilithium-certificates}}.
+ML-DSA offers both deterministic and randomized signing and is instantiated with 3 parameter sets providing different security levels. Security properties of ML-DSA are discussed in Section 9 of {{!I-D.ietf-lamps-dilithium-certificates}}.
 
 FN-DSA {{FN-DSA}} is based on the GPV hash-and-sign lattice-based signature framework introduced by Gentry, Peikert, and Vaikuntanathan, which is a framework that requires a certain class of lattices and a trapdoor sampler technique.
 
@@ -644,9 +645,9 @@ All of these algorithms, ML-DSA, FN-DSA, and SLH-DSA include two signature modes
 
 ## Details of XMSS and LMS
 
-The eXtended Merkle Signature Scheme (XMSS) {{?RFC8391}} and Hierarchical Signature Scheme (HSS) / Leighton-Micali Signature (LMS) {{?RFC8554}} are stateful hash-based signature schemes, where the secret key state changes over time. In both schemes, reusing a secret key state compromises cryptographic security guarantees.
+The eXtended Merkle Signature Scheme (XMSS) {{RFC8391}} and Hierarchical Signature Scheme (HSS) / Leighton-Micali Signature (LMS) {{RFC8554}} are stateful hash-based signature schemes, where the secret key state changes over time. In both schemes, reusing a secret key state compromises cryptographic security guarantees.
 
-XMSS and LMS can be used for signing a potentially large but fixed number of messages and the number of signing operations depends upon the size of the tree. XMSS and LMS provide cryptographic digital signatures without relying on the conjectured hardness of mathematical problems, instead leveraging the properties of cryptographic hash functions. Multi-tree XMSS and LMS (i.e., XMSS-MT and HSS, respectively) use a hyper-tree based hierarchical approach with a Merkle tree at each level of the hierarchy. {{?RFC8391}} describes both single-tree and multi-tree variants of XMSS, while {{?RFC8554}} describes the Leighton-Micali One-Time Signature (LM-OTS) system as well as the LMS and HSS N-time signature systems. Comparison of XMSS and LMS is discussed in Section 10 of {{?RFC8554}}.
+XMSS and LMS can be used for signing a potentially large but fixed number of messages and the number of signing operations depends upon the size of the tree. XMSS and LMS provide cryptographic digital signatures without relying on the conjectured hardness of mathematical problems, instead leveraging the properties of cryptographic hash functions. Multi-tree XMSS and LMS (i.e., XMSS-MT and HSS, respectively) use a hyper-tree based hierarchical approach with a Merkle tree at each level of the hierarchy. {{RFC8391}} describes both single-tree and multi-tree variants of XMSS, while {{RFC8554}} describes the Leighton-Micali One-Time Signature (LM-OTS) system as well as the LMS and HSS N-time signature systems. Comparison of XMSS and LMS is discussed in Section 10 of {{RFC8554}}.
 
 The number of tree layers in multi-tree XMSS and HSS provides a trade-off between signature size on the one side and key generation and signing speed on the other side. Increasing the number of layers reduces key generation time exponentially and signing time linearly at the cost of increasing the signature size linearly. HSS allows for customization of each subtree whereas XMSS-MT does not, electing instead to use the same structure for each subtree.
 
@@ -654,7 +655,7 @@ Due to the complexities described above, the XMSS and LMS are not a suitable rep
 
 ### LMS Key and Signature Sizes
 
-The LMS scheme is characterized by four distinct parameter sets: the underlying hash function (SHA2-256 or SHAKE-256), the length of the digest (24 or 32 bytes), the LMS tree height parameter that controls a maximal number of signatures that the private key can produce, and the width of the Winternitz coefficients (see {{?RFC8554}}, section 4.1) that can be used to trade-off signing time for signature size. Parameters can be mixed, providing 80 possible parameterizations of the scheme.
+The LMS scheme is characterized by four distinct parameter sets: the underlying hash function (SHA2-256 or SHAKE-256), the length of the digest (24 or 32 bytes), the LMS tree height parameter that controls a maximal number of signatures that the private key can produce, and the width of the Winternitz coefficients (see {{RFC8554}}, section 4.1) that can be used to trade-off signing time for signature size. Parameters can be mixed, providing 80 possible parameterizations of the scheme.
 
 The public (PK) and private (SK) key size depends on the length of the digest (M). The signature size depends on the digest, the Winternitz parameter (W), the LMS tree height (H), and the length of the digest. The table below provides key and signature sizes for parameterization with the digest size M=32 of the scheme.
 
@@ -671,7 +672,7 @@ Within the hash-then-sign paradigm, the message is hashed before signing it. By 
 
 Using a hash function to produce a fixed-size digest of a message ensures that the signature is compatible with a wide range of systems and protocols, regardless of the specific message size or format. Crucially for hardware security modules, Hash-then-Sign also significantly reduces the amount of data that needs to be transmitted and processed by a Hardware Security Module (HSM). Consider scenarios such as a networked HSM located in a different data center from the calling application or a smart card connected over a USB interface. In these cases, streaming a message that is megabytes or gigabytes long can result in notable network latency, on-device signing delays, or even depletion of available on-device memory.
 
-Note that the vast majority of Internet protocols that sign large messages already perform some form of content hashing at the protocol level, so this tends to be more of a concern with proprietary cryptographic protocols, and protocols from non-IETF standards bodies. Protocols like TLS 1.3 and DNSSEC use the Hash-then-Sign paradigm. In TLS 1.3 {{?RFC8446}} CertificateVerify messages, the content that is covered under the signature includes the transcript hash output (Section 4.4.1 of {{?RFC8446}}), while DNSSEC {{?RFC4034}} uses it to provide origin authentication and integrity assurance services for DNS data. Similarly, the Cryptographic Message Syntax (CMS) {{?RFC5652}} includes a mandatory message digest step before invoking the signature algorithm.
+Note that the vast majority of Internet protocols that sign large messages already perform some form of content hashing at the protocol level, so this tends to be more of a concern with proprietary cryptographic protocols, and protocols from non-IETF standards bodies. Protocols like TLS 1.3 and DNSSEC use the Hash-then-Sign paradigm. In TLS 1.3 {{RFC8446}} CertificateVerify messages, the content that is covered under the signature includes the transcript hash output (Section 4.4.1 of {{RFC8446}}), while DNSSEC {{RFC4034}} uses it to provide origin authentication and integrity assurance services for DNS data. Similarly, the Cryptographic Message Syntax (CMS) {{?RFC5652}} includes a mandatory message digest step before invoking the signature algorithm.
 
 In the case of ML-DSA, it internally incorporates the necessary hash operations as part of its signing algorithm. ML-DSA directly takes the original message, applies a hash function internally, and then uses the resulting hash value for the signature generation process. In the case of SLH-DSA, it internally performs randomized message compression using a keyed hash function that can process arbitrary length messages. In the case of FN-DSA, the SHAKE-256 hash function is used as part of the signature process to derive a digest of the message being signed.
 
@@ -743,7 +744,7 @@ The next table compares traditional vs. PQC signature schemes in terms of securi
 |          5        |            FN-DSA-1024     |       1793                  |          2305                |            1280                      |
 |          5        |            ML-DSA-87       |       2592                  |          4896                |            4627                      |
 
-As is clear from the above table, PQC KEMs and signature schemes typically have significantly larger keys and ciphertexts/signatures than their traditional counterparts. These increased key and signatures sizes could introduce problems in protocols. As an example, IKEv2 uses UDP as the transport for its messages. One challenge with integrating a PQC KEM into IKEv2 is that IKE fragmentation cannot be utilized in the initial IKE_SA_INIT exchange. To address this issue, {{?RFC9242}} introduces a solution by defining a new exchange called the "Intermediate Exchange" which can be fragmented using the IKE fragmentation mechanism. {{?RFC9370}} then uses this Intermediate Exchange to carry out the PQC key exchange after the initial IKEv2 exchange and before the IKE_AUTH exchange. Another example from {{SP-1800-38C}} section 6.3.3 shows that increased key and signature sizes cause protocol key exchange messages to span more network packets, therefore it results in a higher total loss probability per packet. In lossy network conditions, this may increase the latency of the key exchange.
+As is clear from the above table, PQC KEMs and signature schemes typically have significantly larger keys and ciphertexts/signatures than their traditional counterparts. These increased key and signatures sizes could introduce problems in protocols. As an example, IKEv2 uses UDP as the transport for its messages. One challenge with integrating a PQC KEM into IKEv2 is that IKE fragmentation cannot be utilized in the initial IKE_SA_INIT exchange. To address this issue, {{!RFC9242}} introduces a solution by defining a new exchange called the "Intermediate Exchange" which can be fragmented using the IKE fragmentation mechanism. {{!RFC9370}} then uses this Intermediate Exchange to carry out the PQC key exchange after the initial IKEv2 exchange and before the IKE_AUTH exchange. Another example from {{SP-1800-38C}} section 6.3.3 shows that increased key and signature sizes cause protocol key exchange messages to span more network packets, therefore it results in a higher total loss probability per packet. In lossy network conditions, this may increase the latency of the key exchange.
 
 # Post-Quantum and Traditional Hybrid Schemes {#PQT}
 
