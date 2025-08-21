@@ -104,8 +104,8 @@ normative:
      title: "Fast Fourier lattice-based compact signatures over NTRU"
      target: https://falcon-sign.info/
      date: false
-   RFC6090:
-   RFC8235:
+  RFC6090:
+  RFC8235:
 
 
 informative:
@@ -276,22 +276,17 @@ Extensive research has produced several post-quantum cryptographic algorithms th
 
 PQC is sometimes referred to as "quantum-proof", "quantum-safe", or "quantum-resistant". It is the development of cryptographic algorithms designed to secure communication and data in a world where quantum computers are powerful enough to break traditional cryptographic systems, such as RSA (Rivest–Shamir–Adleman) and ECC (Elliptic Curve Cryptography). PQC algorithms are intended to be resistant to attacks by quantum computers, which use quantum-mechanical phenomena to solve mathematical problems that are infeasible for classical computers.
 
-As the threat of CRQCs draws nearer, engineers responsible for designing, maintaining, and securing cryptographic systems must prepare for the significant changes that the existence of CRQCs will bring. Engineers need to understand how to implement post-quantum algorithms in applications, how to evaluate the trade-offs between security and performance, and how to ensure backward compatibility with current systems where needed. This is not merely a one-for-one replacement of algorithms; in many cases, the shift to PQC will involve redesigning protocols and infrastructure to accommodate the significant differences in resource utilization and key sizes between traditional and PQC algorithms.
+As the threat of CRQCs draws nearer, engineers responsible for designing, maintaining, and securing cryptographic systems must prepare for the significant changes that the existence of CRQCs will bring. Engineers need to understand how to implement post-quantum algorithms in applications, how to evaluate the trade-offs between security and performance, and how to ensure backward compatibility with current systems where needed. This is not merely a one-for-one replacement of algorithms; in many cases, the shift to PQC will involve redesigning protocols and infrastructure to accommodate the significant differences in resource utilization and key sizes between traditional and PQC algorithms. Due to the wide-ranging nature of these impacts, discussions of protocol changes are integrated throughout this document rather than being confined to a single section.
 
 This document aims to provide general guidance to engineers working on cryptographic libraries, network security, and infrastructure development, where long-term security planning is crucial. The document covers topics such as selecting appropriate PQC algorithms, understanding the differences between PQC key encapsulation mechanisms (KEMs) and traditional Diffie-Hellman and RSA style key exchanges, and provides insights into expected key, ciphertext, and signature sizes and processing time differences between PQC and traditional algorithms. Additionally, it discusses the potential threat to symmetric cryptography and hash functions from CRQCs.
 
 It is important to remember that asymmetric algorithms (also known as public key algorithms) are largely used for secure communications between organizations or endpoints that may not have previously interacted, so a significant amount of coordination between organizations, and within and between ecosystems needs to be taken into account. Such transitions are some of the most complicated in the tech industry and will require staged migrations in which upgraded agents need to co-exist and communicate with non-upgraded agents at a scale never before undertaken.
 
-The National Security Agency (NSA) of the United States released an article on future PQC algorithm requirements for US national security systems {{CNSA2-0}} based on the need to protect against deployments of CRQCs in the future. The German Federal Office for Information Security (BSI) has also released a PQC migration and recommendations document {{BSI-PQC}} which largely aligns with United States National Institute of Standards and Technology (NIST) and NSA guidance, but differs on some of the guidance.
+The National Security Agency (NSA) of the United States released an article on future PQC algorithm requirements for US national security systems {{CNSA2-0}} based on the need to protect against deployments of CRQCs in the future. The German Federal Office for Information Security (BSI) has also released a PQC migration and recommendations document {{BSI-PQC}} which largely aligns with United States National Institute of Standards and Technology (NIST) and NSA guidance, but differs in aspects such as specific PQC algorithm profiles.
 
 CRQCs pose a threat to both symmetric and asymmetric cryptographic schemes. However, the threat to asymmetric cryptography is significantly greater due to Shor's {{Shors}} algorithm, which can break widely-used public key schemes like RSA and ECC. Symmetric cryptography and hash functions face a lower risk from Grover's {{Grovers}} algorithm, although the impact is less severe and can typically be mitigated by doubling key and digest lengths where the risk applies. It is crucial for the reader to understand that when the word "PQC" is mentioned in the document, it means asymmetric cryptography (or public key cryptography), and not any symmetric algorithms based on stream ciphers, block ciphers, hash functions, MACs, etc., which are less vulnerable to quantum computers. This document does not cover such topics as when traditional algorithms might become vulnerable (for that, see documents such as {{QC-DNS}} and others). It also does not cover unrelated technologies like quantum key distribution (QKD) or quantum key generation, which use quantum hardware to exploit quantum effects to protect communications and generate keys, respectively. PQC is based on conventional math (not on quantum mechanics) and software and can be run on any general purpose computer.
 
 This document does not go into the deep mathematics or technical specification of the PQC algorithms, but rather provides an overview to engineers on the current threat landscape and the relevant algorithms designed to help prevent those threats. Also, the cryptographic and algorithmic guidance given in this document should be taken as non-authoritative if it conflicts with emerging and evolving guidance from the IRTF's Crypto Forum Research Group (CFRG).
-
-There is ongoing discussion about whether to use the term "post-quantum", "quantum ready", or "quantum resistant", to describe algorithms that resist CRQCs, and a consensus has not yet been reached. It is important to clarify that "post-quantum" refers to algorithms designed to withstand attacks by CRQCs and classical computers alike. These algorithms are based on mathematically hard cryptographic problems that neither CRQCs nor classical computers are expected to break. This document uses any of these terms interchangeably to refer to such
-algorithms.
-
-The terms "current," "state-of-the-art," and "ongoing," as used in this document, refer to work, research, investigations, deployments, or developments that are applicable at the time of publication.
 
 # Terminology
 
@@ -309,6 +304,10 @@ Post-Quantum Cryptography (PQC): Cryptographic algorithms designed to be secure 
 
 Cryptographically Relevant Quantum Computer (CRQC): A quantum computer with sufficient "logical qubits" to perform cryptographic attacks (e.g., break RSA/ECC).
 
+There is ongoing discussion about whether to use the term "post-quantum", "quantum ready", "quantum resistant", or "quantum secure", to describe algorithms that resist CRQCs, and a consensus has not yet been reached. NIST has coined the term "post-quantum" to refer to the algorithms that participated in its competition-like selection process; in this context, the term can be interpreted to mean "the set of algorithms that are designed to  still be relevant after quantum computers exist", and not a statement about their security. "Quantum resistant" or "quantum secure" is obviously the goal of these algorithms, however some people have raised concerns that labelling a class of algorithms as "quantum resistant" or "quantum secure" could lead to confusion if one or more of those algorithms are later found to be insecure or to not resist quantum computers as much as theory predicted. "Quantum ready" is often used to refer to a solution -- device, appliance, or software stack -- that has reached maturity with regards to integration of these new cryptographic algorithms. That said, the authors recognize that there is great variability in how these terms are used. This document uses any of these terms interchangeably to refer to such
+algorithms.
+
+The terms "current," "state-of-the-art," and "ongoing," as used in this document, refer to work, research, investigations, deployments, or developments that are applicable at the time of publication.
 
 
 # Threat of CRQCs on Cryptography
@@ -491,7 +490,7 @@ where `pk` is the public key, `sk` is the secret key, `ct` is the ciphertext rep
 
 ## Authenticated Key Exchange
 
-Authenticated Key Exchange (AKE) with KEMs where both parties contribute a KEM public key to the overall session key is interactive as described in {{?I-D.draft-ietf-lake-edhoc}}. However, single-sided KEM, such as when one peer has a KEM key in a certificate and the other peer wants to encrypt for it (as in S/MIME or OpenPGP email), can be achieved using non-interactive HPKE {{RFC9180}}. The following figure illustrates the Diffie-Hellman (DH) Key exchange:
+Authenticated Key Exchange (AKE) with KEMs where both parties contribute a KEM public key to the overall session key is interactive as described in Section 9.4 of {{?RFC9528}}. However, single-sided KEM, such as when one peer has a KEM key in a certificate and the other peer wants to encrypt for it (as in S/MIME or OpenPGP email), can be achieved using non-interactive HPKE {{RFC9180}}. The following figure illustrates the Diffie-Hellman (DH) Key exchange:
 
 ~~~~~ aasvg
                       +---------+ +---------+
@@ -591,6 +590,8 @@ Here, `Combiner(ss1, ss2)`, often referred to as a KEM Combiner, is a cryptograp
 
 ## Security Properties of KEMs
 
+The security properties described in this section (IND-CCA2 and binding) are not an exhaustive list of all possible KEM security considerations. They were selected because they are fundamental to evaluating KEM suitability in protocol design and are commonly discussed in current PQC work.
+
 ### IND-CCA2
 
 IND-CCA2 (INDistinguishability under adaptive Chosen-Ciphertext Attack) is an advanced security notion for encryption schemes. It ensures the confidentiality of the plaintext and resistance against chosen-ciphertext attacks. An appropriate definition of IND-CCA2 security for KEMs can be found in {{CS01}} and {{BHK09}}. ML-KEM {{ML-KEM}} and Classic McEliece provide IND-CCA2 security.
@@ -605,9 +606,9 @@ The solution to binding is generally achieved at the protocol design level: It i
 
 ## HPKE {#hpke}
 
-Modern cryptography has long used the notion of "hybrid encryption" where an asymmetric algorithm is used to establish a key, and then a symmetric algorithm is used for bulk content encryption.
+Modern cryptography has long used the notion of "hybrid encryption" where an asymmetric algorithm is used to establish a key, and then a symmetric algorithm is used for bulk content encryption. The previous sections explained important security properties of KEMs, such as IND-CCA2 security and binding, and emphasized that these properties must be supported by proper protocol design. One widely deployed scheme that achieves this is HPKE (Hybrid Public Key Encryption) {{RFC9180}}.
 
-HPKE (hybrid public key encryption) {{RFC9180}} is a specific instantiation of this which works with a combination of KEMs, KDFs and AEAD (authenticated encryption with additional data) schemes. HPKE includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones that authenticate possession of a key encapsulation mechanism (KEM) private key. HPKE can be extended to support hybrid post-quantum KEM {{?I-D.ietf-hpke-pq}}. ML-KEM does not support the static-ephemeral key exchange that allows HPKE based on DH based KEMs and its optional authenticated modes as discussed in section 1.5 of {{?I-D.draft-connolly-cfrg-xwing-kem}}.
+HPKE (hybrid public key encryption) {{RFC9180}} works with a combination of KEMs, KDFs and AEAD (authenticated encryption with additional data) schemes. HPKE includes three authenticated variants, including one that authenticates possession of a pre-shared key and two optional ones that authenticate possession of a key encapsulation mechanism (KEM) private key. HPKE can be extended to support hybrid post-quantum KEM {{?I-D.ietf-hpke-pq}}. ML-KEM does not support the static-ephemeral key exchange that allows HPKE based on DH based KEMs and its optional authenticated modes as discussed in section 1.5 of {{?I-D.draft-connolly-cfrg-xwing-kem}}.
 
 # PQC Signatures
 
@@ -800,6 +801,12 @@ Another potential application of hybrids bears mentioning, even though it is not
 ### Future Directions and Ongoing Research
 Many aspects of hybrid cryptography are still under investigation. LAMPS WG at IETF is actively exploring the security properties of these combinations, and future standards will reflect the evolving consensus on these issues.
 
+# Impact on Constrained Devices and Networks
+
+PQC algorithms generally have larger keys, ciphertext, and signature sizes than traditional public-key algorithms. This has particular impact on constrained devices that operate with limited data rates. In the IoT space, these constraints have historically driven significant optimization efforts in the IETF (e.g., LAKE, CoRE) to adapt security protocols to resource-constrained environments.
+
+As the transition to PQC progresses, these environments will face similar challenges. Larger message sizes can increase handshake latency, raise energy consumption, and require fragmentation logic. Work is ongoing in the IETF to study how PQC can be deployed in constrained devices (see {{?I-D.ietf-pquip-pqc-hsm-constrained}}).
+
 # Security Considerations
 
 ## Cryptanalysis
@@ -847,6 +854,6 @@ The IETF's PQUIP Working Group {{PQUIP-WG}} maintains a list of PQC-related prot
 # Acknowledgements
 {:numbered="false"}
 
-This document leverages text from an earlier draft by Paul Hoffman. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Panos Kampanakis, Ben S, Sofia Celi, Melchior Aelmans, Falko Strenzke, Deirdre Connolly, Hani Ezzadeen, Britta Hale, Scott Rose, Hilarie Orman, Thomas Fossati, Dirk Von Hugo and Daniel Van Geest for the discussion, review and comments.
+This document leverages text from an earlier draft by Paul Hoffman. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Panos Kampanakis, Ben S, Sofia Celi, Melchior Aelmans, Falko Strenzke, Deirdre Connolly, Hani Ezzadeen, Britta Hale, Scott Rose, Hilarie Orman, Thomas Fossati, Mališa Vučinić, Dirk Von Hugo and Daniel Van Geest for the discussion, review and comments.
 
 In particular, the authors would like to acknowledge the contributions to this document by Kris Kwiatkowski.
