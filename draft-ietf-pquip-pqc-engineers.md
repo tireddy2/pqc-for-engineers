@@ -341,6 +341,8 @@ For structured data such as public keys and signatures, CRQCs can fully solve th
 
 ## Quantum Side-channel Attacks
 
+Cryptographic side-channel attacks exploit physical implementations, such as timing, power consumption, or electromagnetic leakage to recover secret keys.
+
 The field of cryptographic side-channel attacks potentially stands to gain a boost in attacker power once cryptanalytic techniques can be enhanced with quantum computation techniques {{QuantSide}}. While a full discussion of quantum side-channel techniques is beyond the scope of this document, implementers of cryptographic hardware should be aware that current best-practices for side-channel resistance may not be sufficient against quantum adversaries.
 
 # Traditional Cryptographic Primitives that Could Be Replaced by PQC
@@ -394,7 +396,7 @@ For data confidentiality, one is concerned with the so-called "harvest now, decr
 
 For authentication, it is often the case that signatures have a very short lifetime between signing and verifying (such as during a TLS handshake) but some authentication use-cases do require long lifetimes, such as signing firmware or software that will be active for decades, signing legal documents, or signing certificates that will be embedded into hardware devices such as smartcards. Even for short-lived signatures use cases, the infrastructure often relies on long-lived root keys which can be difficult to update or replace on in-field devices.
 
-~~~~~
+~~~~~ aasvg
 
 +------------------------+----------------------------+
 |                        |                            |
@@ -420,7 +422,7 @@ Starting early with hybrid key exchange deployments allows organizations to gain
 
 # PQC Categories
 
-The post-quantum cryptographic schemes standardized by NIST, along with the ongoing Round 4 candidates, can be categorized into three main groups: lattice-based, hash-based, and code-based. Other approaches, such as isogeny-based, multivariate-based, and MPC-in-the-Head-based cryptography, are also being explored in research and standardization efforts. NIST has been calling for additional digital signature proposals to be considered in the PQC standardization process which has completed two rounds in October 2024 {{AddSig}}.
+The post-quantum cryptographic schemes standardized by NIST can be categorized into three main groups: lattice-based, hash-based, and code-based. Other approaches, such as isogeny-based, multivariate-based, and MPC-in-the-Head-based cryptography, are also being explored in research and standardization efforts. In addition, NIST issued a call for additional digital signature proposals to expand the set of post-quantum signatures under evaluation {{AddSig}}.
 
 ## Lattice-Based Public-Key Cryptography {#lattice-based}
 
@@ -679,7 +681,7 @@ In the case of ML-DSA, it internally incorporates the necessary hash operations 
 
 Therefore, ML-DSA, FN-DSA, and SLH-DSA offer enhanced security over the traditional Hash-then-Sign paradigm because by incorporating dynamic key material into the message digest, a pre-computed hash collision on the message to be signed no longer yields a signature forgery. Applications requiring the performance and bandwidth benefits of Hash-then-Sign may still pre-hash at the protocol level prior to invoking ML-DSA, FN-DSA, or SLH-DSA, but protocol designers should be aware that doing so re-introduces the weakness that hash collisions directly yield signature forgeries. Signing the full un-digested message is recommended where applications can tolerate it.
 
-# Recommendations for Security / Performance Tradeoffs {#RecSecurity}
+# NIST Recommendations for Security / Performance Tradeoffs {#RecSecurity}
 
 This information is a re-print of information provided in the NIST PQC project {{NIST}} as of the time this document is published. The table below denotes the five security levels provided by NIST for PQC algorithms. Neither NIST nor the IETF make any specific recommendations about which security level to use. In general, protocols will include algorithm choices at multiple levels so that users can choose the level appropriate to their policies and data classification, similar to how organizations today choose which size of RSA key to use. The security levels are defined as requiring computational resources comparable to or greater than an attack on AES (128, 192 and 256) and SHA2/SHA3 algorithms, i.e., exhaustive key recovery for AES and optimal collision search for SHA2/SHA3. 
 
@@ -854,6 +856,6 @@ The IETF's PQUIP Working Group {{PQUIP-WG}} maintains a list of PQC-related prot
 # Acknowledgements
 {:numbered="false"}
 
-This document leverages text from an earlier draft by Paul Hoffman. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Panos Kampanakis, Ben S, Sofia Celi, Melchior Aelmans, Falko Strenzke, Deirdre Connolly, Hani Ezzadeen, Britta Hale, Scott Rose, Hilarie Orman, Thomas Fossati, Roman Danyliw, Mike Bishop, Mališa Vučinić, Dirk Von Hugo and Daniel Van Geest for the discussion, review and comments.
+This document leverages text from an earlier draft by Paul Hoffman. Thanks to Dan Wing, Florence D, Thom Wiggers, Sophia Grundner-Culemann, Panos Kampanakis, Ben S, Sofia Celi, Melchior Aelmans, Falko Strenzke, Deirdre Connolly, Hani Ezzadeen, Britta Hale, Scott Rose, Hilarie Orman, Thomas Fossati, Roman Danyliw, Mike Bishop, Mališa Vučinić, Éric Vyncke, Dirk Von Hugo and Daniel Van Geest for the discussion, review and comments.
 
 In particular, the authors would like to acknowledge the contributions to this document by Kris Kwiatkowski.
