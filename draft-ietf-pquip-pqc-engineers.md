@@ -293,7 +293,7 @@ This document does not go into the deep mathematics or technical specification o
 
 # Terminology
 
-Quantum computer: A computer that performs computations using quantum-mechanical phenomena such as superposition and entanglement.
+Quantum computer: A computer that performs computations using quantum-mechanical phenomena such as superposition and entanglement. 
 
 
 Physical qubit: The basic physical unit in a quantum computer, which is prone to noise and errors.
@@ -304,8 +304,7 @@ Logical qubit: A fault-tolerant qubit constructed from multiple physical qubits 
 
 Post-Quantum Cryptography (PQC): Cryptographic algorithms designed to be secure against quantum and classical attacks.
 
-
-Cryptographically Relevant Quantum Computer (CRQC): A quantum computer with sufficient "logical qubits" to perform cryptographic attacks (e.g., break RSA/ECC).
+Cryptographically Relevant Quantum Computer (CRQC): A quantum computer with sufficient logical qubits to break traditional asymmetric cryptographic algorithms (e.g., RSA or ECC) within a practical timeframe.
 
 Public Key Cryptography (also called Asymmetric Cryptography): A class of cryptographic algorithms in which separate keys are used for encryption and decryption, or for signing and verification. Throughout this document, the terms Public Key Cryptography and Asymmetric Cryptography are used interchangeably. 
 
@@ -379,7 +378,7 @@ At time of writing, NIST have standardized three PQC algorithms, with more expec
 * {{FN-DSA}}: FN-DSA is a lattice signature scheme (FIPS-206) ({{lattice-based}} and {{sig-scheme}}).
 
 # ISO Candidates Selected for Standardization
-At the time of writing, ISO has standardized three PQC KEM algorithms, which are mentioned in the following subsection.
+At the time of writing, ISO has selected three PQC KEM algorithms as candidates for standardization, which are mentioned in the following subsection.
 
 ## PQC Key Encapsulation Mechanisms (KEMs)
 * {{FrodoKEM}}: Key Encapsulation mechanism based on the hardness of learning with errors in algebraically unstructured lattices.
